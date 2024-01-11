@@ -123,7 +123,7 @@ class WithLegend extends PureComponent<Props, {}> {
         {renderLegend && (
           <div className="legend-container" style={legendStyle}>
             {renderLegend({
-              // Pass flexDirection for @vx/legend to arrange legend items
+              // Pass flexDirection for @visx/legend to arrange legend items
               direction: legendDirection,
             })}
           </div>

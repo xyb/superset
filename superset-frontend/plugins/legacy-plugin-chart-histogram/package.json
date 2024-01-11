@@ -29,9 +29,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@data-ui/histogram": "^0.0.84",
+    "@visx/xychart": "^3.5.1",
     "@data-ui/theme": "^0.0.84",
-    "@vx/legend": "^0.0.199",
+    "@visx/legend": "^3.5.0",
     "@vx/responsive": "^0.0.199",
     "@vx/scale": "^0.0.197",
     "prop-types": "^15.6.2"

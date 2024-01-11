@@ -19,9 +19,9 @@
 /* eslint-disable react/sort-prop-types */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Histogram, BarSeries, XAxis, YAxis } from '@data-ui/histogram';
+import { Histogram, BarSeries, XAxis, YAxis } from '@visx/xychart';
 import { chartTheme } from '@data-ui/theme';
-import { LegendOrdinal } from '@vx/legend';
+import { LegendOrdinal } from '@visx/legend';
 import { scaleOrdinal } from '@vx/scale';
 import { CategoricalColorNamespace, styled, t } from '@superset-ui/core';
 import WithLegend from './WithLegend';
