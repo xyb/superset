@@ -421,7 +421,7 @@ describe('DatabaseModal', () => {
 
     test('renders the "Basic" tab of SQL Alchemy form (step 2 of 2) correctly', async () => {
       // On step 1, click dbButton to access SQL Alchemy form
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
@@ -459,7 +459,7 @@ describe('DatabaseModal', () => {
       );
       // <SSHTunnelForm> - Basic tab's SSH Tunnel Form
       const SSHTunnelingToggle = screen.getByTestId('ssh-tunnel-switch');
-      userEvent.click(SSHTunnelingToggle);
+      await userEvent.click(SSHTunnelingToggle);
       const SSHTunnelServerAddressInput = screen.getByTestId(
         'ssh-tunnel-server_address-input',
       );
@@ -527,14 +527,14 @@ describe('DatabaseModal', () => {
 
     test('renders the unexpanded "Advanced" tab correctly', async () => {
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       expect(await screen.findByText(/step 2 of 2/i)).toBeInTheDocument();
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
 
       // ---------- Components ----------
       // <TabHeader> - AntD header
@@ -627,15 +627,15 @@ describe('DatabaseModal', () => {
     test('renders the "Advanced" - SQL LAB tab correctly (unexpanded)', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "SQL Lab" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right sql lab adjust how this database will interact with sql lab\./i,
         }),
@@ -789,15 +789,15 @@ describe('DatabaseModal', () => {
     test('renders the "Advanced" - PERFORMANCE tab correctly', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "Performance" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right performance adjust performance settings of this database\./i,
         }),
@@ -852,15 +852,15 @@ describe('DatabaseModal', () => {
     test('renders the "Advanced" - SECURITY tab correctly', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "Security" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right security add extra connection information\./i,
         }),
@@ -936,15 +936,15 @@ describe('DatabaseModal', () => {
     it('renders the "Advanced" - SECURITY tab correctly after selecting Allow file uploads', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "Security" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right security add extra connection information\./i,
         }),
@@ -954,7 +954,7 @@ describe('DatabaseModal', () => {
       const allowFileUploadCheckbox = screen.getByRole('checkbox', {
         name: /Allow file uploads to database/i,
       });
-      userEvent.click(allowFileUploadCheckbox);
+      await userEvent.click(allowFileUploadCheckbox);
 
       // ----- BEGIN STEP 2 (ADVANCED - SECURITY)
       // <TabHeader> - AntD header
@@ -1022,15 +1022,15 @@ describe('DatabaseModal', () => {
     test('renders the "Advanced" - OTHER tab correctly', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /sqlite/i,
         }),
       );
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "Other" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right other additional settings\./i,
         }),
@@ -1093,7 +1093,7 @@ describe('DatabaseModal', () => {
     test('Dynamic form', async () => {
       // ---------- Components ----------
       // On step 1, click dbButton to access step 2
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('button', {
           name: /postgresql/i,
         }),
@@ -1111,7 +1111,7 @@ describe('DatabaseModal', () => {
       const postgreSQLButton = screen.getByRole('button', {
         name: /postgresql/i,
       });
-      userEvent.click(postgreSQLButton);
+      await userEvent.click(postgreSQLButton);
 
       // Dynamic form has 3 steps, seeing this text means the dynamic form is present
       const dynamicFormStepText = screen.getByText(/step 2 of 3/i);
@@ -1122,12 +1122,12 @@ describe('DatabaseModal', () => {
       // Click the back button to go back to step 1,
       // then click the SQLite button to enter the SQL Alchemy form
       const backButton = screen.getByRole('button', { name: /back/i });
-      userEvent.click(backButton);
+      await userEvent.click(backButton);
 
       const sqliteButton = screen.getByRole('button', {
         name: /sqlite/i,
       });
-      userEvent.click(sqliteButton);
+      await userEvent.click(sqliteButton);
 
       // SQL Alchemy form has 2 steps, seeing this text means the SQL Alchemy form is present
       expect(await screen.findByText(/step 2 of 2/i)).toBeInTheDocument();
@@ -1138,7 +1138,7 @@ describe('DatabaseModal', () => {
 
     describe('SQL Alchemy form flow', () => {
       test('enters step 2 of 2 when proper database is selected', async () => {
-        userEvent.click(
+        await userEvent.click(
           screen.getByRole('button', {
             name: /sqlite/i,
           }),
@@ -1166,7 +1166,7 @@ describe('DatabaseModal', () => {
 
       describe('step 2 component interaction', () => {
         test('properly interacts with textboxes', async () => {
-          userEvent.click(
+          await userEvent.click(
             screen.getByRole('button', {
               name: /sqlite/i,
             }),
@@ -1176,7 +1176,7 @@ describe('DatabaseModal', () => {
           const dbNametextBox = screen.getByTestId('database-name-input');
           expect(dbNametextBox).toHaveValue('SQLite');
 
-          userEvent.type(dbNametextBox, 'Different text');
+          await userEvent.type(dbNametextBox, 'Different text');
           expect(dbNametextBox).toHaveValue('SQLiteDifferent text');
 
           const sqlAlchemyURItextBox = screen.getByTestId(
@@ -1184,7 +1184,7 @@ describe('DatabaseModal', () => {
           );
           expect(sqlAlchemyURItextBox).toHaveValue('');
 
-          userEvent.type(sqlAlchemyURItextBox, 'Different text');
+          await userEvent.type(sqlAlchemyURItextBox, 'Different text');
           expect(sqlAlchemyURItextBox).toHaveValue('Different text');
         });
 
@@ -1210,42 +1210,42 @@ describe('DatabaseModal', () => {
 
       describe('SSH Tunnel Form interaction', () => {
         test('properly interacts with SSH Tunnel form textboxes for dynamic form', async () => {
-          userEvent.click(
+          await userEvent.click(
             screen.getByRole('button', {
               name: /postgresql/i,
             }),
           );
           expect(await screen.findByText(/step 2 of 3/i)).toBeInTheDocument();
           const SSHTunnelingToggle = screen.getByTestId('ssh-tunnel-switch');
-          userEvent.click(SSHTunnelingToggle);
+          await userEvent.click(SSHTunnelingToggle);
           const SSHTunnelServerAddressInput = screen.getByTestId(
             'ssh-tunnel-server_address-input',
           );
           expect(SSHTunnelServerAddressInput).toHaveValue('');
-          userEvent.type(SSHTunnelServerAddressInput, 'localhost');
+          await userEvent.type(SSHTunnelServerAddressInput, 'localhost');
           expect(SSHTunnelServerAddressInput).toHaveValue('localhost');
           const SSHTunnelServerPortInput = screen.getByTestId(
             'ssh-tunnel-server_port-input',
           );
           expect(SSHTunnelServerPortInput).toHaveValue('');
-          userEvent.type(SSHTunnelServerPortInput, '22');
+          await userEvent.type(SSHTunnelServerPortInput, '22');
           expect(SSHTunnelServerPortInput).toHaveValue('22');
           const SSHTunnelUsernameInput = screen.getByTestId(
             'ssh-tunnel-username-input',
           );
           expect(SSHTunnelUsernameInput).toHaveValue('');
-          userEvent.type(SSHTunnelUsernameInput, 'test');
+          await userEvent.type(SSHTunnelUsernameInput, 'test');
           expect(SSHTunnelUsernameInput).toHaveValue('test');
           const SSHTunnelPasswordInput = screen.getByTestId(
             'ssh-tunnel-password-input',
           );
           expect(SSHTunnelPasswordInput).toHaveValue('');
-          userEvent.type(SSHTunnelPasswordInput, 'pass');
+          await userEvent.type(SSHTunnelPasswordInput, 'pass');
           expect(SSHTunnelPasswordInput).toHaveValue('pass');
         });
 
         test('properly interacts with SSH Tunnel form textboxes', async () => {
-          userEvent.click(
+          await userEvent.click(
             screen.getByRole('button', {
               name: /sqlite/i,
             }),
@@ -1253,35 +1253,35 @@ describe('DatabaseModal', () => {
 
           expect(await screen.findByText(/step 2 of 2/i)).toBeInTheDocument();
           const SSHTunnelingToggle = screen.getByTestId('ssh-tunnel-switch');
-          userEvent.click(SSHTunnelingToggle);
+          await userEvent.click(SSHTunnelingToggle);
           const SSHTunnelServerAddressInput = screen.getByTestId(
             'ssh-tunnel-server_address-input',
           );
           expect(SSHTunnelServerAddressInput).toHaveValue('');
-          userEvent.type(SSHTunnelServerAddressInput, 'localhost');
+          await userEvent.type(SSHTunnelServerAddressInput, 'localhost');
           expect(SSHTunnelServerAddressInput).toHaveValue('localhost');
           const SSHTunnelServerPortInput = screen.getByTestId(
             'ssh-tunnel-server_port-input',
           );
           expect(SSHTunnelServerPortInput).toHaveValue('');
-          userEvent.type(SSHTunnelServerPortInput, '22');
+          await userEvent.type(SSHTunnelServerPortInput, '22');
           expect(SSHTunnelServerPortInput).toHaveValue('22');
           const SSHTunnelUsernameInput = screen.getByTestId(
             'ssh-tunnel-username-input',
           );
           expect(SSHTunnelUsernameInput).toHaveValue('');
-          userEvent.type(SSHTunnelUsernameInput, 'test');
+          await userEvent.type(SSHTunnelUsernameInput, 'test');
           expect(SSHTunnelUsernameInput).toHaveValue('test');
           const SSHTunnelPasswordInput = screen.getByTestId(
             'ssh-tunnel-password-input',
           );
           expect(SSHTunnelPasswordInput).toHaveValue('');
-          userEvent.type(SSHTunnelPasswordInput, 'pass');
+          await userEvent.type(SSHTunnelPasswordInput, 'pass');
           expect(SSHTunnelPasswordInput).toHaveValue('pass');
         });
 
         test('if the SSH Tunneling toggle is not true, no inputs are displayed', async () => {
-          userEvent.click(
+          await userEvent.click(
             screen.getByRole('button', {
               name: /sqlite/i,
             }),
@@ -1309,7 +1309,7 @@ describe('DatabaseModal', () => {
         });
 
         test('If user changes the login method, the inputs change', async () => {
-          userEvent.click(
+          await userEvent.click(
             screen.getByRole('button', {
               name: /sqlite/i,
             }),
@@ -1317,7 +1317,7 @@ describe('DatabaseModal', () => {
 
           expect(await screen.findByText(/step 2 of 2/i)).toBeInTheDocument();
           const SSHTunnelingToggle = screen.getByTestId('ssh-tunnel-switch');
-          userEvent.click(SSHTunnelingToggle);
+          await userEvent.click(SSHTunnelingToggle);
           const SSHTunnelUsePasswordInput = screen.getByTestId(
             'ssh-tunnel-use_password-radio',
           );
@@ -1332,7 +1332,7 @@ describe('DatabaseModal', () => {
           // By default, we use Password as login method
           expect(SSHTunnelPasswordInput).toBeVisible();
           // Change the login method to use private key
-          userEvent.click(SSHTunnelUsePrivateKeyInput);
+          await userEvent.click(SSHTunnelUsePrivateKeyInput);
           const SSHTunnelPrivateKeyInput = screen.getByTestId(
             'ssh-tunnel-private_key-input',
           );
@@ -1348,7 +1348,7 @@ describe('DatabaseModal', () => {
     describe('Dynamic form flow', () => {
       test('enters step 2 of 3 when proper database is selected', async () => {
         expect(await screen.findByText(/step 1 of 3/i)).toBeInTheDocument();
-        userEvent.click(
+        await userEvent.click(
           screen.getByRole('button', {
             name: /postgresql/i,
           }),
@@ -1360,7 +1360,7 @@ describe('DatabaseModal', () => {
       });
 
       test('enters form credentials and runs fetchResource when "Connect" is clicked', async () => {
-        userEvent.click(
+        await userEvent.click(
           screen.getByRole('button', {
             name: /postgresql/i,
           }),
@@ -1380,11 +1380,11 @@ describe('DatabaseModal', () => {
         expect(usernameField).toHaveValue('');
         expect(passwordField).toHaveValue('');
 
-        userEvent.type(hostField, 'localhost');
-        userEvent.type(portField, '5432');
-        userEvent.type(databaseNameField, 'postgres');
-        userEvent.type(usernameField, 'testdb');
-        userEvent.type(passwordField, 'demoPassword');
+        await userEvent.type(hostField, 'localhost');
+        await userEvent.type(portField, '5432');
+        await userEvent.type(databaseNameField, 'postgres');
+        await userEvent.type(usernameField, 'testdb');
+        await userEvent.type(passwordField, 'demoPassword');
 
         expect(await screen.findByDisplayValue(/5432/i)).toBeInTheDocument();
         expect(hostField).toHaveValue('localhost');
@@ -1393,7 +1393,7 @@ describe('DatabaseModal', () => {
         expect(usernameField).toHaveValue('testdb');
         expect(passwordField).toHaveValue('demoPassword');
 
-        userEvent.click(connectButton);
+        await userEvent.click(connectButton);
         await waitFor(() => {
           expect(fetchMock.calls(VALIDATE_PARAMS_ENDPOINT).length).toEqual(6);
         });
@@ -1409,8 +1409,8 @@ describe('DatabaseModal', () => {
 
         const testFile = new File([new ArrayBuffer(1)], 'model_export.zip');
 
-        userEvent.click(importDbButton);
-        userEvent.upload(importDbButton, testFile);
+        await userEvent.click(importDbButton);
+        await userEvent.upload(importDbButton, testFile);
 
         expect(importDbButton.files?.[0]).toStrictEqual(testFile);
         expect(importDbButton.files?.item(0)).toStrictEqual(testFile);
@@ -1467,9 +1467,9 @@ describe('DatabaseModal', () => {
 
     it('renders the "Advanced" - SECURITY tab without Allow File Upload Checkbox', async () => {
       // Click the "Advanced" tab
-      userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
+      await userEvent.click(screen.getByRole('tab', { name: /advanced/i }));
       // Click the "Security" tab
-      userEvent.click(
+      await userEvent.click(
         screen.getByRole('tab', {
           name: /right security add extra connection information\./i,
         }),
@@ -1596,11 +1596,11 @@ describe('DatabaseModal', () => {
       const step2of3text = screen.getByText(/step 2 of 3/i);
       const errorTitleMessage = screen.getByText(/Database Creation Error/i);
       const button = screen.getByText('See more');
-      userEvent.click(button);
+      await userEvent.click(button);
       const errorMessage = screen.getByText(/Test Error With String/i);
       expect(errorMessage).toBeVisible();
       const closeButton = screen.getByText('Close');
-      userEvent.click(closeButton);
+      await userEvent.click(closeButton);
       expect(step2of3text).toBeVisible();
       expect(errorTitleMessage).toBeVisible();
     });

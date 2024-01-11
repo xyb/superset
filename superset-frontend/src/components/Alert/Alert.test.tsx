@@ -50,9 +50,9 @@ test('renders without close button', async () => {
   });
 });
 
-test('disappear when closed', () => {
+test('disappear when closed', async () => {
   render(<Alert message="Message" />);
-  userEvent.click(screen.queryByLabelText('close icon')!);
+  await userEvent.click(screen.queryByLabelText('close icon')!);
   expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 });
 

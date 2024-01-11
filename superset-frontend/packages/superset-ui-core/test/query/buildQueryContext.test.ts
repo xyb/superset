@@ -142,7 +142,7 @@ describe('buildQueryContext', () => {
       },
       () => [{}],
     );
-    expect(spyNormalizeTimeColumn).toBeCalled();
+    expect(spyNormalizeTimeColumn).toHaveBeenCalled();
     spyNormalizeTimeColumn.mockRestore();
   });
   it("shouldn't call normalizeTimeColumn if GENERIC_CHART_AXES is disabled", () => {
@@ -161,7 +161,7 @@ describe('buildQueryContext', () => {
       },
       () => [{}],
     );
-    expect(spyNormalizeTimeColumn).not.toBeCalled();
+    expect(spyNormalizeTimeColumn).not.toHaveBeenCalled();
     spyNormalizeTimeColumn.mockRestore();
   });
 });

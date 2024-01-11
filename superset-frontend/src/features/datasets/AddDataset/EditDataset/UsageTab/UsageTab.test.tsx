@@ -159,7 +159,7 @@ test('show and sort by chart title', async () => {
   expectLastChartRequest();
 
   // Sort by name ascending
-  userEvent.click(chartNameColumnHeader);
+  await userEvent.click(chartNameColumnHeader);
   waitFor(() => {
     expectLastChartRequest({
       orderColumn: 'slice_name',
@@ -168,7 +168,7 @@ test('show and sort by chart title', async () => {
   });
 
   // Sort by name descending
-  userEvent.click(chartNameColumnHeader);
+  await userEvent.click(chartNameColumnHeader);
   waitFor(() => {
     expectLastChartRequest({
       orderColumn: 'slice_name',
@@ -241,13 +241,13 @@ test('show and sort by chart last modified', async () => {
   expectLastChartRequest();
 
   // Sort by last modified ascending
-  userEvent.click(chartLastModifiedColumnHeader);
+  await userEvent.click(chartLastModifiedColumnHeader);
   waitFor(() => {
     expectLastChartRequest({ orderDirection: 'asc' });
   });
 
   // Sort by last modified descending
-  userEvent.click(chartLastModifiedColumnHeader);
+  await userEvent.click(chartLastModifiedColumnHeader);
   waitFor(() => {
     expectLastChartRequest({ orderDirection: 'desc' });
   });
@@ -286,13 +286,13 @@ test('show and sort by chart last modified by', async () => {
   expectLastChartRequest();
 
   // Sort by last modified ascending
-  userEvent.click(chartLastModifiedByColumnHeader);
+  await userEvent.click(chartLastModifiedByColumnHeader);
   waitFor(() => {
     expectLastChartRequest({ orderDirection: 'asc' });
   });
 
   // Sort by last modified descending
-  userEvent.click(chartLastModifiedByColumnHeader);
+  await userEvent.click(chartLastModifiedByColumnHeader);
   waitFor(() => {
     expectLastChartRequest({ orderDirection: 'desc' });
   });
@@ -374,7 +374,7 @@ test('paginates', async () => {
   expect(chartNameValues[24]).toHaveTextContent('Sample chart 25');
 
   // Second page
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: /right/i,
     }),
@@ -389,7 +389,7 @@ test('paginates', async () => {
   expect(chartNameValues[24]).toHaveTextContent('Sample chart 50');
 
   // Third page
-  userEvent.click(
+  await userEvent.click(
     screen.getByRole('button', {
       name: /right/i,
     }),

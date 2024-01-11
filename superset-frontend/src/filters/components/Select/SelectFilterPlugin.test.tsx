@@ -105,8 +105,8 @@ describe('SelectFilterPlugin', () => {
         value: ['boy'],
       },
     });
-    userEvent.click(screen.getByRole('combobox'));
-    userEvent.click(screen.getByTitle('girl'));
+    await userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByTitle('girl'));
     expect(await screen.findByTitle(/girl/i)).toBeInTheDocument();
     expect(setDataMask).toHaveBeenCalledWith({
       extraFormData: {
@@ -125,9 +125,9 @@ describe('SelectFilterPlugin', () => {
     });
   });
 
-  test('Remove multiple values when required', () => {
+  test('Remove multiple values when required', async () => {
     getWrapper();
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('img', {
         name: /close-circle/i,
         hidden: true,
@@ -150,9 +150,9 @@ describe('SelectFilterPlugin', () => {
     });
   });
 
-  test('Remove multiple values when not required', () => {
+  test('Remove multiple values when not required', async () => {
     getWrapper({ enableEmptyFilter: false });
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('img', {
         name: /close-circle/i,
         hidden: true,
@@ -169,9 +169,9 @@ describe('SelectFilterPlugin', () => {
 
   test('Select single values with inverse', async () => {
     getWrapper({ multiSelect: false, inverseSelection: true });
-    userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('combobox'));
     expect(await screen.findByTitle('girl')).toBeInTheDocument();
-    userEvent.click(screen.getByTitle('girl'));
+    await userEvent.click(screen.getByTitle('girl'));
     expect(setDataMask).toHaveBeenCalledWith({
       extraFormData: {
         filters: [
@@ -191,9 +191,9 @@ describe('SelectFilterPlugin', () => {
 
   test('Select single null (empty) value', async () => {
     getWrapper();
-    userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('combobox'));
     expect(await screen.findByRole('combobox')).toBeInTheDocument();
-    userEvent.click(screen.getByTitle(NULL_STRING));
+    await userEvent.click(screen.getByTitle(NULL_STRING));
     expect(setDataMask).toHaveBeenLastCalledWith({
       extraFormData: {
         filters: [
@@ -213,9 +213,9 @@ describe('SelectFilterPlugin', () => {
 
   test('receives the correct filter when search all options', async () => {
     getWrapper({ searchAllOptions: true, multiSelect: false });
-    userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('combobox'));
     expect(await screen.findByRole('combobox')).toBeInTheDocument();
-    userEvent.click(screen.getByTitle('girl'));
+    await userEvent.click(screen.getByTitle('girl'));
     expect(setDataMask).toHaveBeenLastCalledWith(
       expect.objectContaining({
         extraFormData: {
@@ -232,11 +232,11 @@ describe('SelectFilterPlugin', () => {
   });
   test('number of fired queries when searching', async () => {
     getWrapper({ searchAllOptions: true });
-    userEvent.click(screen.getByRole('combobox'));
+    await userEvent.click(screen.getByRole('combobox'));
     expect(await screen.findByRole('combobox')).toBeInTheDocument();
     await userEvent.type(screen.getByRole('combobox'), 'a');
     // Closes the select
-    userEvent.tab();
+    await userEvent.tab();
     // One call for the search term and other for the empty search
     expect(setDataMask).toHaveBeenCalledTimes(2);
   });

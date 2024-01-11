@@ -129,7 +129,7 @@ function setup(props: HeaderProps, initialState = {}) {
 
 async function openActionsDropdown() {
   const btn = screen.getByRole('img', { name: 'more-horiz' });
-  userEvent.click(btn);
+  await userEvent.click(btn);
   expect(await screen.findByTestId('header-actions-menu')).toBeInTheDocument();
 }
 
@@ -152,14 +152,14 @@ test('should render the editable title', () => {
   expect(screen.getByDisplayValue('Dashboard Title')).toBeInTheDocument();
 });
 
-test('should edit the title', () => {
+test('should edit the title', async () => {
   setup(editableProps);
   const editableTitle = screen.getByDisplayValue('Dashboard Title');
   expect(editableProps.onChange).not.toHaveBeenCalled();
-  userEvent.click(editableTitle);
-  userEvent.clear(editableTitle);
-  userEvent.type(editableTitle, 'New Title');
-  userEvent.click(document.body);
+  await userEvent.click(editableTitle);
+  await userEvent.clear(editableTitle);
+  await userEvent.type(editableTitle, 'New Title');
+  await userEvent.click(document.body);
   expect(editableProps.onChange).toHaveBeenCalled();
   expect(screen.getByDisplayValue('New Title')).toBeInTheDocument();
 });
@@ -170,7 +170,7 @@ test('should render the "Draft" status', () => {
   expect(screen.getByText('Draft')).toBeInTheDocument();
 });
 
-test('should publish', () => {
+test('should publish', async () => {
   const mockedProps = createProps();
   const canEditProps = {
     ...mockedProps,
@@ -183,7 +183,7 @@ test('should publish', () => {
   setup(canEditProps);
   const draft = screen.getByText('Draft');
   expect(mockedProps.savePublished).toHaveBeenCalledTimes(0);
-  userEvent.click(draft);
+  await userEvent.click(draft);
   expect(mockedProps.savePublished).toHaveBeenCalledTimes(1);
 });
 
@@ -192,11 +192,11 @@ test('should render the "Undo" action as disabled', () => {
   expect(screen.getByTestId('undo-action').parentElement).toBeDisabled();
 });
 
-test('should undo', () => {
+test('should undo', async () => {
   setup(undoProps);
   const undo = screen.getByTestId('undo-action');
   expect(undoProps.onUndo).not.toHaveBeenCalled();
-  userEvent.click(undo);
+  await userEvent.click(undo);
   expect(undoProps.onUndo).toHaveBeenCalledTimes(1);
 });
 
@@ -213,11 +213,11 @@ test('should render the "Redo" action as disabled', () => {
   expect(screen.getByTestId('redo-action').parentElement).toBeDisabled();
 });
 
-test('should redo', () => {
+test('should redo', async () => {
   setup(redoProps);
   const redo = screen.getByTestId('redo-action');
   expect(redoProps.onRedo).not.toHaveBeenCalled();
-  userEvent.click(redo);
+  await userEvent.click(redo);
   expect(redoProps.onRedo).toHaveBeenCalledTimes(1);
 });
 
@@ -239,7 +239,7 @@ test('should render the "Save" button as disabled', () => {
   expect(screen.getByText('Save').parentElement).toBeDisabled();
 });
 
-test('should save', () => {
+test('should save', async () => {
   const unsavedProps = {
     ...editableProps,
     hasUnsavedChanges: true,
@@ -247,7 +247,7 @@ test('should save', () => {
   setup(unsavedProps);
   const save = screen.getByText('Save');
   expect(unsavedProps.onSave).not.toHaveBeenCalled();
-  userEvent.click(save);
+  await userEvent.click(save);
   expect(unsavedProps.onSave).toHaveBeenCalledTimes(1);
 });
 
@@ -291,10 +291,10 @@ test('should NOT render the fave icon on anonymous user', () => {
   setup(anonymousUserProps);
   expect(() =>
     screen.getByRole('img', { name: 'favorite-unselected' }),
-  ).toThrowError('Unable to find');
-  expect(() =>
-    screen.getByRole('img', { name: 'favorite-selected' }),
-  ).toThrowError('Unable to find');
+  ).toThrow('Unable to find');
+  expect(() => screen.getByRole('img', { name: 'favorite-selected' })).toThrow(
+    'Unable to find',
+  );
 });
 
 test('should fave', async () => {
@@ -302,11 +302,11 @@ test('should fave', async () => {
   setup(mockedProps);
   const fave = screen.getByRole('img', { name: 'favorite-unselected' });
   expect(mockedProps.saveFaveStar).not.toHaveBeenCalled();
-  userEvent.click(fave);
+  await userEvent.click(fave);
   expect(mockedProps.saveFaveStar).toHaveBeenCalledTimes(1);
 });
 
-test('should toggle the edit mode', () => {
+test('should toggle the edit mode', async () => {
   const mockedProps = createProps();
   const canEditProps = {
     ...mockedProps,
@@ -318,7 +318,7 @@ test('should toggle the edit mode', () => {
   setup(canEditProps);
   const editDashboard = screen.getByText('Edit dashboard');
   expect(screen.queryByText('Edit dashboard')).toBeInTheDocument();
-  userEvent.click(editDashboard);
+  await userEvent.click(editDashboard);
   expect(mockedProps.logEvent).toHaveBeenCalled();
 });
 
@@ -332,7 +332,7 @@ test('should refresh the charts', async () => {
   const mockedProps = createProps();
   setup(mockedProps);
   await openActionsDropdown();
-  userEvent.click(screen.getByText('Refresh dashboard'));
+  await userEvent.click(screen.getByText('Refresh dashboard'));
   expect(mockedProps.onRefresh).toHaveBeenCalledTimes(1);
 });
 

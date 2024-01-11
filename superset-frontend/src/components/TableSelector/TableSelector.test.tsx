@@ -51,7 +51,7 @@ const getTableMockFunction = () =>
       { label: 'table_c', value: 'table_c' },
       { label: 'table_d', value: 'table_d' },
     ],
-  } as any);
+  }) as any;
 
 const databaseApiRoute = 'glob:*/api/v1/database/?*';
 const schemaApiRoute = 'glob:*/api/v1/database/*/schemas/?*';
@@ -107,11 +107,13 @@ test('skips select all options', async () => {
   const tableSelect = screen.getByRole('combobox', {
     name: 'Select table or type to search tables',
   });
-  userEvent.click(tableSelect);
+  await userEvent.click(tableSelect);
   expect(
     await screen.findByRole('option', { name: 'table_a' }),
   ).toBeInTheDocument();
-  expect(screen.queryByRole('option', { name: /Select All/i })).toBeFalsy();
+  expect(
+    screen.queryByRole('option', { name: /Select All/i }),
+  ).not.toBeInTheDocument();
 });
 
 test('renders table options without Select All option', async () => {
@@ -123,7 +125,7 @@ test('renders table options without Select All option', async () => {
   const tableSelect = screen.getByRole('combobox', {
     name: 'Select table or type to search tables',
   });
-  userEvent.click(tableSelect);
+  await userEvent.click(tableSelect);
   expect(
     await screen.findByRole('option', { name: 'table_a' }),
   ).toBeInTheDocument();
@@ -168,14 +170,14 @@ test('table select retain value if not in SQL Lab mode', async () => {
   expect(screen.queryByText('table_a')).not.toBeInTheDocument();
   expect(getSelectItemContainer(tableSelect)).toHaveLength(0);
 
-  userEvent.click(tableSelect);
+  await userEvent.click(tableSelect);
 
   expect(
     await screen.findByRole('option', { name: 'table_a' }),
   ).toBeInTheDocument();
 
-  await waitFor(() => {
-    userEvent.click(screen.getAllByText('table_a')[1]);
+  await waitFor(async () => {
+    await userEvent.click(screen.getAllByText('table_a')[1]);
   });
 
   expect(callback).toHaveBeenCalled();
@@ -208,16 +210,16 @@ test('table multi select retain all the values selected', async () => {
   expect(screen.queryByText('table_a')).not.toBeInTheDocument();
   expect(getSelectItemContainer(tableSelect)).toHaveLength(0);
 
-  userEvent.click(tableSelect);
+  await userEvent.click(tableSelect);
 
   await waitFor(async () => {
     const item = await screen.findAllByText('table_b');
-    userEvent.click(item[item.length - 1]);
+    await userEvent.click(item[item.length - 1]);
   });
 
   await waitFor(async () => {
     const item = await screen.findAllByText('table_c');
-    userEvent.click(item[item.length - 1]);
+    await userEvent.click(item[item.length - 1]);
   });
 
   const selection1 = await screen.findByRole('option', { name: 'table_b' });

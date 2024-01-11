@@ -39,7 +39,7 @@ test('renders on hover', async () => {
       <Button>Hover me</Button>
     </Tooltip>,
   );
-  userEvent.hover(screen.getByRole('button'));
+  await userEvent.hover(screen.getByRole('button'));
   expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 });
 
@@ -65,6 +65,6 @@ test('renders with icon child', async () => {
       <Icons.Alert>Hover me</Icons.Alert>
     </Tooltip>,
   );
-  userEvent.hover(screen.getByRole('img'));
+  await userEvent.hover(screen.getByRole('img'));
   expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 });

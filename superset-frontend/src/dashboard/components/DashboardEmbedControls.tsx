@@ -52,7 +52,7 @@ const ButtonRow = styled.div`
   justify-content: flex-end;
 `;
 
-export const DashboardEmbedControls = ({ dashboardId, onHide }: Props) => {
+export function DashboardEmbedControls({ dashboardId, onHide }: Props) {
   const { addInfoToast, addDangerToast } = useToasts();
   const [ready, setReady] = useState(true); // whether we have initialized yet
   const [loading, setLoading] = useState(false); // whether we are currently doing an async thing
@@ -235,9 +235,9 @@ export const DashboardEmbedControls = ({ dashboardId, onHide }: Props) => {
       </ButtonRow>
     </>
   );
-};
+}
 
-export const DashboardEmbedModal = (props: Props) => {
+export function DashboardEmbedModal(props: Props) {
   const { show, onHide } = props;
 
   return (
@@ -245,4 +245,4 @@ export const DashboardEmbedModal = (props: Props) => {
       <DashboardEmbedControls {...props} />
     </Modal>
   );
-};
+}

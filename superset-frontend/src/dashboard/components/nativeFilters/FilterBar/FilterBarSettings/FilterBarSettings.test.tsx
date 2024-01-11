@@ -137,7 +137,7 @@ test('Popover shows cross-filtering option on by default', async () => {
     [FeatureFlag.DASHBOARD_CROSS_FILTERS]: true,
   };
   await setup();
-  userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.click(screen.getByLabelText('gear'));
   expect(screen.getByText('Enable cross-filtering')).toBeInTheDocument();
   expect(screen.getByRole('checkbox')).toBeChecked();
 });
@@ -152,13 +152,13 @@ test('Can enable/disable cross-filtering', async () => {
     result: {},
   });
   await setup();
-  userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.click(screen.getByLabelText('gear'));
   const checkbox = screen.getByRole('checkbox');
   expect(checkbox).toBeChecked();
 
-  userEvent.click(checkbox);
+  await userEvent.click(checkbox);
 
-  userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.click(screen.getByLabelText('gear'));
   expect(checkbox).not.toBeChecked();
 });
 
@@ -168,8 +168,8 @@ test('Popover opens with "Vertical" selected', async () => {
     [FeatureFlag.HORIZONTAL_FILTER_BAR]: true,
   };
   await setup();
-  userEvent.click(screen.getByLabelText('gear'));
-  userEvent.hover(screen.getByText('Orientation of filter bar'));
+  await userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.hover(screen.getByText('Orientation of filter bar'));
   expect(await screen.findByText('Vertical (Left)')).toBeInTheDocument();
   expect(screen.getByText('Horizontal (Top)')).toBeInTheDocument();
   expect(
@@ -183,8 +183,8 @@ test('Popover opens with "Horizontal" selected', async () => {
     [FeatureFlag.HORIZONTAL_FILTER_BAR]: true,
   };
   await setup({ filterBarOrientation: FilterBarOrientation.HORIZONTAL });
-  userEvent.click(screen.getByLabelText('gear'));
-  userEvent.hover(screen.getByText('Orientation of filter bar'));
+  await userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.hover(screen.getByText('Orientation of filter bar'));
   expect(await screen.findByText('Vertical (Left)')).toBeInTheDocument();
   expect(screen.getByText('Horizontal (Top)')).toBeInTheDocument();
   expect(
@@ -208,8 +208,8 @@ test('On selection change, send request and update checked value', async () => {
   });
 
   await setup();
-  userEvent.click(screen.getByLabelText('gear'));
-  userEvent.hover(screen.getByText('Orientation of filter bar'));
+  await userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.hover(screen.getByText('Orientation of filter bar'));
 
   expect(await screen.findByText('Vertical (Left)')).toBeInTheDocument();
   expect(screen.getByText('Horizontal (Top)')).toBeInTheDocument();
@@ -220,7 +220,7 @@ test('On selection change, send request and update checked value', async () => {
     within(screen.getAllByRole('menuitem')[2]).queryByLabelText('check'),
   ).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByText('Horizontal (Top)'));
+  await userEvent.click(screen.getByText('Horizontal (Top)'));
 
   // 1st check - checkmark appears immediately after click
   expect(
@@ -264,8 +264,8 @@ test('On failed request, restore previous selection', async () => {
   const dangerToastSpy = jest.spyOn(mockedMessageActions, 'addDangerToast');
 
   await setup();
-  userEvent.click(screen.getByLabelText('gear'));
-  userEvent.hover(screen.getByText('Orientation of filter bar'));
+  await userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.hover(screen.getByText('Orientation of filter bar'));
 
   expect(await screen.findByText('Vertical (Left)')).toBeInTheDocument();
   expect(screen.getByText('Horizontal (Top)')).toBeInTheDocument();
@@ -277,7 +277,7 @@ test('On failed request, restore previous selection', async () => {
     within(screen.getAllByRole('menuitem')[2]).queryByLabelText('check'),
   ).not.toBeInTheDocument();
 
-  userEvent.click(await screen.findByText('Horizontal (Top)'));
+  await userEvent.click(await screen.findByText('Horizontal (Top)'));
 
   await waitFor(() => {
     expect(dangerToastSpy).toHaveBeenCalledWith(
@@ -285,8 +285,8 @@ test('On failed request, restore previous selection', async () => {
     );
   });
 
-  userEvent.click(screen.getByLabelText('gear'));
-  userEvent.hover(screen.getByText('Orientation of filter bar'));
+  await userEvent.click(screen.getByLabelText('gear'));
+  await userEvent.hover(screen.getByText('Orientation of filter bar'));
 
   expect(await screen.findByText('Vertical (Left)')).toBeInTheDocument();
 

@@ -30,15 +30,27 @@ import RunQueryActionButton, {
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
-jest.mock('src/components/DeprecatedSelect', () => () => (
-  <div data-test="mock-deprecated-select" />
-));
-jest.mock('src/components/Select/Select', () => () => (
-  <div data-test="mock-deprecated-select-select" />
-));
-jest.mock('src/components/Select/AsyncSelect', () => () => (
-  <div data-test="mock-deprecated-async-select" />
-));
+jest.mock(
+  'src/components/DeprecatedSelect',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/Select',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/AsyncSelect',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-async-select" />;
+    },
+);
 
 const defaultProps = {
   queryEditorId: defaultQueryEditor.id,

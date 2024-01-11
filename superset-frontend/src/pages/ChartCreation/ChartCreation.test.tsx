@@ -126,7 +126,7 @@ test('double-click viz type does nothing if no datasource is selected', async ()
   wrapper.instance().gotoSlice = jest.fn();
   wrapper.update();
   wrapper.instance().onVizTypeDoubleClick();
-  expect(wrapper.instance().gotoSlice).not.toBeCalled();
+  expect(wrapper.instance().gotoSlice).not.toHaveBeenCalled();
 });
 
 test('double-click viz type submits if datasource is selected', async () => {
@@ -139,7 +139,7 @@ test('double-click viz type submits if datasource is selected', async () => {
   });
 
   wrapper.instance().onVizTypeDoubleClick();
-  expect(wrapper.instance().gotoSlice).toBeCalled();
+  expect(wrapper.instance().gotoSlice).toHaveBeenCalled();
 });
 
 test('formats Explore url', async () => {

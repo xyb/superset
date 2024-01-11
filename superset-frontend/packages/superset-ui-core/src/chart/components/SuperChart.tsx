@@ -29,7 +29,7 @@ import { parseLength, Dimension } from '../../dimension';
 import getChartMetadataRegistry from '../registries/ChartMetadataRegistrySingleton';
 import SuperChartCore, { Props as SuperChartCoreProps } from './SuperChartCore';
 import DefaultFallbackComponent from './FallbackComponent';
-import ChartProps, { ChartPropsConfig } from '../models/ChartProps';
+import { default as ChartProps, ChartPropsConfig } from '../models/ChartProps';
 import NoResultsComponent from './NoResultsComponent';
 
 const defaultProps = {

@@ -196,25 +196,25 @@ test('Refresh should work', async () => {
     name: 'Select schema or type to search schemas',
   });
 
-  userEvent.click(select);
+  await userEvent.click(select);
 
   await waitFor(() => {
     expect(fetchMock.calls(databaseApiRoute).length).toBe(1);
     expect(fetchMock.calls(schemaApiRoute).length).toBe(1);
-    expect(props.handleError).toBeCalledTimes(0);
-    expect(props.onDbChange).toBeCalledTimes(0);
-    expect(props.onSchemaChange).toBeCalledTimes(0);
+    expect(props.handleError).toHaveBeenCalledTimes(0);
+    expect(props.onDbChange).toHaveBeenCalledTimes(0);
+    expect(props.onSchemaChange).toHaveBeenCalledTimes(0);
   });
 
   // click schema reload
-  userEvent.click(screen.getByRole('button', { name: 'refresh' }));
+  await userEvent.click(screen.getByRole('button', { name: 'refresh' }));
 
   await waitFor(() => {
     expect(fetchMock.calls(databaseApiRoute).length).toBe(1);
     expect(fetchMock.calls(schemaApiRoute).length).toBe(2);
-    expect(props.handleError).toBeCalledTimes(0);
-    expect(props.onDbChange).toBeCalledTimes(0);
-    expect(props.onSchemaChange).toBeCalledTimes(0);
+    expect(props.handleError).toHaveBeenCalledTimes(0);
+    expect(props.onDbChange).toHaveBeenCalledTimes(0);
+    expect(props.onSchemaChange).toHaveBeenCalledTimes(0);
   });
 });
 
@@ -225,7 +225,7 @@ test('Should database select display options', async () => {
     name: 'Select database or type to search databases',
   });
   expect(select).toBeInTheDocument();
-  userEvent.click(select);
+  await userEvent.click(select);
   expect(await screen.findByText('test-mysql')).toBeInTheDocument();
 });
 
@@ -246,7 +246,7 @@ test('should show empty state if there are no options', async () => {
   const select = screen.getByRole('combobox', {
     name: 'Select database or type to search databases',
   });
-  userEvent.click(select);
+  await userEvent.click(select);
   const emptystate = await screen.findByText('empty');
   expect(emptystate).toBeInTheDocument();
   expect(screen.queryByText('test-mysql')).not.toBeInTheDocument();
@@ -259,7 +259,7 @@ test('Should schema select display options', async () => {
     name: 'Select schema or type to search schemas',
   });
   expect(select).toBeInTheDocument();
-  userEvent.click(select);
+  await userEvent.click(select);
   expect(
     await screen.findByRole('option', { name: 'public' }),
   ).toBeInTheDocument();
@@ -275,8 +275,8 @@ test('Sends the correct db when changing the database', async () => {
     name: 'Select database or type to search databases',
   });
   expect(select).toBeInTheDocument();
-  userEvent.click(select);
-  userEvent.click(await screen.findByText('test-mysql'));
+  await userEvent.click(select);
+  await userEvent.click(await screen.findByText('test-mysql'));
   await waitFor(() =>
     expect(props.onDbChange).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -296,16 +296,16 @@ test('Sends the correct schema when changing the schema', async () => {
   });
   await waitFor(() => expect(fetchMock.calls(databaseApiRoute).length).toBe(1));
   rerender(<DatabaseSelector {...props} />);
-  expect(props.onSchemaChange).toBeCalledTimes(0);
+  expect(props.onSchemaChange).toHaveBeenCalledTimes(0);
   const select = screen.getByRole('combobox', {
     name: 'Select schema or type to search schemas',
   });
   expect(select).toBeInTheDocument();
-  userEvent.click(select);
+  await userEvent.click(select);
   const schemaOption = await screen.findAllByText('information_schema');
-  userEvent.click(schemaOption[1]);
+  await userEvent.click(schemaOption[1]);
   await waitFor(() =>
     expect(props.onSchemaChange).toHaveBeenCalledWith('information_schema'),
   );
-  expect(props.onSchemaChange).toBeCalledTimes(1);
+  expect(props.onSchemaChange).toHaveBeenCalledTimes(1);
 });

@@ -129,9 +129,7 @@ test('should render', async () => {
 test('should render loading indicator', async () => {
   fetchWithData();
   setup();
-  await waitFor(() =>
-    expect(screen.getByLabelText('Loading')).toBeInTheDocument(),
-  );
+  await screen.findByLabelText('Loading');
 });
 
 test('should render the table with results', async () => {

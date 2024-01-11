@@ -62,7 +62,7 @@ test('should render', () => {
 
 test('should render multiple links', async () => {
   setup();
-  userEvent.hover(screen.getByText('Hover me'));
+  await userEvent.hover(screen.getByText('Hover me'));
 
   await waitFor(() => {
     expect(screen.getByText('Test dashboard')).toBeInTheDocument();
@@ -73,9 +73,9 @@ test('should render multiple links', async () => {
   });
 });
 
-test('should not render the "+ {x} more"', () => {
+test('should not render the "+ {x} more"', async () => {
   setup();
-  userEvent.hover(screen.getByText('Hover me'));
+  await userEvent.hover(screen.getByText('Hover me'));
   expect(screen.queryByTestId('plus-more')).not.toBeInTheDocument();
 });
 
@@ -83,7 +83,7 @@ test('should render the "+ {x} more"', async () => {
   setup({
     moreItems: 3,
   });
-  userEvent.hover(screen.getByText('Hover me'));
+  await userEvent.hover(screen.getByText('Hover me'));
   expect(await screen.findByTestId('plus-more')).toBeInTheDocument();
   expect(await screen.findByText('+ 3 more')).toBeInTheDocument();
 });

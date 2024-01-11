@@ -31,12 +31,12 @@ test('should render', () => {
 
 test('should render a title when visible', () => {
   render(<Popover title="Popover title" visible />);
-  expect(screen.getByText('Popover title')).toBeTruthy();
+  expect(screen.getByText('Popover title')).toBeInTheDocument();
 });
 
 test('should render some content when visible', () => {
   render(<Popover content="Content sample" visible />);
-  expect(screen.getByText('Content sample')).toBeTruthy();
+  expect(screen.getByText('Content sample')).toBeInTheDocument();
 });
 
 test('it should not render a title or content when not visible', () => {
@@ -72,7 +72,7 @@ test('fires an event when visibility is changed', async () => {
       <Button>Hover me</Button>
     </Popover>,
   );
-  userEvent.hover(screen.getByRole('button'));
+  await userEvent.hover(screen.getByRole('button'));
   await waitFor(() => expect(onVisibleChange).toHaveBeenCalledTimes(1));
 });
 

@@ -46,7 +46,7 @@ test('renders a tooltip when hovered', async () => {
       <div role="form" />
     </PopoverSection>,
   );
-  userEvent.hover(screen.getAllByRole('img')[0]);
+  await userEvent.hover(screen.getAllByRole('img')[0]);
   expect(await screen.findByRole('tooltip')).toBeInTheDocument();
 });
 
@@ -57,6 +57,6 @@ test('calls onSelect when clicked', async () => {
       <div role="form" />
     </PopoverSection>,
   );
-  userEvent.click(await screen.findByRole('img'));
+  await userEvent.click(await screen.findByRole('img'));
   expect(onSelect).toHaveBeenCalled();
 });

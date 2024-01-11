@@ -40,8 +40,8 @@ const mockedProps = {
 const asyncRender = (props: DropDownSelectableProps) =>
   waitFor(() => render(<DropdownSelectableIcon {...props} />));
 
-const openMenu = () => {
-  userEvent.click(screen.getByRole('img', { name: 'gear' }));
+const openMenu = async () => {
+  await userEvent.click(screen.getByRole('img', { name: 'gear' }));
 };
 
 test('should render', async () => {

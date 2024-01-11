@@ -52,6 +52,6 @@ test('Renders', async () => {
   expect(screen.getByText('Title panel button')).toBeVisible();
   expect(screen.getByText('Save')).toBeVisible();
 
-  userEvent.click(screen.getByLabelText('Menu actions trigger'));
+  await userEvent.click(screen.getByLabelText('Menu actions trigger'));
   expect(defaultProps.menuDropdownProps.onVisibleChange).toHaveBeenCalled();
 });

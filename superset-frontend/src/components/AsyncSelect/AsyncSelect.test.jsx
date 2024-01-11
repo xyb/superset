@@ -88,7 +88,7 @@ describe('AsyncSelect', () => {
         setTimeout(() => {
           expect(fetchMock.calls(dataGlob)).toHaveLength(1);
           expect(onChangeSpy.mock.calls).toHaveLength(1);
-          expect(onChangeSpy).toBeCalledWith(
+          expect(onChangeSpy).toHaveBeenCalledWith(
             wrapper.instance().state.options[0],
           );
           done();
@@ -141,7 +141,7 @@ describe('AsyncSelect', () => {
           // once on component mount and once when calling `fetchOptions` again
           expect(fetchMock.calls(errorGlob)).toHaveLength(8);
           expect(onAsyncError.mock.calls).toHaveLength(2);
-          expect(onAsyncError).toBeCalledWith('error');
+          expect(onAsyncError).toHaveBeenCalledWith('error');
 
           return Promise.resolve();
         });

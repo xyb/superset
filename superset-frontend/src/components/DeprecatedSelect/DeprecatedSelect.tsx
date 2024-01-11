@@ -232,9 +232,9 @@ function styled<
       const Input =
         (components.Input as SelectComponentsType['Input']) ||
         (defaultComponents.Input as SelectComponentsType['Input']);
-      components.Input = (props: InputProps) => (
-        <Input {...props} onPaste={onPaste} />
-      );
+      components.Input = function (props: InputProps) {
+        return <Input {...props} onPaste={onPaste} />;
+      };
     }
     // for CreaTable
     if (SelectComponent === WindowedCreatableSelect) {

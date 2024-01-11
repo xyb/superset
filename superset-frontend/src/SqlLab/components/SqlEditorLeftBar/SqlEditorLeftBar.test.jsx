@@ -139,7 +139,7 @@ test('should toggle the table when the header is clicked', async () => {
   const header = (await screen.findAllByText(/ab_user/))[1];
   expect(header).toBeInTheDocument();
 
-  userEvent.click(header);
+  await userEvent.click(header);
 
   await waitFor(() => {
     expect(actions[actions.length - 1].type).toEqual('COLLAPSE_TABLE');

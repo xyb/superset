@@ -71,9 +71,9 @@ const props: DatasourcePanelProps = {
   },
 };
 
-const search = (value: string, input: HTMLElement) => {
-  userEvent.clear(input);
-  userEvent.type(input, value);
+const search = async (value: string, input: HTMLElement) => {
+  await userEvent.clear(input);
+  await userEvent.type(input, value);
 };
 
 test('should render', async () => {
@@ -197,5 +197,5 @@ test('should not render a save dataset modal when datasource is not query or dat
   render(<DatasourcePanel {...newProps} />, { useRedux: true, useDnd: true });
   expect(await screen.findByText(/metrics/i)).toBeInTheDocument();
 
-  expect(screen.queryByText(/create a dataset/i)).toBe(null);
+  expect(screen.queryByText(/create a dataset/i)).not.toBeInTheDocument();
 });

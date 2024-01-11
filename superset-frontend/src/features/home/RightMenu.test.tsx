@@ -29,7 +29,13 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('src/features/databases/DatabaseModal', () => () => <span />);
+jest.mock(
+  'src/features/databases/DatabaseModal',
+  () =>
+    function () {
+      return <span />;
+    },
+);
 
 const dropdownItems = [
   {
@@ -250,9 +256,9 @@ test('If only examples DB exist we must show the Connect Database option', async
     useRouter: true,
   });
   const dropdown = screen.getByTestId('new-dropdown-icon');
-  userEvent.hover(dropdown);
+  await userEvent.hover(dropdown);
   const dataMenu = await screen.findByText(dropdownItems[0].label);
-  userEvent.hover(dataMenu);
+  await userEvent.hover(dataMenu);
   expect(await screen.findByText('Connect database')).toBeInTheDocument();
   expect(screen.queryByText('Create dataset')).not.toBeInTheDocument();
 });
@@ -281,9 +287,9 @@ test('If more than just examples DB exist we must show the Create dataset option
     useRouter: true,
   });
   const dropdown = screen.getByTestId('new-dropdown-icon');
-  userEvent.hover(dropdown);
+  await userEvent.hover(dropdown);
   const dataMenu = await screen.findByText(dropdownItems[0].label);
-  userEvent.hover(dataMenu);
+  await userEvent.hover(dataMenu);
   expect(await screen.findByText('Create dataset')).toBeInTheDocument();
   expect(screen.queryByText('Connect database')).not.toBeInTheDocument();
 });
@@ -312,9 +318,9 @@ test('If there is a DB with allow_file_upload set as True the option should be e
     useRouter: true,
   });
   const dropdown = screen.getByTestId('new-dropdown-icon');
-  userEvent.hover(dropdown);
+  await userEvent.hover(dropdown);
   const dataMenu = await screen.findByText(dropdownItems[0].label);
-  userEvent.hover(dataMenu);
+  await userEvent.hover(dataMenu);
   expect(
     (await screen.findByText('Upload CSV to database')).closest('a'),
   ).toHaveAttribute('href', '/csvtodatabaseview/form');
@@ -344,9 +350,9 @@ test('If there is NOT a DB with allow_file_upload set as True the option should 
     useRouter: true,
   });
   const dropdown = screen.getByTestId('new-dropdown-icon');
-  userEvent.hover(dropdown);
+  await userEvent.hover(dropdown);
   const dataMenu = await screen.findByText(dropdownItems[0].label);
-  userEvent.hover(dataMenu);
+  await userEvent.hover(dataMenu);
   expect(await screen.findByText('Upload CSV to database')).toBeInTheDocument();
   expect(
     (await screen.findByText('Upload CSV to database')).closest('a'),

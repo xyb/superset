@@ -107,7 +107,7 @@ describe('SamplesPane', () => {
     expect(queryByText('Action')).toBeVisible();
     expect(queryByText('Horror')).toBeVisible();
 
-    userEvent.type(getByPlaceholderText('Search'), 'hor');
+    await userEvent.type(getByPlaceholderText('Search'), 'hor');
     await waitForElementToBeRemoved(() => queryByText('Action'));
     expect(queryByText('Horror')).toBeVisible();
     expect(queryByText('Action')).not.toBeInTheDocument();

@@ -86,10 +86,10 @@ async function openAndSaveChanges(datasource: any) {
       overwriteRoutes: true,
     },
   );
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
-  userEvent.click(await screen.findByTestId('edit-dataset'));
-  userEvent.click(await screen.findByTestId('datasource-modal-save'));
-  userEvent.click(await screen.findByText('OK'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(await screen.findByTestId('edit-dataset'));
+  await userEvent.click(await screen.findByTestId('datasource-modal-save'));
+  await userEvent.click(await screen.findByText('OK'));
 }
 
 test('Should render', async () => {
@@ -113,7 +113,7 @@ test('Should open a menu', async () => {
   expect(screen.queryByText('Swap dataset')).not.toBeInTheDocument();
   expect(screen.queryByText('View in SQL Lab')).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(await screen.findByText('Edit dataset')).toBeInTheDocument();
   expect(screen.getByText('Swap dataset')).toBeInTheDocument();
@@ -136,7 +136,7 @@ test('Should not show SQL Lab for non sql_lab role', async () => {
   });
   render(<DatasourceControl {...props} />, { useRouter: true });
 
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(await screen.findByText('Edit dataset')).toBeInTheDocument();
   expect(screen.getByText('Swap dataset')).toBeInTheDocument();
@@ -159,7 +159,7 @@ test('Should show SQL Lab for sql_lab role', async () => {
   });
   render(<DatasourceControl {...props} />, { useRouter: true });
 
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(await screen.findByText('Edit dataset')).toBeInTheDocument();
   expect(screen.getByText('Swap dataset')).toBeInTheDocument();
@@ -183,10 +183,10 @@ test('Click on Swap dataset option', async () => {
     useRedux: true,
     useRouter: true,
   });
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   await act(async () => {
-    userEvent.click(screen.getByText('Swap dataset'));
+    await userEvent.click(screen.getByText('Swap dataset'));
   });
   expect(
     screen.getByText(
@@ -198,16 +198,16 @@ test('Click on Swap dataset option', async () => {
 test('Click on Edit dataset', async () => {
   const props = createProps();
   SupersetClientGet.mockImplementationOnce(
-    async () => ({ json: { result: [] } } as any),
+    async () => ({ json: { result: [] } }) as any,
   );
   render(<DatasourceControl {...props} />, {
     useRedux: true,
     useRouter: true,
   });
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   await act(async () => {
-    userEvent.click(screen.getByText('Edit dataset'));
+    await userEvent.click(screen.getByText('Edit dataset'));
   });
 
   expect(
@@ -223,7 +223,7 @@ test('Edit dataset should be disabled when user is not admin', async () => {
   props.user.roles = {};
   props.datasource.owners = [];
   SupersetClientGet.mockImplementationOnce(
-    async () => ({ json: { result: [] } } as any),
+    async () => ({ json: { result: [] } }) as any,
   );
 
   render(<DatasourceControl {...props} />, {
@@ -231,7 +231,7 @@ test('Edit dataset should be disabled when user is not admin', async () => {
     useRouter: true,
   });
 
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(await screen.findByTestId('edit-dataset')).toHaveAttribute(
     'aria-disabled',
@@ -259,12 +259,12 @@ test('Click on View in SQL Lab', async () => {
       useRouter: true,
     },
   );
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(queryByTestId('mock-sqllab-route')).not.toBeInTheDocument();
 
   await act(async () => {
-    userEvent.click(screen.getByText('View in SQL Lab'));
+    await userEvent.click(screen.getByText('View in SQL Lab'));
   });
 
   expect(getByTestId('mock-sqllab-route')).toBeInTheDocument();
@@ -293,7 +293,7 @@ test('Should open a different menu when datasource=query', async () => {
   expect(screen.queryByText('View in SQL Lab')).not.toBeInTheDocument();
   expect(screen.queryByText('Save as dataset')).not.toBeInTheDocument();
 
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
 
   expect(await screen.findByText('Query preview')).toBeInTheDocument();
   expect(screen.getByText('View in SQL Lab')).toBeInTheDocument();
@@ -314,8 +314,8 @@ test('Click on Save as dataset', async () => {
     useRedux: true,
     useRouter: true,
   });
-  userEvent.click(screen.getByTestId('datasource-menu-trigger'));
-  userEvent.click(screen.getByText('Save as dataset'));
+  await userEvent.click(screen.getByTestId('datasource-menu-trigger'));
+  await userEvent.click(screen.getByText('Save as dataset'));
 
   // Renders a save dataset modal
   const saveRadioBtn = await screen.findByRole('radio', {

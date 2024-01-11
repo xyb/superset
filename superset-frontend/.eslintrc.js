@@ -37,17 +37,13 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 module.exports = {
-  extends: [
-    'airbnb',
-    'prettier',
-    'prettier/react',
-    'plugin:react-hooks/recommended',
-  ],
+  extends: ['airbnb', 'prettier', 'plugin:react-hooks/recommended'],
   parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaFeatures: {
       experimentalObjectRestSpread: true,
     },
+    // project: ['./tsconfig.json'],
   },
   env: {
     browser: true,
@@ -78,13 +74,7 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       parser: '@typescript-eslint/parser',
-      extends: [
-        'airbnb',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'prettier/@typescript-eslint',
-        'prettier/react',
-      ],
+      extends: ['airbnb', 'plugin:@typescript-eslint/recommended', 'prettier'],
       plugins: ['@typescript-eslint/eslint-plugin', 'prettier', 'react'],
       rules: {
         '@typescript-eslint/ban-ts-ignore': 0,
@@ -96,7 +86,7 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 0, // disabled temporarily
         '@typescript-eslint/explicit-function-return-type': 0,
         '@typescript-eslint/explicit-module-boundary-types': 0, // re-enable up for discussion
-        '@typescript-eslint/prefer-optional-chain': 2,
+        // '@typescript-eslint/prefer-optional-chain': 2,
         camelcase: 0,
         'class-methods-use-this': 0,
         'func-names': 0,
@@ -147,6 +137,26 @@ module.exports = {
         'react/static-property-placement': 0, // re-enable up for discussion
         'prettier/prettier': 'error',
         'file-progress/activate': 1,
+
+        // Things temporarily disabled due to eslint upgrade. We'll turn these back on in subsequent PRs.
+        'react/function-component-definition': 0,
+        'default-param-last': 0,
+        'react/no-unknown-property': 0,
+        'react/jsx-no-useless-fragment': 0,
+        'jsx-a11y/control-has-associated-label': 0,
+        'react/no-unstable-nested-components': 0,
+        '@typescript-eslint/no-unused-vars': 0,
+        'react/no-unused-class-component-methods': 0,
+        'no-restricted-exports': 0,
+        'import/no-unresolved': 0,
+        'react/default-props-match-prop-types': 0,
+        'import/no-import-module-export': 0,
+        'no-promise-executor-return': 0,
+        'no-unsafe-optional-chaining': 0,
+        'react/state-in-constructor': 0,
+        '@typescript-eslint/no-unsafe-declaration-merging': 0,
+        'prefer-regex-literals': 0,
+        'import/no-named-default': 0,
       },
       settings: {
         'import/resolver': {
@@ -189,6 +199,25 @@ module.exports = {
         ],
         'no-only-tests/no-only-tests': 'error',
         'max-classes-per-file': 0,
+
+        // Things temporarily disabled due to eslint upgrade. We'll turn these back on in subsequent PRs.
+        'testing-library/no-unnecessary-act': 0,
+        'testing-library/no-render-in-lifecycle': 0,
+        'testing-library/await-async-utils': 0,
+        'testing-library/await-async-queries': 0,
+        'testing-library/no-wait-for-multiple-assertions': 0,
+        'testing-library/prefer-screen-queries': 0,
+        'testing-library/no-node-access': 0,
+        'testing-library/no-wait-for-side-effects': 0,
+        'testing-library/prefer-presence-queries': 0,
+        'testing-library/no-container': 0,
+        'testing-library/render-result-naming-convention': 0,
+        'no-import-assign': 0,
+        'import/no-import-module-exports': 0,
+        'testing-library/no-manual-cleanup': 0,
+        'no-async-promise-executor': 0,
+        '@typescript-eslint/no-explicit-any': 0,
+        'jest/no-alias-methods': 1,
       },
     },
     {
@@ -288,6 +317,23 @@ module.exports = {
     'react/sort-comp': 0, // TODO: re-enable in separate PR
     'react/static-property-placement': 0, // disabled temporarily
     'prettier/prettier': 'error',
+
+    // Things temporarily disabled due to eslint upgrade. We'll turn these back on in subsequent PRs.
+    'react/function-component-definition': 0,
+    'default-param-last': 0,
+    'react/no-unknown-property': 0,
+    'react/jsx-no-useless-fragment': 0,
+    'jsx-a11y/control-has-associated-label': 0,
+    'react/no-unstable-nested-components': 0,
+    '@typescript-eslint/no-unused-vars': 0,
+    'react/no-unused-class-component-methods': 0,
+    'no-restricted-exports': 0,
+    'import/no-unresolved': 0,
+    'react/default-props-match-prop-types': 0,
+    'import/no-import-module-export': 0,
+    'no-promise-executor-return': 0,
+    'no-unsafe-optional-chaining': 0,
+    'default-case-last': 0,
   },
   ignorePatterns,
 };

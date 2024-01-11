@@ -24,7 +24,7 @@ import type { TimezoneSelectorProps } from './index';
 
 const loadComponent = (mockCurrentTime?: string) => {
   if (mockCurrentTime) {
-    jest.useFakeTimers('modern');
+    jest.useFakeTimers();
     jest.setSystemTime(new Date(mockCurrentTime));
   }
   return new Promise<React.FC<TimezoneSelectorProps>>(resolve => {
@@ -39,9 +39,9 @@ const loadComponent = (mockCurrentTime?: string) => {
 const getSelectOptions = () =>
   waitFor(() => document.querySelectorAll('.ant-select-item-option-content'));
 
-const openSelectMenu = () => {
+const openSelectMenu = async () => {
   const searchInput = screen.getByRole('combobox');
-  userEvent.click(searchInput);
+  await userEvent.click(searchInput);
 };
 
 jest.spyOn(moment.tz, 'guess').mockReturnValue('America/New_York');
@@ -129,7 +129,7 @@ test('can select a timezone values and returns canonical timezone name', async (
   await userEvent.type(searchInput, 'mou', { delay: 10 });
   const findTitle = 'GMT -07:00 (Mountain Standard Time)';
   const selectOption = await screen.findByTitle(findTitle);
-  userEvent.click(selectOption);
+  await userEvent.click(selectOption);
   expect(onTimezoneChange).toHaveBeenCalledTimes(1);
   expect(onTimezoneChange).toHaveBeenLastCalledWith('America/Cambridge_Bay');
 });

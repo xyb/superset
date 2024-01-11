@@ -91,7 +91,7 @@ const getInitialColumnValues = (
   return [undefined, undefined, editedColumn];
 };
 
-const ColumnSelectPopover = ({
+function ColumnSelectPopover({
   columns,
   editedColumn,
   getCurrentTab,
@@ -102,7 +102,7 @@ const ColumnSelectPopover = ({
   onClose,
   setDatasetModal,
   setLabel,
-}: ColumnSelectPopoverProps) => {
+}: ColumnSelectPopoverProps) {
   const datasourceType = useSelector<ExplorePageState, string | undefined>(
     state => state.explore.datasource.type,
   );
@@ -186,8 +186,8 @@ const ColumnSelectPopover = ({
   const defaultActiveTabKey = initialAdhocColumn
     ? 'sqlExpression'
     : initialSimpleColumn || calculatedColumns.length === 0
-    ? 'simple'
-    : 'saved';
+      ? 'simple'
+      : 'saved';
 
   useEffect(() => {
     getCurrentTab(defaultActiveTabKey);
@@ -458,6 +458,6 @@ const ColumnSelectPopover = ({
       </div>
     </Form>
   );
-};
+}
 
 export default ColumnSelectPopover;

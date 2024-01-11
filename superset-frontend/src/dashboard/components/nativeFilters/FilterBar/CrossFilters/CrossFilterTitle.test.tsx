@@ -43,10 +43,10 @@ test('Title should be visible', () => {
   expect(screen.getByText('test-title')).toBeInTheDocument();
 });
 
-test('Search icon should highlight emitter', () => {
+test('Search icon should highlight emitter', async () => {
   setup(mockedProps);
   const search = screen.getByTestId('cross-filters-highlight-emitter');
   expect(search).toBeInTheDocument();
-  userEvent.click(search);
+  await userEvent.click(search);
   expect(mockedProps.onHighlightFilterSource).toHaveBeenCalled();
 });

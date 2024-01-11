@@ -22,11 +22,13 @@ import Component from './Sunburst';
 
 const ReactComponent = reactify(Component);
 
-const Sunburst = ({ className, ...otherProps }) => (
-  <div className={className}>
-    <ReactComponent {...otherProps} />
-  </div>
-);
+function Sunburst({ className, ...otherProps }) {
+  return (
+    <div className={className}>
+      <ReactComponent {...otherProps} />
+    </div>
+  );
+}
 
 export default styled(Sunburst)`
   ${({ theme }) => `

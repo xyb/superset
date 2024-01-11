@@ -133,12 +133,12 @@ fetchMock.get('glob:*/csstemplateasyncmodelview/api/read', {});
 
 const openRefreshIntervalModal = async () => {
   const autoRefreshOption = screen.getByText('Set auto-refresh interval');
-  userEvent.click(autoRefreshOption);
+  await userEvent.click(autoRefreshOption);
 };
 
 const displayOptions = async () => {
   // Click default refresh interval option to display other options
-  userEvent.click(screen.getByText(/don't refresh/i));
+  await userEvent.click(screen.getByText(/don't refresh/i));
 };
 
 const defaultRefreshIntervalModalProps = {
@@ -207,7 +207,7 @@ describe('RefreshIntervalModal - RTL', () => {
 
     // Display options and select "10 seconds"
     await displayOptions();
-    userEvent.click(screen.getByText(/10 seconds/i));
+    await userEvent.click(screen.getByText(/10 seconds/i));
 
     // Selected value should now be "10 seconds"
     expect(selectedValue.title).toMatch(/10 seconds/i);
@@ -220,8 +220,8 @@ describe('RefreshIntervalModal - RTL', () => {
     await displayOptions();
 
     // Select a new interval and click save
-    userEvent.click(screen.getByText(/10 seconds/i));
-    userEvent.click(screen.getByRole('button', { name: /save/i }));
+    await userEvent.click(screen.getByText(/10 seconds/i));
+    await userEvent.click(screen.getByRole('button', { name: /save/i }));
 
     expect(editModeOnProps.setRefreshFrequency).toHaveBeenCalled();
     expect(editModeOnProps.setRefreshFrequency).toHaveBeenCalledWith(
@@ -243,8 +243,8 @@ describe('RefreshIntervalModal - RTL', () => {
     await openRefreshIntervalModal();
     await displayOptions();
 
-    userEvent.click(screen.getByText(/30 seconds/i));
-    userEvent.click(screen.getByRole('button', { name: /save/i }));
+    await userEvent.click(screen.getByText(/30 seconds/i));
+    await userEvent.click(screen.getByRole('button', { name: /save/i }));
 
     // screen.debug(screen.getByRole('alert'));
     expect.anything();

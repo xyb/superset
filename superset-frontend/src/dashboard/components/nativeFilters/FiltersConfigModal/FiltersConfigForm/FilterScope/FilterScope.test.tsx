@@ -49,7 +49,7 @@ describe('FilterScope', () => {
     validateDependencies: jest.fn(),
   };
 
-  const MockModal = ({ scope }: { scope?: object }) => {
+  function MockModal({ scope }: { scope?: object }) {
     const [newForm] = AntdForm.useForm<NativeFiltersForm>();
     form = newForm;
     if (scope) {
@@ -68,7 +68,7 @@ describe('FilterScope', () => {
         </AntdForm>
       </Provider>
     );
-  };
+  }
 
   const getTreeSwitcher = (order = 0) =>
     document.querySelectorAll('.ant-tree-switcher')[order];
@@ -82,7 +82,7 @@ describe('FilterScope', () => {
     render(<MockModal />);
     fireEvent.click(screen.getByText('Scoping'));
     fireEvent.click(screen.getByLabelText('Apply to specific panels'));
-    expect(screen.getByRole('tree')).not.toBe(null);
+    expect(screen.getByRole('tree')).toBeInTheDocument();
     fireEvent.click(getTreeSwitcher(2));
     fireEvent.click(screen.getByText('CHART_ID2'));
     await waitFor(() =>
@@ -99,7 +99,7 @@ describe('FilterScope', () => {
     render(<MockModal />);
     fireEvent.click(screen.getByText('Scoping'));
     fireEvent.click(screen.getByLabelText('Apply to specific panels'));
-    expect(screen.getByRole('tree')).not.toBe(null);
+    expect(screen.getByRole('tree')).toBeInTheDocument();
     fireEvent.click(getTreeSwitcher(2));
     fireEvent.click(screen.getByText('CHART_ID2'));
     fireEvent.click(screen.getByText('tab1'));

@@ -57,7 +57,7 @@ describe('DataTablesPane', () => {
     expect(
       screen.queryByLabelText('Collapse data panel'),
     ).not.toBeInTheDocument();
-    userEvent.click(screen.getByLabelText('Expand data panel'));
+    await userEvent.click(screen.getByLabelText('Expand data panel'));
     expect(await screen.findByLabelText('Collapse data panel')).toBeVisible();
     expect(
       screen.queryByLabelText('Expand data panel'),
@@ -69,7 +69,7 @@ describe('DataTablesPane', () => {
     render(<DataTablesPane {...props} />, {
       useRedux: true,
     });
-    userEvent.click(screen.getByText('Results'));
+    await userEvent.click(screen.getByText('Results'));
     expect(await screen.findByText('0 rows')).toBeVisible();
     expect(await screen.findByLabelText('Collapse data panel')).toBeVisible();
     localStorage.clear();
@@ -79,7 +79,7 @@ describe('DataTablesPane', () => {
     render(<DataTablesPane {...props} />, {
       useRedux: true,
     });
-    userEvent.click(screen.getByText('Samples'));
+    await userEvent.click(screen.getByText('Samples'));
     expect(await screen.findByText('0 rows')).toBeVisible();
     expect(await screen.findByLabelText('Collapse data panel')).toBeVisible();
   });
@@ -102,10 +102,10 @@ describe('DataTablesPane', () => {
     render(<DataTablesPane {...props} />, {
       useRedux: true,
     });
-    userEvent.click(screen.getByText('Results'));
+    await userEvent.click(screen.getByText('Results'));
     expect(await screen.findByText('1 row')).toBeVisible();
 
-    userEvent.click(screen.getByLabelText('Copy'));
+    await userEvent.click(screen.getByLabelText('Copy'));
     expect(copyToClipboardSpy).toHaveBeenCalledTimes(1);
     const value = await copyToClipboardSpy.mock.calls[0][0]();
     expect(value).toBe('__timestamp\tgenre\n2009-01-01 00:00:00\tAction\n');
@@ -133,12 +133,12 @@ describe('DataTablesPane', () => {
     render(<DataTablesPane {...props} />, {
       useRedux: true,
     });
-    userEvent.click(screen.getByText('Results'));
+    await userEvent.click(screen.getByText('Results'));
     expect(await screen.findByText('2 rows')).toBeVisible();
     expect(screen.getByText('Action')).toBeVisible();
     expect(screen.getByText('Horror')).toBeVisible();
 
-    userEvent.type(screen.getByPlaceholderText('Search'), 'hor');
+    await userEvent.type(screen.getByPlaceholderText('Search'), 'hor');
 
     await waitForElementToBeRemoved(() => screen.queryByText('Action'));
     expect(screen.getByText('Horror')).toBeVisible();

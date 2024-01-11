@@ -29,14 +29,14 @@ test('Should call download pdf on click', async () => {
   const props = createProps();
   renderComponent();
   await waitFor(() => {
-    expect(downloadAsPdf).toBeCalledTimes(0);
-    expect(props.addDangerToast).toBeCalledTimes(0);
+    expect(downloadAsPdf).toHaveBeenCalledTimes(0);
+    expect(props.addDangerToast).toHaveBeenCalledTimes(0);
   });
 
-  userEvent.click(screen.getByRole('button', { name: 'Export as PDF' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Export as PDF' }));
 
   await waitFor(() => {
-    expect(downloadAsPdf).toBeCalledTimes(1);
-    expect(props.addDangerToast).toBeCalledTimes(0);
+    expect(downloadAsPdf).toHaveBeenCalledTimes(1);
+    expect(props.addDangerToast).toHaveBeenCalledTimes(0);
   });
 });

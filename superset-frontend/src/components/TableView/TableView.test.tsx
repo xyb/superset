@@ -115,19 +115,19 @@ test('should NOT render the pagination when fewer rows than page size', () => {
   expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 });
 
-test('should change page when « and » buttons are clicked', () => {
+test('should change page when « and » buttons are clicked', async () => {
   render(<TableView {...mockedProps} />);
   const nextBtn = screen.getByText('»');
   const prevBtn = screen.getByText('«');
 
-  userEvent.click(nextBtn);
+  await userEvent.click(nextBtn);
   expect(screen.getAllByRole('cell')).toHaveLength(3);
   expect(screen.getByText('321')).toBeInTheDocument();
   expect(screen.getByText('10')).toBeInTheDocument();
   expect(screen.getByText('Kate')).toBeInTheDocument();
   expect(screen.queryByText('Emily')).not.toBeInTheDocument();
 
-  userEvent.click(prevBtn);
+  await userEvent.click(prevBtn);
   expect(screen.getAllByRole('cell')).toHaveLength(3);
   expect(screen.getByText('123')).toBeInTheDocument();
   expect(screen.getByText('27')).toBeInTheDocument();
@@ -135,14 +135,14 @@ test('should change page when « and » buttons are clicked', () => {
   expect(screen.queryByText('Kate')).not.toBeInTheDocument();
 });
 
-test('should sort by age', () => {
+test('should sort by age', async () => {
   render(<TableView {...mockedProps} />);
   const ageSort = screen.getAllByRole('columnheader')[1];
 
-  userEvent.click(ageSort);
+  await userEvent.click(ageSort);
   expect(screen.getAllByRole('cell')[1]).toHaveTextContent('10');
 
-  userEvent.click(ageSort);
+  await userEvent.click(ageSort);
   expect(screen.getAllByRole('cell')[1]).toHaveTextContent('27');
 });
 

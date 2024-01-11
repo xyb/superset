@@ -109,14 +109,14 @@ describe('SaveDatasetModal', () => {
     expect(screen.getByRole('button', { name: /save/i })).toBeVisible();
   });
 
-  it('renders an overwrite button when "Overwrite existing" is selected', () => {
+  it('renders an overwrite button when "Overwrite existing" is selected', async () => {
     render(<SaveDatasetModal {...mockedProps} />, { useRedux: true });
 
     // Click the overwrite radio button to reveal the overwrite confirmation and back buttons
     const overwriteRadioBtn = screen.getByRole('radio', {
       name: /overwrite existing/i,
     });
-    userEvent.click(overwriteRadioBtn);
+    await userEvent.click(overwriteRadioBtn);
 
     expect(screen.getByRole('button', { name: /overwrite/i })).toBeVisible();
   });
@@ -129,7 +129,7 @@ describe('SaveDatasetModal', () => {
     const overwriteRadioBtn = screen.getByRole('radio', {
       name: /overwrite existing/i,
     });
-    userEvent.click(overwriteRadioBtn);
+    await userEvent.click(overwriteRadioBtn);
 
     // Overwrite confirmation button should be disabled at this point
     const overwriteConfirmationBtn = screen.getByRole('button', {
@@ -139,7 +139,7 @@ describe('SaveDatasetModal', () => {
 
     // Click the overwrite select component
     const select = screen.getByRole('combobox', { name: /existing dataset/i })!;
-    userEvent.click(select);
+    await userEvent.click(select);
 
     await waitFor(() =>
       expect(screen.queryByText('Loading...')).not.toBeVisible(),
@@ -147,7 +147,7 @@ describe('SaveDatasetModal', () => {
 
     // Select the first "existing dataset" from the listbox
     const option = screen.getAllByText('coolest table 0')[1];
-    userEvent.click(option);
+    await userEvent.click(option);
 
     // Overwrite button should now be enabled
     expect(overwriteConfirmationBtn).toBeEnabled();
@@ -161,11 +161,11 @@ describe('SaveDatasetModal', () => {
     const overwriteRadioBtn = screen.getByRole('radio', {
       name: /overwrite existing/i,
     });
-    userEvent.click(overwriteRadioBtn);
+    await userEvent.click(overwriteRadioBtn);
 
     // Click the overwrite select component
     const select = screen.getByRole('combobox', { name: /existing dataset/i });
-    userEvent.click(select);
+    await userEvent.click(select);
 
     await waitFor(() =>
       expect(screen.queryByText('Loading...')).not.toBeVisible(),
@@ -173,13 +173,13 @@ describe('SaveDatasetModal', () => {
 
     // Select the first "existing dataset" from the listbox
     const option = screen.getAllByText('coolest table 0')[1];
-    userEvent.click(option);
+    await userEvent.click(option);
 
     // Click the overwrite button to access the confirmation screen
     const overwriteConfirmationBtn = screen.getByRole('button', {
       name: /overwrite/i,
     });
-    userEvent.click(overwriteConfirmationBtn);
+    await userEvent.click(overwriteConfirmationBtn);
 
     // Overwrite screen text
     expect(screen.getByText(/save or overwrite dataset/i)).toBeVisible();
@@ -205,7 +205,7 @@ describe('SaveDatasetModal', () => {
     const saveConfirmationBtn = screen.getByRole('button', {
       name: /save/i,
     });
-    userEvent.click(saveConfirmationBtn);
+    await userEvent.click(saveConfirmationBtn);
 
     expect(createDatasource).toHaveBeenCalledWith({
       datasourceName: 'my dataset',

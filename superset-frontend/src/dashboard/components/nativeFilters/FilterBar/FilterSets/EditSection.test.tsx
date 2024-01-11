@@ -66,12 +66,12 @@ test('should render a textbox', () => {
   expect(screen.getByRole('textbox')).toBeInTheDocument();
 });
 
-test('should change the set name', () => {
+test('should change the set name', async () => {
   const mockedProps = createProps();
   render(setup(mockedProps));
   const textbox = screen.getByRole('textbox');
-  userEvent.clear(textbox);
-  userEvent.type(textbox, 'New name');
+  await userEvent.clear(textbox);
+  await userEvent.type(textbox, 'New name');
   expect(textbox).toHaveValue('New name');
 });
 
@@ -87,12 +87,12 @@ test('should render the Cancel button', () => {
   expect(screen.getByText('Cancel')).toBeInTheDocument();
 });
 
-test('should cancel', () => {
+test('should cancel', async () => {
   const mockedProps = createProps();
   render(setup(mockedProps));
   const cancelBtn = screen.getByText('Cancel');
   expect(mockedProps.onCancel).not.toHaveBeenCalled();
-  userEvent.click(cancelBtn);
+  await userEvent.click(cancelBtn);
   expect(mockedProps.onCancel).toHaveBeenCalled();
 });
 

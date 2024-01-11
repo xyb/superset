@@ -171,25 +171,25 @@ test('renders anchor with date/time option', () => {
   expect(screen.getByPlaceholderText('Select date')).toBeInTheDocument();
 });
 
-test('triggers onChange when the anchor changes', () => {
+test('triggers onChange when the anchor changes', async () => {
   const onChange = jest.fn();
   render(
     <Provider store={store}>
       <CustomFrame onChange={onChange} value={relativeNowValue} />
     </Provider>,
   );
-  userEvent.click(screen.getByRole('radio', { name: 'Date/Time' }));
+  await userEvent.click(screen.getByRole('radio', { name: 'Date/Time' }));
   expect(onChange).toHaveBeenCalled();
 });
 
-test('triggers onChange when the value changes', () => {
+test('triggers onChange when the value changes', async () => {
   const onChange = jest.fn();
   render(
     <Provider store={store}>
       <CustomFrame onChange={onChange} value={emptyValue} />
     </Provider>,
   );
-  userEvent.click(screen.getByRole('img', { name: 'up' }));
+  await userEvent.click(screen.getByRole('img', { name: 'up' }));
   expect(onChange).toHaveBeenCalled();
 });
 
@@ -200,14 +200,14 @@ test('triggers onChange when the mode changes', async () => {
       <CustomFrame onChange={onChange} value={todayNowValue} />
     </Provider>,
   );
-  userEvent.click(screen.getByTitle('Midnight'));
+  await userEvent.click(screen.getByTitle('Midnight'));
   expect(await screen.findByTitle('Relative Date/Time')).toBeInTheDocument();
-  userEvent.click(screen.getByTitle('Relative Date/Time'));
-  userEvent.click(screen.getAllByTitle('Now')[1]);
+  await userEvent.click(screen.getByTitle('Relative Date/Time'));
+  await userEvent.click(screen.getAllByTitle('Now')[1]);
   expect(
     await screen.findByText('Configure custom time range'),
   ).toBeInTheDocument();
-  userEvent.click(screen.getAllByTitle('Specific Date/Time')[1]);
+  await userEvent.click(screen.getAllByTitle('Specific Date/Time')[1]);
   expect(onChange).toHaveBeenCalledTimes(2);
 });
 
@@ -218,12 +218,12 @@ test('triggers onChange when the grain changes', async () => {
       <CustomFrame onChange={onChange} value={relativeNowValue} />
     </Provider>,
   );
-  userEvent.click(screen.getByText('Days Before'));
+  await userEvent.click(screen.getByText('Days Before'));
   expect(await screen.findByText('Weeks Before')).toBeInTheDocument();
-  userEvent.click(screen.getByText('Weeks Before'));
-  userEvent.click(screen.getByText('Days After'));
+  await userEvent.click(screen.getByText('Weeks Before'));
+  await userEvent.click(screen.getByText('Days After'));
   expect(await screen.findByText('Weeks After')).toBeInTheDocument();
-  userEvent.click(screen.getByText('Weeks After'));
+  await userEvent.click(screen.getByText('Weeks After'));
   expect(onChange).toHaveBeenCalledTimes(2);
 });
 
@@ -235,14 +235,14 @@ test('triggers onChange when the date changes', async () => {
     </Provider>,
   );
   const inputs = screen.getAllByPlaceholderText('Select date');
-  userEvent.click(inputs[0]);
-  userEvent.click(screen.getAllByText('Now')[0]);
-  userEvent.click(inputs[1]);
-  userEvent.click(screen.getAllByText('Now')[1]);
+  await userEvent.click(inputs[0]);
+  await userEvent.click(screen.getAllByText('Now')[0]);
+  await userEvent.click(inputs[1]);
+  await userEvent.click(screen.getAllByText('Now')[1]);
   expect(onChange).toHaveBeenCalledTimes(2);
 });
 
-test('should translate Date Picker', () => {
+test('should translate Date Picker', async () => {
   const onChange = jest.fn();
   const store = mockStore({
     common: { locale: 'fr' },
@@ -252,7 +252,7 @@ test('should translate Date Picker', () => {
       <CustomFrame onChange={onChange} value={specificValue} />
     </Provider>,
   );
-  userEvent.click(screen.getAllByRole('img', { name: 'calendar' })[0]);
+  await userEvent.click(screen.getAllByRole('img', { name: 'calendar' })[0]);
   expect(screen.getByText('2021')).toBeInTheDocument();
   expect(screen.getByText('lu')).toBeInTheDocument();
   expect(screen.getByText('ma')).toBeInTheDocument();

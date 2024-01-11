@@ -105,7 +105,7 @@ const getOptionsForSavedMetrics = (
 
 type ValueType = Metric | AdhocMetric | QueryFormMetric;
 
-const DndMetricSelect = (props: any) => {
+function DndMetricSelect(props: any) {
   const { onChange, multi } = props;
 
   const handleChange = useCallback(
@@ -362,7 +362,7 @@ const DndMetricSelect = (props: any) => {
       </AdhocMetricPopoverTrigger>
     </div>
   );
-};
+}
 
 const DndMetricSelectWithFallback = withDndFallback(
   DndMetricSelect,

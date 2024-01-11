@@ -16,45 +16,32 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React from 'react';
-import Card, { CardProps } from '.';
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  plugins: ['cypress', '@typescript-eslint'],
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:cypress/recommended',
+  ],
+  rules: {
+    'import/no-unresolved': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/camelcase': 0,
+    'cypress/no-unnecessary-waiting': 0, // see issue https://github.com/cypress-io/eslint-plugin-cypress/issues/69
 
-export default {
-  title: 'Card',
-  component: Card,
-};
-
-export function InteractiveCard(args: CardProps) {
-  return <Card {...args} />;
-}
-
-InteractiveCard.args = {
-  padded: true,
-  title: 'Card title',
-  children: 'Card content',
-  bordered: true,
-  loading: false,
-  hoverable: false,
-};
-
-InteractiveCard.argTypes = {
-  onClick: {
-    table: {
-      disable: true,
-    },
-    action: 'onClick',
+    // disabled to make eslint upgrade possible. Re-enable asap.
+    '@typescript-eslint/no-explicit-any': 0,
   },
-  theme: {
-    table: {
-      disable: true,
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
-};
-
-InteractiveCard.story = {
-  parameters: {
-    knobs: {
-      disable: true,
-    },
+  env: {
+    'cypress/globals': true,
   },
 };

@@ -205,13 +205,13 @@ describe('VizTypeControl', () => {
       isModalOpenInit: false,
     };
     await waitForRenderWrapper(props);
-    userEvent.click(
+    await userEvent.click(
       within(screen.getByTestId('fast-viz-switcher')).getByText(
         'Time-series Line Chart',
       ),
     );
     expect(props.onChange).not.toHaveBeenCalled();
-    userEvent.click(
+    await userEvent.click(
       within(screen.getByTestId('fast-viz-switcher')).getByText('Table'),
     );
     expect(props.onChange).toHaveBeenCalledWith('table');
@@ -222,7 +222,7 @@ describe('VizTypeControl', () => {
     expect(
       screen.queryByText('Select a visualization type'),
     ).not.toBeInTheDocument();
-    userEvent.click(screen.getByText('View all charts'));
+    await userEvent.click(screen.getByText('View all charts'));
     expect(
       await screen.findByText('Select a visualization type'),
     ).toBeVisible();
@@ -233,14 +233,16 @@ describe('VizTypeControl', () => {
 
     const visualizations = screen.getByTestId(getTestId('viz-row'));
 
-    userEvent.click(screen.getByRole('button', { name: 'ballot All charts' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'ballot All charts' }),
+    );
 
     expect(
       await within(visualizations).findByText('Time-series Line Chart'),
     ).toBeVisible();
 
     // search
-    userEvent.type(
+    await userEvent.type(
       screen.getByTestId(getTestId('search-input')),
       'time series',
     );
@@ -269,12 +271,16 @@ describe('VizTypeControl', () => {
 
   it('Submit on viz type double-click', async () => {
     await waitForRenderWrapper();
-    userEvent.click(screen.getByRole('button', { name: 'ballot All charts' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'ballot All charts' }),
+    );
     const visualizations = screen.getByTestId(getTestId('viz-row'));
-    userEvent.click(within(visualizations).getByText('Time-series Bar Chart'));
+    await userEvent.click(
+      within(visualizations).getByText('Time-series Bar Chart'),
+    );
 
-    expect(defaultProps.onChange).not.toBeCalled();
-    userEvent.dblClick(
+    expect(defaultProps.onChange).not.toHaveBeenCalled();
+    await userEvent.dblClick(
       within(visualizations).getByText('Time-series Line Chart'),
     );
 

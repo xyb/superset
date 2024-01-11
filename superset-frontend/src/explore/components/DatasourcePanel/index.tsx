@@ -197,10 +197,10 @@ const StyledInfoboxWrapper = styled.div`
   `}
 `;
 
-const LabelContainer = (props: {
+function LabelContainer(props: {
   children: React.ReactElement;
   className: string;
-}) => {
+}) {
   const labelRef = useRef<HTMLDivElement>(null);
   const extendedProps = {
     labelRef,
@@ -210,7 +210,7 @@ const LabelContainer = (props: {
       {React.cloneElement(props.children, extendedProps)}
     </LabelWrapper>
   );
-};
+}
 
 export default function DataSourcePanel({
   datasource,

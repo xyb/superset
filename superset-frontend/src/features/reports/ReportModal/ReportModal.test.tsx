@@ -69,13 +69,13 @@ describe('Email Report Modal', () => {
     isFeatureEnabledMock.restore();
   });
 
-  it('inputs respond correctly', () => {
+  it('inputs respond correctly', async () => {
     // ----- Report name textbox
     // Initial value
     const reportNameTextbox = screen.getByTestId('report-name-test');
     expect(reportNameTextbox).toHaveDisplayValue('Weekly Report');
     // Type in the textbox and assert that it worked
-    userEvent.type(reportNameTextbox, 'Report name text test');
+    await userEvent.type(reportNameTextbox, 'Report name text test');
     expect(reportNameTextbox).toHaveDisplayValue('Report name text test');
 
     // ----- Report description textbox
@@ -85,7 +85,10 @@ describe('Email Report Modal', () => {
     );
     expect(reportDescriptionTextbox).toHaveDisplayValue('');
     // Type in the textbox and assert that it worked
-    userEvent.type(reportDescriptionTextbox, 'Report description text test');
+    await userEvent.type(
+      reportDescriptionTextbox,
+      'Report description text test',
+    );
     expect(reportDescriptionTextbox).toHaveDisplayValue(
       'Report description text test',
     );
@@ -95,7 +98,7 @@ describe('Email Report Modal', () => {
     expect(crontabInputs).toHaveLength(5);
   });
 
-  it('does not allow user to create a report without a name', () => {
+  it('does not allow user to create a report without a name', async () => {
     // Grab name textbox and add button
     const reportNameTextbox = screen.getByTestId('report-name-test');
     const addButton = screen.getByRole('button', { name: /add/i });
@@ -105,7 +108,7 @@ describe('Email Report Modal', () => {
     expect(addButton).toBeEnabled();
 
     // Clear the text from the name textbox
-    userEvent.clear(reportNameTextbox);
+    await userEvent.clear(reportNameTextbox);
 
     // Add button should now be disabled, blocking user from creation
     expect(reportNameTextbox).toHaveDisplayValue('');

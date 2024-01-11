@@ -40,8 +40,8 @@ import crossFiltersSelector from './CrossFilters/selectors';
 const HorizontalBar = styled.div`
   ${({ theme }) => `
     padding: ${theme.gridUnit * 3}px ${theme.gridUnit * 2}px ${
-    theme.gridUnit * 3
-  }px ${theme.gridUnit * 4}px;
+      theme.gridUnit * 3
+    }px ${theme.gridUnit * 4}px;
     background: ${theme.colors.grayscale.light5};
     box-shadow: inset 0px -2px 2px -1px ${theme.colors.grayscale.light2};
   `}
@@ -143,16 +143,17 @@ const HorizontalFilterBar: React.FC<HorizontalBarProps> = ({
         ) : (
           <>
             <FilterBarSettings />
-            {canEdit && isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS) && (
-              <FiltersLinkContainer hasFilters={hasFilters}>
-                <FilterConfigurationLink
-                  dashboardId={dashboardId}
-                  createNewOnOpen={filterValues.length === 0}
-                >
-                  <Icons.PlusSmall /> {t('Add/Edit Filters')}
-                </FilterConfigurationLink>
-              </FiltersLinkContainer>
-            )}
+            {canEdit &&
+              isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS) && (
+                <FiltersLinkContainer hasFilters={hasFilters}>
+                  <FilterConfigurationLink
+                    dashboardId={dashboardId}
+                    createNewOnOpen={filterValues.length === 0}
+                  >
+                    <Icons.PlusSmall /> {t('Add/Edit Filters')}
+                  </FilterConfigurationLink>
+                </FiltersLinkContainer>
+              )}
             {!hasFilters && (
               <FilterBarEmptyStateContainer data-test="horizontal-filterbar-empty">
                 {t('No filters are currently added to this dashboard.')}

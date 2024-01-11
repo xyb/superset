@@ -158,7 +158,7 @@ test('renders chart in standalone mode', () => {
       explore: { ...reduxState.explore, standalone: true },
     },
   });
-  expect(queryByTestId('standalone-app')).toBeTruthy();
+  expect(queryByTestId('standalone-app')).toBeInTheDocument();
 });
 
 test('generates a different form_data param when one is provided and is mounting', async () => {
@@ -186,7 +186,7 @@ test('reuses the same form_data param when updating', async () => {
   const pushState = jest.spyOn(window.history, 'pushState');
   await waitFor(() => renderWithRouter({ search: SEARCH }));
   expect(replaceState.mock.calls.length).toBe(1);
-  userEvent.click(screen.getByText('Update chart'));
+  await userEvent.click(screen.getByText('Update chart'));
   await waitFor(() => expect(pushState.mock.calls.length).toBe(1));
   expect(replaceState.mock.calls[0]).toEqual(pushState.mock.calls[0]);
   replaceState.mockRestore();

@@ -59,7 +59,7 @@ describe('SaveDatasetActionButton', () => {
     expect(
       await screen.findByRole('button', { name: /caret-down/i }),
     ).toBeInTheDocument();
-    userEvent.click(caretBtn);
+    await userEvent.click(caretBtn);
 
     const saveDatasetMenuItem = screen.getByText(/save dataset/i);
 

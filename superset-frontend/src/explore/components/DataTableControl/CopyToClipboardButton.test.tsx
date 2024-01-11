@@ -41,7 +41,7 @@ test('Should copy to clipboard', async () => {
   });
 
   expect(callback).toHaveBeenCalledTimes(0);
-  userEvent.click(screen.getByRole('button'));
+  await userEvent.click(screen.getByRole('button'));
 
   await waitFor(() => {
     expect(callback).toHaveBeenCalled();

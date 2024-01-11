@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Preset } from '@superset-ui/core';
-import userEvent, { specialChars } from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import chartQueries from 'spec/fixtures/mockChartQueries';
@@ -164,10 +164,10 @@ function queryCheckbox(name: RegExp) {
   return screen.queryByRole('checkbox', { name });
 }
 
-test('renders a value filter type', () => {
+test('renders a value filter type', async () => {
   defaultRender();
 
-  userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
+  await userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
 
   expect(screen.getByText(FILTER_TYPE_REGEX)).toBeInTheDocument();
   expect(screen.getByText(FILTER_NAME_REGEX)).toBeInTheDocument();
@@ -189,11 +189,11 @@ test('renders a value filter type', () => {
 test('renders a numerical range filter type', async () => {
   defaultRender();
 
-  userEvent.click(screen.getByText(VALUE_REGEX));
+  await userEvent.click(screen.getByText(VALUE_REGEX));
 
   await waitFor(() => userEvent.click(screen.getByText(NUMERICAL_RANGE_REGEX)));
 
-  userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
+  await userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
 
   expect(screen.getByText(FILTER_TYPE_REGEX)).toBeInTheDocument();
   expect(screen.getByText(FILTER_NAME_REGEX)).toBeInTheDocument();
@@ -215,7 +215,7 @@ test('renders a numerical range filter type', async () => {
 test('renders a time range filter type', async () => {
   defaultRender();
 
-  userEvent.click(screen.getByText(VALUE_REGEX));
+  await userEvent.click(screen.getByText(VALUE_REGEX));
 
   await waitFor(() => userEvent.click(screen.getByText(TIME_RANGE_REGEX)));
 
@@ -230,7 +230,7 @@ test('renders a time range filter type', async () => {
 test('renders a time column filter type', async () => {
   defaultRender();
 
-  userEvent.click(screen.getByText(VALUE_REGEX));
+  await userEvent.click(screen.getByText(VALUE_REGEX));
 
   await waitFor(() => userEvent.click(screen.getByText(TIME_COLUMN_REGEX)));
 
@@ -245,7 +245,7 @@ test('renders a time column filter type', async () => {
 test('renders a time grain filter type', async () => {
   defaultRender();
 
-  userEvent.click(screen.getByText(VALUE_REGEX));
+  await userEvent.click(screen.getByText(VALUE_REGEX));
 
   await waitFor(() => userEvent.click(screen.getByText(TIME_GRAIN_REGEX)));
 
@@ -260,7 +260,7 @@ test('renders a time grain filter type', async () => {
 test('render time filter types as disabled if there are no temporal columns in the dataset', async () => {
   defaultRender(noTemporalColumnsState());
 
-  userEvent.click(screen.getByText(VALUE_REGEX));
+  await userEvent.click(screen.getByText(VALUE_REGEX));
 
   const timeRange = await screen.findByText(TIME_RANGE_REGEX);
   const timeGrain = await screen.findByText(TIME_GRAIN_REGEX);
@@ -274,13 +274,13 @@ test('render time filter types as disabled if there are no temporal columns in t
 
 test('validates the name', async () => {
   defaultRender();
-  userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
+  await userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
   expect(await screen.findByText(NAME_REQUIRED_REGEX)).toBeInTheDocument();
 });
 
 test('validates the column', async () => {
   defaultRender();
-  userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
+  await userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
   expect(await screen.findByText(COLUMN_REQUIRED_REGEX)).toBeInTheDocument();
 });
 
@@ -288,8 +288,11 @@ test('validates the column', async () => {
 test.skip('validates the default value', async () => {
   defaultRender(noTemporalColumnsState());
   expect(await screen.findByText('birth_names')).toBeInTheDocument();
-  userEvent.type(screen.getByRole('combobox'), `Column A${specialChars.enter}`);
-  userEvent.click(getCheckbox(DEFAULT_VALUE_REGEX));
+  const user = userEvent.setup();
+  const combobox = screen.getByRole('combobox');
+  await user.click(combobox);
+  await user.keyboard('Column A{Enter}');
+  await userEvent.click(getCheckbox(DEFAULT_VALUE_REGEX));
   await waitFor(() => {
     expect(
       screen.queryByText(FILL_REQUIRED_FIELDS_REGEX),
@@ -302,8 +305,8 @@ test.skip('validates the default value', async () => {
 
 test('validates the pre-filter value', async () => {
   defaultRender();
-  userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
-  userEvent.click(getCheckbox(PRE_FILTER_REGEX));
+  await userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
+  await userEvent.click(getCheckbox(PRE_FILTER_REGEX));
   expect(
     await screen.findByText(PRE_FILTER_REQUIRED_REGEX),
   ).toBeInTheDocument();
@@ -312,13 +315,13 @@ test('validates the pre-filter value', async () => {
 // eslint-disable-next-line jest/no-disabled-tests
 test.skip("doesn't render time range pre-filter if there are no temporal columns in datasource", async () => {
   defaultRender(noTemporalColumnsState());
-  userEvent.click(screen.getByText(DATASET_REGEX));
-  await waitFor(() => {
+  await userEvent.click(screen.getByText(DATASET_REGEX));
+  await waitFor(async () => {
     expect(screen.queryByLabelText('Loading')).not.toBeInTheDocument();
-    userEvent.click(screen.getByText('birth_names'));
+    await userEvent.click(screen.getByText('birth_names'));
   });
-  userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
-  userEvent.click(getCheckbox(PRE_FILTER_REGEX));
+  await userEvent.click(screen.getByText(FILTER_SETTINGS_REGEX));
+  await userEvent.click(getCheckbox(PRE_FILTER_REGEX));
   await waitFor(() =>
     expect(
       screen.queryByText(TIME_RANGE_PREFILTER_REGEX),
@@ -381,8 +384,8 @@ test('deletes a filter', async () => {
   });
   const removeButtons = screen.getAllByRole('img', { name: 'trash' });
   // remove NATIVE_FILTER-3 which isn't a dependancy of any other filter
-  userEvent.click(removeButtons[2]);
-  userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
+  await userEvent.click(removeButtons[2]);
+  await userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
   await waitFor(() =>
     expect(onSave).toHaveBeenCalledWith(
       expect.arrayContaining([
@@ -422,8 +425,8 @@ test('deletes a filter including dependencies', async () => {
   });
   const removeButtons = screen.getAllByRole('img', { name: 'trash' });
   // remove NATIVE_FILTER-2 which is a dependancy of NATIVE_FILTER-1
-  userEvent.click(removeButtons[1]);
-  userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
+  await userEvent.click(removeButtons[1]);
+  await userEvent.click(screen.getByRole('button', { name: SAVE_REGEX }));
   await waitFor(() =>
     expect(onSave).toHaveBeenCalledWith(
       expect.arrayContaining([

@@ -69,8 +69,8 @@ const StyledMenu = styled(Menu)`
       font-size: ${theme.typography.sizes.s}px;
       color: ${theme.colors.grayscale.base};
       padding: ${theme.gridUnit}px ${theme.gridUnit * 3}px ${
-    theme.gridUnit
-  }px ${theme.gridUnit * 3}px;
+        theme.gridUnit
+      }px ${theme.gridUnit * 3}px;
     }
     .ant-dropdown-menu-item-selected {
       color: ${theme.colors.grayscale.dark1};
@@ -97,25 +97,31 @@ const StyleSubmenuItem = styled.div`
   }
 `;
 
-export default (props: DropDownSelectableProps) => {
+export default function (props: DropDownSelectableProps) {
   const theme = useTheme();
   const { icon, info, menuItems, selectedKeys, onSelect } = props;
   const menuItem = useMemo(
-    () => (label: string | React.ReactNode, key: string, divider?: boolean) =>
-      (
-        <StyleMenuItem key={key} divider={divider}>
-          <StyleSubmenuItem>
-            <span>{label}</span>
-            {selectedKeys?.includes(key) && (
-              <Icons.Check
-                iconColor={theme.colors.primary.base}
-                className="tick-menu-item"
-                iconSize="xl"
-              />
-            )}
-          </StyleSubmenuItem>
-        </StyleMenuItem>
-      ),
+    () =>
+      function (
+        label: string | React.ReactNode,
+        key: string,
+        divider?: boolean,
+      ) {
+        return (
+          <StyleMenuItem key={key} divider={divider}>
+            <StyleSubmenuItem>
+              <span>{label}</span>
+              {selectedKeys?.includes(key) && (
+                <Icons.Check
+                  iconColor={theme.colors.primary.base}
+                  className="tick-menu-item"
+                  iconSize="xl"
+                />
+              )}
+            </StyleSubmenuItem>
+          </StyleMenuItem>
+        );
+      },
     [selectedKeys, theme.colors.primary.base],
   );
 
@@ -152,4 +158,4 @@ export default (props: DropDownSelectableProps) => {
       icon={icon}
     />
   );
-};
+}

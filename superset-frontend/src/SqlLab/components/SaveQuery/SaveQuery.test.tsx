@@ -91,14 +91,14 @@ describe('SavedQuery', () => {
     expect(saveBtn).toBeVisible();
   });
 
-  it('renders a save query modal when user clicks save button', () => {
+  it('renders a save query modal when user clicks save button', async () => {
     render(<SaveQuery {...mockedProps} />, {
       useRedux: true,
       store: mockStore(mockState),
     });
 
     const saveBtn = screen.getByRole('button', { name: /save/i });
-    userEvent.click(saveBtn);
+    await userEvent.click(saveBtn);
 
     const saveQueryModalHeader = screen.getByRole('heading', {
       name: /save query/i,
@@ -107,14 +107,14 @@ describe('SavedQuery', () => {
     expect(saveQueryModalHeader).toBeVisible();
   });
 
-  it('renders the save query modal UI', () => {
+  it('renders the save query modal UI', async () => {
     render(<SaveQuery {...mockedProps} />, {
       useRedux: true,
       store: mockStore(mockState),
     });
 
     const saveBtn = screen.getByRole('button', { name: /save/i });
-    userEvent.click(saveBtn);
+    await userEvent.click(saveBtn);
 
     const closeBtn = screen.getByRole('button', { name: /close/i });
     const saveQueryModalHeader = screen.getByRole('heading', {
@@ -142,7 +142,7 @@ describe('SavedQuery', () => {
     expect(cancelBtn).toBeVisible();
   });
 
-  it('renders a "save as new" and "update" button if query already exists', () => {
+  it('renders a "save as new" and "update" button if query already exists', async () => {
     render(<SaveQuery {...mockedProps} />, {
       useRedux: true,
       store: mockStore({
@@ -158,7 +158,7 @@ describe('SavedQuery', () => {
     });
 
     const saveBtn = screen.getByRole('button', { name: /save/i });
-    userEvent.click(saveBtn);
+    await userEvent.click(saveBtn);
 
     const saveAsNewBtn = screen.getByRole('button', { name: /save as new/i });
     const updateBtn = screen.getByRole('button', { name: /update/i });
@@ -188,12 +188,12 @@ describe('SavedQuery', () => {
       store: mockStore(mockState),
     });
 
-    await waitFor(() => {
+    await waitFor(async () => {
       const caretBtn = screen.getByRole('button', { name: /caret-down/i });
-      userEvent.click(caretBtn);
+      await userEvent.click(caretBtn);
 
       const saveDatasetMenuItem = screen.getByText(/save dataset/i);
-      userEvent.click(saveDatasetMenuItem);
+      await userEvent.click(saveDatasetMenuItem);
     });
 
     const saveDatasetHeader = screen.getByText(/save or overwrite dataset/i);
@@ -207,12 +207,12 @@ describe('SavedQuery', () => {
       store: mockStore(mockState),
     });
 
-    await waitFor(() => {
+    await waitFor(async () => {
       const caretBtn = screen.getByRole('button', { name: /caret-down/i });
-      userEvent.click(caretBtn);
+      await userEvent.click(caretBtn);
 
       const saveDatasetMenuItem = screen.getByText(/save dataset/i);
-      userEvent.click(saveDatasetMenuItem);
+      await userEvent.click(saveDatasetMenuItem);
     });
 
     const closeBtn = screen.getByRole('button', { name: /close/i });

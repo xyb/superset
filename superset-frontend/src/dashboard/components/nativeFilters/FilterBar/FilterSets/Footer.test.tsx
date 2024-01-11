@@ -58,12 +58,12 @@ test('should render a disabled button', () => {
   expect(screen.getByRole('button')).toBeDisabled();
 });
 
-test('should edit', () => {
+test('should edit', async () => {
   const mockedProps = createProps();
   render(<Footer {...mockedProps} />, { useRedux: true });
   const btn = screen.getByRole('button');
   expect(mockedProps.onEdit).not.toHaveBeenCalled();
-  userEvent.click(btn);
+  await userEvent.click(btn);
   expect(mockedProps.onEdit).toHaveBeenCalled();
 });
 
@@ -72,11 +72,11 @@ test('should render the Create button', () => {
   expect(screen.getByText('Create')).toBeInTheDocument();
 });
 
-test('should create', () => {
+test('should create', async () => {
   render(<Footer {...editModeProps} />, { useRedux: true });
   const createBtn = screen.getByText('Create');
   expect(editModeProps.onCreate).not.toHaveBeenCalled();
-  userEvent.click(createBtn);
+  await userEvent.click(createBtn);
   expect(editModeProps.onCreate).toHaveBeenCalled();
 });
 
@@ -85,10 +85,10 @@ test('should render the Cancel button', () => {
   expect(screen.getByText('Cancel')).toBeInTheDocument();
 });
 
-test('should cancel', () => {
+test('should cancel', async () => {
   render(<Footer {...editModeProps} />, { useRedux: true });
   const cancelBtn = screen.getByText('Cancel');
   expect(editModeProps.onCancel).not.toHaveBeenCalled();
-  userEvent.click(cancelBtn);
+  await userEvent.click(cancelBtn);
   expect(editModeProps.onCancel).toHaveBeenCalled();
 });

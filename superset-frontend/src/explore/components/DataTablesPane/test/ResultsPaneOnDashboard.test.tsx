@@ -141,14 +141,16 @@ describe('ResultsPaneOnDashboard', () => {
     expect(queryByText('Action')).toBeVisible();
     expect(queryByText('Horror')).toBeVisible();
 
-    userEvent.type(getByPlaceholderText('Search'), 'hor');
+    await userEvent.type(getByPlaceholderText('Search'), 'hor');
     await waitForElementToBeRemoved(() => queryByText('Action'));
     expect(queryByText('Horror')).toBeVisible();
     expect(queryByText('Action')).not.toBeInTheDocument();
   });
 
   test('multiple results pane', async () => {
-    const FakeChart = () => <span>test</span>;
+    function FakeChart() {
+      return <span>test</span>;
+    }
     const metadata = new ChartMetadata({
       name: 'test-chart',
       thumbnail: '',

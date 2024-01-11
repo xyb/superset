@@ -72,12 +72,12 @@ describe('VizTypeControl', () => {
     await waitForEffects();
   });
 
-  it('calls onChange when submitted', () => {
+  it('calls onChange when submitted', async () => {
     const thumbnail = screen.getAllByTestId('viztype-selector-container')[0];
     const submit = screen.getByText('Select');
-    userEvent.click(thumbnail);
+    await userEvent.click(thumbnail);
     expect(defaultProps.onChange.called).toBe(false);
-    userEvent.click(submit);
+    await userEvent.click(submit);
     expect(defaultProps.onChange.called).toBe(true);
   });
 
@@ -86,7 +86,7 @@ describe('VizTypeControl', () => {
     expect(thumbnails).toBeInTheDocument();
 
     const searchInput = screen.getByPlaceholderText('Search all charts');
-    userEvent.type(searchInput, 'foo');
+    await userEvent.type(searchInput, 'foo');
     await waitForEffects();
 
     const thumbnail = screen.getByTestId('viztype-selector-container');

@@ -295,18 +295,18 @@ describe('RTL', () => {
     cleanup();
     isFeatureEnabledMock.mockRestore();
   });
-  it('renders an export button in the bulk actions', () => {
+  it('renders an export button in the bulk actions', async () => {
     // Grab and click the "Bulk Select" button to expose checkboxes
     const bulkSelectButton = screen.getByRole('button', {
       name: /bulk select/i,
     });
-    userEvent.click(bulkSelectButton);
+    await userEvent.click(bulkSelectButton);
 
     // Grab and click the "toggle all" checkbox to expose export button
     const selectAllCheckbox = screen.getByRole('checkbox', {
       name: /toggle all rows selected/i,
     });
-    userEvent.click(selectAllCheckbox);
+    await userEvent.click(selectAllCheckbox);
 
     // Grab and assert that export button is visible
     const exportButton = screen.getByRole('button', {
@@ -318,7 +318,7 @@ describe('RTL', () => {
   it('renders an export button in the actions bar', async () => {
     // Grab Export action button and mock mouse hovering over it
     const exportActionButton = screen.getAllByTestId('export-action')[0];
-    userEvent.hover(exportActionButton);
+    await userEvent.hover(exportActionButton);
 
     // Wait for the tooltip to pop up
     await screen.findByRole('tooltip');
@@ -338,7 +338,7 @@ describe('RTL', () => {
 
   it('renders an "Import Saved Query" tooltip under import button', async () => {
     const importButton = await screen.findByTestId('import-button');
-    userEvent.hover(importButton);
+    await userEvent.hover(importButton);
     waitFor(() => {
       expect(importButton).toHaveClass('ant-tooltip-open');
       screen.findByTestId('import-tooltip-test');
@@ -352,7 +352,7 @@ describe('RTL', () => {
   it('renders an import modal when import button is clicked', async () => {
     // Grab and click import saved query button to reveal modal
     const importButton = await screen.findByTestId('import-button');
-    userEvent.click(importButton);
+    await userEvent.click(importButton);
 
     // Grab and assert that saved query import modal's heading is visible
     const importSavedQueryModalHeading = screen.getByRole('heading', {
@@ -364,12 +364,12 @@ describe('RTL', () => {
   it('imports a saved query', async () => {
     // Grab and click import saved query button to reveal modal
     const importButton = await screen.findByTestId('import-button');
-    userEvent.click(importButton);
+    await userEvent.click(importButton);
 
     // Grab "Choose File" input from import modal
     const chooseFileInput = screen.getByTestId('model-file-input');
     // Upload mocked import file
-    userEvent.upload(chooseFileInput, mockImportFile);
+    await userEvent.upload(chooseFileInput, mockImportFile);
 
     expect(chooseFileInput.files[0]).toStrictEqual(mockImportFile);
     expect(chooseFileInput.files.item(0)).toStrictEqual(mockImportFile);

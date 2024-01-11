@@ -109,9 +109,12 @@ test('Should have add button', async () => {
   expect(
     await screen.findByRole('button', { name: 'plus-large' }),
   ).toBeInTheDocument();
-  expect(props.onChange).toBeCalledTimes(0);
-  userEvent.click(screen.getByRole('button', { name: 'plus-large' }));
-  expect(props.onChange).toBeCalledWith([{ key: 'hrYAZ5iBH' }, undefined]);
+  expect(props.onChange).toHaveBeenCalledTimes(0);
+  await userEvent.click(screen.getByRole('button', { name: 'plus-large' }));
+  expect(props.onChange).toHaveBeenCalledWith([
+    { key: 'hrYAZ5iBH' },
+    undefined,
+  ]);
 });
 
 test('Should have remove button', async () => {
@@ -121,9 +124,9 @@ test('Should have remove button', async () => {
   expect(
     await screen.findByRole('button', { name: 'remove-item' }),
   ).toBeInTheDocument();
-  expect(props.onChange).toBeCalledTimes(0);
-  userEvent.click(screen.getByRole('button', { name: 'remove-item' }));
-  expect(props.onChange).toBeCalledWith([]);
+  expect(props.onChange).toHaveBeenCalledTimes(0);
+  await userEvent.click(screen.getByRole('button', { name: 'remove-item' }));
+  expect(props.onChange).toHaveBeenCalledWith([]);
 });
 
 test('Should have SortableDragger icon', async () => {
@@ -137,7 +140,7 @@ test('Should call Control component', async () => {
   render(<CollectionControl {...props} />);
 
   expect(await screen.findByTestId('TestControl')).toBeInTheDocument();
-  expect(props.onChange).toBeCalledTimes(0);
-  userEvent.click(screen.getByTestId('TestControl'));
-  expect(props.onChange).toBeCalledWith([{ key: 'hrYAZ5iBH' }]);
+  expect(props.onChange).toHaveBeenCalledTimes(0);
+  await userEvent.click(screen.getByTestId('TestControl'));
+  expect(props.onChange).toHaveBeenCalledWith([{ key: 'hrYAZ5iBH' }]);
 });

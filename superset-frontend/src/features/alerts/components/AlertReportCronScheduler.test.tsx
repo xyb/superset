@@ -42,7 +42,7 @@ test('should render', () => {
   expect(screen.getByText('CRON Schedule')).toBeInTheDocument();
 });
 
-test('only one radio option should be enabled at a time', () => {
+test('only one radio option should be enabled at a time', async () => {
   const props = createProps();
   const { container } = render(<AlertReportCronScheduler {...props} />);
 
@@ -57,12 +57,12 @@ test('only one radio option should be enabled at a time', () => {
   expect(within(pickerContainer).getAllByRole('combobox')[0]).toBeEnabled();
   expect(inputContainer.querySelector('input[name="crontab"]')).toBeDisabled();
 
-  userEvent.click(screen.getByTestId('input'));
+  await userEvent.click(screen.getByTestId('input'));
 
   expect(within(pickerContainer).getAllByRole('combobox')[0]).toBeDisabled();
   expect(inputContainer.querySelector('input[name="crontab"]')).toBeEnabled();
 
-  userEvent.click(screen.getByTestId('picker'));
+  await userEvent.click(screen.getByTestId('picker'));
 
   expect(within(pickerContainer).getAllByRole('combobox')[0]).toBeEnabled();
   expect(inputContainer.querySelector('input[name="crontab"]')).toBeDisabled();
@@ -83,13 +83,13 @@ test('picker mode updates correctly', async () => {
   ) as HTMLElement;
 
   const firstSelect = within(pickerContainer).getAllByRole('combobox')[0];
-  act(() => {
-    userEvent.click(firstSelect);
+  act(async () => {
+    await userEvent.click(firstSelect);
   });
 
   expect(await within(pickerContainer).findByText('day')).toBeInTheDocument();
-  act(() => {
-    userEvent.click(within(pickerContainer).getByText('day'));
+  act(async () => {
+    await userEvent.click(within(pickerContainer).getByText('day'));
   });
 
   expect(onChangeCallback).toHaveBeenLastCalledWith('* * * * *');
@@ -101,13 +101,13 @@ test('picker mode updates correctly', async () => {
     expect(secondSelect).toBeInTheDocument();
   });
 
-  act(() => {
-    userEvent.click(secondSelect);
+  act(async () => {
+    await userEvent.click(secondSelect);
   });
 
   expect(await screen.findByText('9')).toBeInTheDocument();
-  act(() => {
-    userEvent.click(screen.getByText('9'));
+  act(async () => {
+    await userEvent.click(screen.getByText('9'));
   });
 
   await waitFor(() => {
@@ -124,7 +124,7 @@ test('input mode updates correctly', async () => {
   render(<AlertReportCronScheduler {...props} />);
 
   const inputContainer = screen.getByTestId('input-content');
-  userEvent.click(screen.getByTestId('input'));
+  await userEvent.click(screen.getByTestId('input'));
 
   const input = inputContainer.querySelector(
     'input[name="crontab"]',
@@ -133,7 +133,7 @@ test('input mode updates correctly', async () => {
     expect(input).toBeEnabled();
   });
 
-  userEvent.clear(input);
+  await userEvent.clear(input);
   expect(input).toHaveValue('');
 
   const value = '* 10 2 * *';
@@ -145,8 +145,8 @@ test('input mode updates correctly', async () => {
     expect(input).toHaveValue(value);
   });
 
-  act(() => {
-    userEvent.click(inputContainer);
+  act(async () => {
+    await userEvent.click(inputContainer);
   });
 
   expect(onChangeCallback).toHaveBeenLastCalledWith(value);

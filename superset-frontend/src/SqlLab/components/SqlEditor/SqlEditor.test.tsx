@@ -166,10 +166,8 @@ describe('SqlEditor', () => {
   });
 
   it('render a SqlEditorLeftBar', async () => {
-    const { getByTestId } = setup(mockedProps, store);
-    await waitFor(() =>
-      expect(getByTestId('mock-sql-editor-left-bar')).toBeInTheDocument(),
-    );
+    const { findByTestId } = setup(mockedProps, store);
+    await findByTestId('mock-sql-editor-left-bar');
   });
 
   it('render an AceEditorWrapper', async () => {

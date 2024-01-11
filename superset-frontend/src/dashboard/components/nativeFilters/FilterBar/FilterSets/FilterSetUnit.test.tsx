@@ -31,9 +31,9 @@ const createProps = () => ({
   onRebuild: jest.fn(),
 });
 
-function openDropdown() {
+async function openDropdown() {
   const dropdownIcon = screen.getAllByRole('img', { name: '' })[0];
-  userEvent.click(dropdownIcon);
+  await userEvent.click(dropdownIcon);
 }
 
 const setup = (props: FilterSetUnitProps) => (
@@ -69,32 +69,32 @@ test('should render the menu', () => {
   expect(screen.getByText('Delete')).toBeInTheDocument();
 });
 
-test('should edit', () => {
+test('should edit', async () => {
   const mockedProps = createProps();
   render(setup(mockedProps));
   openDropdown();
   const editBtn = screen.getByText('Edit');
   expect(mockedProps.onEdit).not.toHaveBeenCalled();
-  userEvent.click(editBtn);
+  await userEvent.click(editBtn);
   expect(mockedProps.onEdit).toHaveBeenCalled();
 });
 
-test('should delete', () => {
+test('should delete', async () => {
   const mockedProps = createProps();
   render(setup(mockedProps));
   openDropdown();
   const deleteBtn = screen.getByText('Delete');
   expect(mockedProps.onDelete).not.toHaveBeenCalled();
-  userEvent.click(deleteBtn);
+  await userEvent.click(deleteBtn);
   expect(mockedProps.onDelete).toHaveBeenCalled();
 });
 
-test('should rebuild', () => {
+test('should rebuild', async () => {
   const mockedProps = createProps();
   render(setup(mockedProps));
   openDropdown();
   const rebuildBtn = screen.getByText('Rebuild');
   expect(mockedProps.onRebuild).not.toHaveBeenCalled();
-  userEvent.click(rebuildBtn);
+  await userEvent.click(rebuildBtn);
   expect(mockedProps.onRebuild).toHaveBeenCalled();
 });

@@ -333,11 +333,9 @@ const VerticalFilterBar: React.FC<VerticalBarProps> = ({
             </>
           ) : (
             <div css={tabPaneStyle} onScroll={onScroll}>
-              <>
-                {crossFilters}
-                {isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS) &&
-                  filterControls}
-              </>
+              {crossFilters}
+              {isFeatureEnabled(FeatureFlag.DASHBOARD_NATIVE_FILTERS) &&
+                filterControls}
             </div>
           )}
           {actionsElement}

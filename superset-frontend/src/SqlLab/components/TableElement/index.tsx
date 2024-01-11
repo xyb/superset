@@ -100,7 +100,7 @@ const StyledCollapsePanel = styled(Collapse.Panel)`
   `}
 `;
 
-const TableElement = ({ table, ...props }: TableElementProps) => {
+function TableElement({ table, ...props }: TableElementProps) {
   const { dbId, schema, name, expanded } = table;
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -377,9 +377,7 @@ const TableElement = ({ table, ...props }: TableElementProps) => {
       >
         {renderWell()}
         <div>
-          {cols?.map(col => (
-            <ColumnElement column={col} key={col.name} />
-          ))}
+          {cols?.map(col => <ColumnElement column={col} key={col.name} />)}
         </div>
       </div>
     );
@@ -397,6 +395,6 @@ const TableElement = ({ table, ...props }: TableElementProps) => {
       {renderBody()}
     </StyledCollapsePanel>
   );
-};
+}
 
 export default TableElement;

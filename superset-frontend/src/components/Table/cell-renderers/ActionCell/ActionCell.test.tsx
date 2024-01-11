@@ -27,13 +27,13 @@ test('renders with default props', async () => {
   exampleMenuOptions[0].onClick = clickHandler;
   render(<ActionCell menuOptions={exampleMenuOptions} row={exampleRow} />);
   // Open the menu
-  userEvent.click(await screen.findByTestId('dropdown-trigger'));
+  await userEvent.click(await screen.findByTestId('dropdown-trigger'));
   // verify all of the menu items are being displayed
-  exampleMenuOptions.forEach((item, index) => {
+  exampleMenuOptions.forEach(async (item, index) => {
     expect(screen.getByText(item.label)).toBeInTheDocument();
     if (index === 0) {
       // verify the menu items' onClick gets invoked
-      userEvent.click(screen.getByText(item.label));
+      await userEvent.click(screen.getByText(item.label));
     }
   });
   expect(clickHandler).toHaveBeenCalled();

@@ -37,31 +37,31 @@ const waitForRender = () => {
   );
 };
 
-test('Dropdown button with menu renders', () => {
+test('Dropdown button with menu renders', async () => {
   waitForRender();
 
   expect(screen.getByText('.CSV')).toBeVisible();
 
-  userEvent.click(screen.getByText('.CSV'));
+  await userEvent.click(screen.getByText('.CSV'));
   expect(screen.getByRole('menu')).toBeInTheDocument();
   expect(screen.getByText('Original')).toBeInTheDocument();
   expect(screen.getByText('Pivoted')).toBeInTheDocument();
 });
 
-test('Call export csv original on click', () => {
+test('Call export csv original on click', async () => {
   waitForRender();
 
-  userEvent.click(screen.getByText('.CSV'));
-  userEvent.click(screen.getByText('Original'));
+  await userEvent.click(screen.getByText('.CSV'));
+  await userEvent.click(screen.getByText('Original'));
 
   expect(exportCSVOriginal).toHaveBeenCalled();
 });
 
-test('Call export csv pivoted on click', () => {
+test('Call export csv pivoted on click', async () => {
   waitForRender();
 
-  userEvent.click(screen.getByText('.CSV'));
-  userEvent.click(screen.getByText('Pivoted'));
+  await userEvent.click(screen.getByText('.CSV'));
+  await userEvent.click(screen.getByText('Pivoted'));
 
   expect(exportCSVPivoted).toHaveBeenCalled();
 });

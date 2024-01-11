@@ -246,14 +246,14 @@ test('should render with custom css', () => {
 test('should refresh the charts', async () => {
   const mockedProps = createProps();
   setup(mockedProps);
-  userEvent.click(screen.getByText('Refresh dashboard'));
+  await userEvent.click(screen.getByText('Refresh dashboard'));
   expect(mockedProps.forceRefreshAllCharts).toHaveBeenCalledTimes(1);
   expect(mockedProps.addSuccessToast).toHaveBeenCalledTimes(1);
 });
 
 test('should show the properties modal', async () => {
   setup(editModeOnProps);
-  userEvent.click(screen.getByText('Edit properties'));
+  await userEvent.click(screen.getByText('Edit properties'));
   expect(editModeOnProps.showPropertiesModal).toHaveBeenCalledTimes(1);
 });
 

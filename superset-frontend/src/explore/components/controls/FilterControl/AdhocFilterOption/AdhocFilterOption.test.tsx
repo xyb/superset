@@ -84,6 +84,6 @@ test('should render the right caret', async () => {
 test('should render the Popover on clicking the right caret', async () => {
   render(setup(mockedProps), { useDnd: true, useRedux: true });
   const rightCaret = await screen.findByRole('img', { name: 'caret-right' });
-  userEvent.click(rightCaret);
+  await userEvent.click(rightCaret);
   expect(screen.getByRole('tooltip')).toBeInTheDocument();
 });

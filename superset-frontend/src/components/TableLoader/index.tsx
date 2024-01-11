@@ -31,7 +31,7 @@ export interface TableLoaderProps {
   addDangerToast(text: string): any;
 }
 
-const TableLoader = (props: TableLoaderProps) => {
+function TableLoader(props: TableLoaderProps) {
   const [data, setData] = useState<Array<any>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isBlocked, setIsBlocked] = useState(false);
@@ -93,6 +93,6 @@ const TableLoader = (props: TableLoaderProps) => {
       {...tableProps}
     />
   );
-};
+}
 
 export default withToasts(TableLoader);

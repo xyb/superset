@@ -421,11 +421,11 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
       'Filter value (case sensitive)',
     );
     await act(async () => {
-      userEvent.type(filterValueField, 'v');
+      await userEvent.type(filterValueField, 'v');
     });
 
     await act(async () => {
-      userEvent.type(filterValueField, '{enter}');
+      await userEvent.type(filterValueField, '{enter}');
     });
 
     // When the column is not a advanced data type,
@@ -457,11 +457,11 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
       'Filter value (case sensitive)',
     );
     await act(async () => {
-      userEvent.type(filterValueField, 'v');
+      await userEvent.type(filterValueField, 'v');
     });
 
     await act(async () => {
-      userEvent.type(filterValueField, '{enter}');
+      await userEvent.type(filterValueField, '{enter}');
     });
 
     // When the column is a advanced data type,
@@ -494,11 +494,11 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
       'Filter value (case sensitive)',
     );
     await act(async () => {
-      userEvent.type(filterValueField, 'e');
+      await userEvent.type(filterValueField, 'e');
     });
 
     await act(async () => {
-      userEvent.type(filterValueField, '{enter}');
+      await userEvent.type(filterValueField, '{enter}');
     });
 
     // When the column is a advanced data type but an error response is given by the endpoint,
@@ -531,11 +531,11 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
       'Filter value (case sensitive)',
     );
     await act(async () => {
-      userEvent.type(filterValueField, 'v');
+      await userEvent.type(filterValueField, 'v');
     });
 
     await act(async () => {
-      userEvent.type(filterValueField, '{enter}');
+      await userEvent.type(filterValueField, '{enter}');
     });
 
     // When the column is a advanced data type,
@@ -550,9 +550,9 @@ describe('AdhocFilterEditPopoverSimpleTabContent Advanced data Type Test', () =>
     const operatorValueField = screen.getByText('1 operator(s)');
 
     await act(async () => {
-      userEvent.type(operatorValueField, '{enter}');
+      await userEvent.type(operatorValueField, '{enter}');
     });
 
-    expect(screen.getByText('EQUALS')).toBeTruthy();
+    expect(screen.getByText('EQUALS')).toBeInTheDocument();
   });
 });

@@ -38,21 +38,23 @@ interface ModalFooterProps {
   closeModal?: () => void;
 }
 
-const ModalFooter = ({ exploreChart, closeModal }: ModalFooterProps) => (
-  <>
-    <Button buttonStyle="secondary" buttonSize="small" onClick={exploreChart}>
-      {t('Edit chart')}
-    </Button>
-    <Button
-      buttonStyle="primary"
-      buttonSize="small"
-      onClick={closeModal}
-      data-test="close-drilltodetail-modal"
-    >
-      {t('Close')}
-    </Button>
-  </>
-);
+function ModalFooter({ exploreChart, closeModal }: ModalFooterProps) {
+  return (
+    <>
+      <Button buttonStyle="secondary" buttonSize="small" onClick={exploreChart}>
+        {t('Edit chart')}
+      </Button>
+      <Button
+        buttonStyle="primary"
+        buttonSize="small"
+        onClick={closeModal}
+        data-test="close-drilltodetail-modal"
+      >
+        {t('Close')}
+      </Button>
+    </>
+  );
+}
 
 interface DrillDetailModalProps {
   chartId: number;

@@ -72,7 +72,7 @@ interface ModalFooterProps {
   formData: BaseFormData;
 }
 
-const ModalFooter = ({ formData, closeModal }: ModalFooterProps) => {
+function ModalFooter({ formData, closeModal }: ModalFooterProps) {
   const dispatch = useDispatch();
   const { addDangerToast } = useToasts();
   const [url, setUrl] = useState('');
@@ -133,7 +133,7 @@ const ModalFooter = ({ formData, closeModal }: ModalFooterProps) => {
       </Button>
     </>
   );
-};
+}
 
 export interface DrillByModalProps {
   column?: Column;
@@ -177,8 +177,8 @@ export default function DrillByModal({
   const initialGroupbyColumns = useMemo(
     () =>
       ensureIsArray(formData[groupbyFieldName])
-        .map(colName =>
-          dataset.columns?.find(col => col.column_name === colName),
+        .map(
+          colName => dataset.columns?.find(col => col.column_name === colName),
         )
         .filter(isDefined),
     [dataset.columns, formData, groupbyFieldName],

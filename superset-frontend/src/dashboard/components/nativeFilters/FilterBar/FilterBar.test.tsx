@@ -84,20 +84,23 @@ global.featureFlags = {
 
 const addFilterFlow = async () => {
   // open filter config modal
-  userEvent.click(screen.getByTestId(getTestId('collapsable')));
-  userEvent.click(screen.getByTestId(getTestId('create-filter')));
+  await userEvent.click(screen.getByTestId(getTestId('collapsable')));
+  await userEvent.click(screen.getByTestId(getTestId('create-filter')));
   // select filter
-  userEvent.click(screen.getByText('Value'));
-  userEvent.click(screen.getByText('Time range'));
-  userEvent.type(screen.getByTestId(getModalTestId('name-input')), FILTER_NAME);
-  userEvent.click(screen.getByText('Save'));
+  await userEvent.click(screen.getByText('Value'));
+  await userEvent.click(screen.getByText('Time range'));
+  await userEvent.type(
+    screen.getByTestId(getModalTestId('name-input')),
+    FILTER_NAME,
+  );
+  await userEvent.click(screen.getByText('Save'));
   // TODO: fix this flaky test
   // await screen.findByText('All filters (1)');
 };
 
 const addFilterSetFlow = async () => {
   // add filter set
-  userEvent.click(screen.getByText('Filter sets (0)'));
+  await userEvent.click(screen.getByText('Filter sets (0)'));
 
   // check description
   expect(screen.getByText('Filters (1)')).toBeInTheDocument();
@@ -109,8 +112,8 @@ const addFilterSetFlow = async () => {
   expect(screen.getByTestId(getTestId('new-filter-set-button'))).toBeEnabled();
 
   // create filter set
-  userEvent.click(screen.getByText('Create new filter set'));
-  userEvent.click(screen.getByText('Create'));
+  await userEvent.click(screen.getByText('Create new filter set'));
+  await userEvent.click(screen.getByText('Create'));
 
   // check filter set created
   expect(await screen.findByRole('img', { name: 'check' })).toBeInTheDocument();
@@ -121,10 +124,10 @@ const addFilterSetFlow = async () => {
 };
 
 const changeFilterValue = async () => {
-  userEvent.click(screen.getAllByText('No filter')[0]);
-  userEvent.click(screen.getByDisplayValue('Last day'));
+  await userEvent.click(screen.getAllByText('No filter')[0]);
+  await userEvent.click(screen.getByDisplayValue('Last day'));
   expect(await screen.findByText(/2021-04-13/)).toBeInTheDocument();
-  userEvent.click(screen.getByTestId(DATE_FILTER_TEST_KEY.applyButton));
+  await userEvent.click(screen.getByTestId(DATE_FILTER_TEST_KEY.applyButton));
 };
 
 describe('FilterBar', () => {
@@ -271,20 +274,20 @@ describe('FilterBar', () => {
     expect(screen.getByRole('img', { name: 'filter' })).toBeInTheDocument();
   });
 
-  it('should toggle', () => {
+  it('should toggle', async () => {
     renderWrapper();
     const collapse = screen.getByRole('img', { name: 'collapse' });
     expect(toggleFiltersBar).not.toHaveBeenCalled();
-    userEvent.click(collapse);
+    await userEvent.click(collapse);
     expect(toggleFiltersBar).toHaveBeenCalled();
   });
 
-  it('open filter bar', () => {
+  it('open filter bar', async () => {
     renderWrapper();
     expect(screen.getByTestId(getTestId('filter-icon'))).toBeInTheDocument();
     expect(screen.getByTestId(getTestId('expand-button'))).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId(getTestId('collapsable')));
+    await userEvent.click(screen.getByTestId(getTestId('collapsable')));
     expect(toggleFiltersBar).toHaveBeenCalledWith(true);
   });
 
@@ -299,12 +302,12 @@ describe('FilterBar', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('close filter bar', () => {
+  it('close filter bar', async () => {
     renderWrapper(openedBarProps);
     const collapseButton = screen.getByTestId(getTestId('collapse-button'));
 
     expect(collapseButton).toBeInTheDocument();
-    userEvent.click(collapseButton);
+    await userEvent.click(collapseButton);
 
     expect(toggleFiltersBar).toHaveBeenCalledWith(false);
   });
@@ -375,34 +378,34 @@ describe('FilterBar', () => {
 
     await addFilterFlow();
 
-    userEvent.click(screen.getByTestId(getTestId('apply-button')));
+    await userEvent.click(screen.getByTestId(getTestId('apply-button')));
 
     await addFilterSetFlow();
 
     // change filter
     expect(screen.getByTestId(getTestId('apply-button'))).toBeDisabled();
-    userEvent.click(await screen.findByText('All filters (1)'));
+    await userEvent.click(await screen.findByText('All filters (1)'));
     await changeFilterValue();
     await waitFor(() => expect(screen.getAllByText('Last day').length).toBe(2));
 
     // apply new filter value
-    userEvent.click(screen.getByTestId(getTestId('apply-button')));
+    await userEvent.click(screen.getByTestId(getTestId('apply-button')));
     await waitFor(() =>
       expect(screen.getByTestId(getTestId('apply-button'))).toBeDisabled(),
     );
 
     // applying filter set
-    userEvent.click(screen.getByText('Filter Sets (1)'));
+    await userEvent.click(screen.getByText('Filter Sets (1)'));
     expect(
       await screen.findByText('Create new filter set'),
     ).toBeInTheDocument();
     expect(
       screen.getByTestId(getTestId('filter-set-wrapper')),
     ).not.toHaveAttribute('data-selected', 'true');
-    userEvent.click(screen.getByTestId(getTestId('filter-set-wrapper')));
-    userEvent.click(screen.getAllByText('Filters (1)')[1]);
+    await userEvent.click(screen.getByTestId(getTestId('filter-set-wrapper')));
+    await userEvent.click(screen.getAllByText('Filters (1)')[1]);
     expect(await screen.findByText('No filter')).toBeInTheDocument();
-    userEvent.click(screen.getByTestId(getTestId('apply-button')));
+    await userEvent.click(screen.getByTestId(getTestId('apply-button')));
     expect(screen.getByTestId(getTestId('apply-button'))).toBeDisabled();
   });
 
@@ -417,12 +420,14 @@ describe('FilterBar', () => {
 
     await addFilterFlow();
 
-    userEvent.click(screen.getByTestId(getTestId('apply-button')));
+    await userEvent.click(screen.getByTestId(getTestId('apply-button')));
 
     await addFilterSetFlow();
 
-    userEvent.click(screen.getByTestId(getTestId('filter-set-menu-button')));
-    userEvent.click(screen.getByText('Edit'));
+    await userEvent.click(
+      screen.getByTestId(getTestId('filter-set-menu-button')),
+    );
+    await userEvent.click(screen.getByText('Edit'));
 
     await changeFilterValue();
 
@@ -433,11 +438,13 @@ describe('FilterBar', () => {
       ).toBeDisabled(),
     );
     expect(screen.getByTestId(getTestId('apply-button'))).toBeEnabled();
-    userEvent.click(screen.getByTestId(getTestId('apply-button')));
+    await userEvent.click(screen.getByTestId(getTestId('apply-button')));
     expect(screen.getByTestId(getTestId('apply-button'))).toBeDisabled();
 
     expect(screen.getByTestId(getTestId('filter-set-edit-save'))).toBeEnabled();
-    userEvent.click(screen.getByTestId(getTestId('filter-set-edit-save')));
+    await userEvent.click(
+      screen.getByTestId(getTestId('filter-set-edit-save')),
+    );
     expect(screen.queryByText('Save')).not.toBeInTheDocument();
 
     expect(

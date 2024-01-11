@@ -69,7 +69,7 @@ const dataset = {
 };
 
 const renderModal = async (modalProps: Partial<DrillByModalProps> = {}) => {
-  const DrillByModalWrapper = () => {
+  function DrillByModalWrapper() {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -88,7 +88,7 @@ const renderModal = async (modalProps: Partial<DrillByModalProps> = {}) => {
         )}
       </DashboardPageIdContext.Provider>
     );
-  };
+  }
   render(<DrillByModalWrapper />, {
     useDnd: true,
     useRedux: true,
@@ -96,7 +96,7 @@ const renderModal = async (modalProps: Partial<DrillByModalProps> = {}) => {
     initialState: drillByModalState,
   });
 
-  userEvent.click(screen.getByRole('button', { name: 'Show modal' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Show modal' }));
   await screen.findByRole('dialog', { name: `Drill by: ${chartName}` });
 };
 
@@ -123,7 +123,7 @@ test('should render the button', async () => {
 test('should close the modal', async () => {
   await renderModal();
   expect(screen.getByRole('dialog')).toBeInTheDocument();
-  userEvent.click(screen.getAllByRole('button', { name: 'Close' })[1]);
+  await userEvent.click(screen.getAllByRole('button', { name: 'Close' })[1]);
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
@@ -204,7 +204,7 @@ test('should render radio buttons', async () => {
   expect(tableRadio).toBeInTheDocument();
   expect(chartRadio).toBeChecked();
   expect(tableRadio).not.toBeChecked();
-  userEvent.click(tableRadio);
+  await userEvent.click(tableRadio);
   expect(chartRadio).not.toBeChecked();
   expect(tableRadio).toBeChecked();
 });
@@ -225,7 +225,7 @@ test('render breadcrumbs', async () => {
   ).toBeInTheDocument();
   expect(within(breadcrumbItems[1]).getByText('name')).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('gender (boy)'));
+  await userEvent.click(screen.getByText('gender (boy)'));
 
   const newBreadcrumbItems = screen.getAllByTestId('drill-by-breadcrumb-item');
   // we need to assert that there is only 1 element now

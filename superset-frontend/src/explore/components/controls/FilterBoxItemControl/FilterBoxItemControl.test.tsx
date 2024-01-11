@@ -45,10 +45,10 @@ test('Should render', () => {
   expect(screen.getByRole('button')).toBeInTheDocument();
 });
 
-test('Should open modal', () => {
+test('Should open modal', async () => {
   const props = createProps();
   render(<FilterBoxItemControl {...props} />);
-  userEvent.click(screen.getByRole('button'));
+  await userEvent.click(screen.getByRole('button'));
   expect(screen.getByText('Filter configuration')).toBeInTheDocument();
   expect(screen.getByText('Column')).toBeInTheDocument();
   expect(screen.getByText('Label')).toBeInTheDocument();

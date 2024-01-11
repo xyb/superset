@@ -80,6 +80,6 @@ test('should render the checkbox-on icon', async () => {
 test('should call the onChange', async () => {
   await asyncRender();
   const label = screen.getByTitle('Checkbox title');
-  userEvent.click(label);
+  await userEvent.click(label);
   expect(mockedProps.onChange).toHaveBeenCalledTimes(1);
 });

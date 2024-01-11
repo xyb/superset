@@ -138,20 +138,20 @@ test('Cancelling changes to the properties should reset previous properties', as
     await screen.findByText(/add the name of the chart/i),
   ).toBeInTheDocument();
 
-  userEvent.click(screen.getByLabelText('Menu actions trigger'));
-  userEvent.click(screen.getByText('Edit chart properties'));
+  await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+  await userEvent.click(screen.getByText('Edit chart properties'));
 
   const nameInput = await screen.findByRole('textbox', { name: 'Name' });
 
-  userEvent.clear(nameInput);
-  userEvent.type(nameInput, newChartName);
+  await userEvent.clear(nameInput);
+  await userEvent.type(nameInput, newChartName);
 
   expect(screen.getByDisplayValue(newChartName)).toBeInTheDocument();
 
-  userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
 
-  userEvent.click(screen.getByLabelText('Menu actions trigger'));
-  userEvent.click(screen.getByText('Edit chart properties'));
+  await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+  await userEvent.click(screen.getByText('Edit chart properties'));
 
   expect(await screen.findByDisplayValue(prevChartName)).toBeInTheDocument();
 });
@@ -199,7 +199,7 @@ test('Save chart', async () => {
   const props = createProps();
   render(<ExploreHeader {...props} />, { useRedux: true });
   expect(await screen.findByText('Save')).toBeInTheDocument();
-  userEvent.click(screen.getByText('Save'));
+  await userEvent.click(screen.getByText('Save'));
   expect(setSaveChartModalVisibility).toHaveBeenCalledWith(true);
   setSaveChartModalVisibility.mockClear();
 });
@@ -212,7 +212,7 @@ test('Save disabled', async () => {
   const props = createProps();
   render(<ExploreHeader {...props} saveDisabled />, { useRedux: true });
   expect(await screen.findByText('Save')).toBeInTheDocument();
-  userEvent.click(screen.getByText('Save'));
+  await userEvent.click(screen.getByText('Save'));
   expect(setSaveChartModalVisibility).not.toHaveBeenCalled();
   setSaveChartModalVisibility.mockClear();
 });
@@ -232,7 +232,7 @@ describe('Additional actions tests', () => {
       useRedux: true,
     });
 
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
 
     expect(
       await screen.findByText('Edit chart properties'),
@@ -254,14 +254,14 @@ describe('Additional actions tests', () => {
       useRedux: true,
     });
 
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
 
     expect(screen.queryByText('Export to .CSV')).not.toBeInTheDocument();
     expect(screen.queryByText('Export to .JSON')).not.toBeInTheDocument();
     expect(screen.queryByText('Download as image')).not.toBeInTheDocument();
 
     expect(screen.getByText('Download')).toBeInTheDocument();
-    userEvent.hover(screen.getByText('Download'));
+    await userEvent.hover(screen.getByText('Download'));
     expect(await screen.findByText('Export to .CSV')).toBeInTheDocument();
     expect(await screen.findByText('Export to .JSON')).toBeInTheDocument();
     expect(await screen.findByText('Download as image')).toBeInTheDocument();
@@ -273,7 +273,7 @@ describe('Additional actions tests', () => {
       useRedux: true,
     });
 
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
 
     expect(
       screen.queryByText('Copy permalink to clipboard'),
@@ -282,7 +282,7 @@ describe('Additional actions tests', () => {
     expect(screen.queryByText('Share chart by email')).not.toBeInTheDocument();
 
     expect(screen.getByText('Share')).toBeInTheDocument();
-    userEvent.hover(screen.getByText('Share'));
+    await userEvent.hover(screen.getByText('Share'));
     expect(
       await screen.findByText('Copy permalink to clipboard'),
     ).toBeInTheDocument();
@@ -295,9 +295,9 @@ describe('Additional actions tests', () => {
     render(<ExploreHeader {...props} />, {
       useRedux: true,
     });
-    expect(props.actions.redirectSQLLab).toBeCalledTimes(0);
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
-    userEvent.click(
+    expect(props.actions.redirectSQLLab).toHaveBeenCalledTimes(0);
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    await userEvent.click(
       screen.getByRole('menuitem', { name: 'Edit chart properties' }),
     );
     expect(await screen.findByText('Edit Chart Properties')).toBeVisible();
@@ -310,14 +310,14 @@ describe('Additional actions tests', () => {
       useRedux: true,
     });
 
-    expect(getChartDataRequest).toBeCalledTimes(0);
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
-    expect(getChartDataRequest).toBeCalledTimes(0);
+    expect(getChartDataRequest).toHaveBeenCalledTimes(0);
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    expect(getChartDataRequest).toHaveBeenCalledTimes(0);
 
     const menuItem = screen.getByText('View query').parentElement!;
-    userEvent.click(menuItem);
+    await userEvent.click(menuItem);
 
-    await waitFor(() => expect(getChartDataRequest).toBeCalledTimes(1));
+    await waitFor(() => expect(getChartDataRequest).toHaveBeenCalledTimes(1));
   });
 
   test('Should call onOpenInEditor when click on "Run in SQL Lab"', async () => {
@@ -327,12 +327,14 @@ describe('Additional actions tests', () => {
     });
     expect(await screen.findByText('Save')).toBeInTheDocument();
 
-    expect(props.actions.redirectSQLLab).toBeCalledTimes(0);
-    userEvent.click(screen.getByLabelText('Menu actions trigger'));
-    expect(props.actions.redirectSQLLab).toBeCalledTimes(0);
+    expect(props.actions.redirectSQLLab).toHaveBeenCalledTimes(0);
+    await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+    expect(props.actions.redirectSQLLab).toHaveBeenCalledTimes(0);
 
-    userEvent.click(screen.getByRole('menuitem', { name: 'Run in SQL Lab' }));
-    expect(props.actions.redirectSQLLab).toBeCalledTimes(1);
+    await userEvent.click(
+      screen.getByRole('menuitem', { name: 'Run in SQL Lab' }),
+    );
+    expect(props.actions.redirectSQLLab).toHaveBeenCalledTimes(1);
   });
 
   describe('Download', () => {
@@ -355,17 +357,16 @@ describe('Additional actions tests', () => {
         useRedux: true,
       });
 
-      expect(spy).toBeCalledTimes(0);
-      userEvent.click(screen.getByLabelText('Menu actions trigger'));
-      expect(spy).toBeCalledTimes(0);
+      expect(spy).toHaveBeenCalledTimes(0);
+      await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+      expect(spy).toHaveBeenCalledTimes(0);
 
-      userEvent.hover(screen.getByText('Download'));
-      const downloadAsImageElement = await screen.findByText(
-        'Download as image',
-      );
-      userEvent.click(downloadAsImageElement);
+      await userEvent.hover(screen.getByText('Download'));
+      const downloadAsImageElement =
+        await screen.findByText('Download as image');
+      await userEvent.click(downloadAsImageElement);
 
-      expect(spy).toBeCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     test('Should not export to CSV if canDownload=false', async () => {
@@ -373,10 +374,10 @@ describe('Additional actions tests', () => {
       render(<ExploreHeader {...props} />, {
         useRedux: true,
       });
-      userEvent.click(screen.getByLabelText('Menu actions trigger'));
-      userEvent.hover(screen.getByText('Download'));
+      await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+      await userEvent.hover(screen.getByText('Download'));
       const exportCSVElement = await screen.findByText('Export to .CSV');
-      userEvent.click(exportCSVElement);
+      await userEvent.click(exportCSVElement);
       expect(spyExportChart.callCount).toBe(0);
       spyExportChart.restore();
     });
@@ -388,10 +389,10 @@ describe('Additional actions tests', () => {
         useRedux: true,
       });
 
-      userEvent.click(screen.getByLabelText('Menu actions trigger'));
-      userEvent.hover(screen.getByText('Download'));
+      await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+      await userEvent.hover(screen.getByText('Download'));
       const exportCSVElement = await screen.findByText('Export to .CSV');
-      userEvent.click(exportCSVElement);
+      await userEvent.click(exportCSVElement);
       expect(spyExportChart.callCount).toBe(1);
       spyExportChart.restore();
     });
@@ -402,10 +403,10 @@ describe('Additional actions tests', () => {
         useRedux: true,
       });
 
-      userEvent.click(screen.getByLabelText('Menu actions trigger'));
-      userEvent.hover(screen.getByText('Download'));
+      await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+      await userEvent.hover(screen.getByText('Download'));
       const exportJsonElement = await screen.findByText('Export to .JSON');
-      userEvent.click(exportJsonElement);
+      await userEvent.click(exportJsonElement);
       expect(spyExportChart.callCount).toBe(1);
     });
 
@@ -417,12 +418,12 @@ describe('Additional actions tests', () => {
         useRedux: true,
       });
 
-      userEvent.click(screen.getByLabelText('Menu actions trigger'));
-      userEvent.hover(screen.getByText('Download'));
+      await userEvent.click(screen.getByLabelText('Menu actions trigger'));
+      await userEvent.hover(screen.getByText('Download'));
       const exportCSVElement = await screen.findByText(
         'Export to pivoted .CSV',
       );
-      userEvent.click(exportCSVElement);
+      await userEvent.click(exportCSVElement);
       expect(spyExportChart.callCount).toBe(1);
     });
   });

@@ -28,8 +28,9 @@ import { ErrorLevel, ErrorSource } from './types';
 jest.mock(
   'src/components/Icons/Icon',
   () =>
-    ({ fileName }: { fileName: string }) =>
-      <span role="img" aria-label={fileName.replace('_', '-')} />,
+    function ({ fileName }: { fileName: string }) {
+      return <span role="img" aria-label={fileName.replace('_', '-')} />;
+    },
 );
 
 jest.mock('src/utils/isBot', () => ({
@@ -89,17 +90,17 @@ test('should render the error description', () => {
   expect(screen.getByText('we are unable to connect db.')).toBeInTheDocument();
 });
 
-test('should render the error subtitle', () => {
+test('should render the error subtitle', async () => {
   render(<ErrorAlert {...mockedProps} />, { useRedux: true });
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.getByText('Error subtitle')).toBeInTheDocument();
 });
 
-test('should render the error body', () => {
+test('should render the error body', async () => {
   render(<ErrorAlert {...mockedProps} />, { useRedux: true });
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.getByText('Error body')).toBeInTheDocument();
 });
 
@@ -124,41 +125,41 @@ test('should render the error subtitle and body defaultly for the screen capture
   expect(screen.getByText('Error body')).toBeInTheDocument();
 });
 
-test('should render the modal', () => {
+test('should render the modal', async () => {
   render(<ErrorAlert {...mockedProps} />, { useRedux: true });
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.getByRole('dialog')).toBeInTheDocument();
   expect(screen.getByText('Close')).toBeInTheDocument();
 });
 
-test('should NOT render the modal', () => {
+test('should NOT render the modal', async () => {
   const expandableProps = {
     ...mockedProps,
     source: 'explore' as ErrorSource,
   };
   render(<ErrorAlert {...expandableProps} />, { useRedux: true });
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
-test('should render the See less button', () => {
+test('should render the See less button', async () => {
   const expandableProps = {
     ...mockedProps,
     source: 'explore' as ErrorSource,
   };
   render(<ErrorAlert {...expandableProps} />);
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.getByText('See less')).toBeInTheDocument();
   expect(screen.queryByText('See more')).not.toBeInTheDocument();
 });
 
-test('should render the Copy button', () => {
+test('should render the Copy button', async () => {
   render(<ErrorAlert {...mockedProps} />, { useRedux: true });
   const button = screen.getByText('See more');
-  userEvent.click(button);
+  await userEvent.click(button);
   expect(screen.getByText('Copy message')).toBeInTheDocument();
 });
 

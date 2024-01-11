@@ -54,14 +54,14 @@ test('renders a submenu with search', async () => {
 
 test('displays a searched value', async () => {
   await asyncRender(20);
-  userEvent.type(screen.getByPlaceholderText('Search'), '2');
+  await userEvent.type(screen.getByPlaceholderText('Search'), '2');
   expect(screen.getByText('Dashboard 2')).toBeInTheDocument();
   expect(screen.getByText('Dashboard 20')).toBeInTheDocument();
 });
 
 test('renders a "No results found" message when searching', async () => {
   await asyncRender(20);
-  userEvent.type(screen.getByPlaceholderText('Search'), 'unknown');
+  await userEvent.type(screen.getByPlaceholderText('Search'), 'unknown');
   expect(screen.getByText('No results found')).toBeInTheDocument();
 });
 
@@ -73,6 +73,6 @@ test('renders a submenu with no dashboards', async () => {
 test('shows link icon when hovering', async () => {
   await asyncRender(3);
   expect(screen.queryByRole('img', { name: 'full' })).not.toBeInTheDocument();
-  userEvent.hover(screen.getByText('Dashboard 1'));
+  await userEvent.hover(screen.getByText('Dashboard 1'));
   expect(screen.getByRole('img', { name: 'full' })).toBeInTheDocument();
 });

@@ -33,15 +33,27 @@ import TemplateParamsEditor, {
   TemplateParamsEditorProps,
 } from 'src/SqlLab/components/TemplateParamsEditor';
 
-jest.mock('src/components/DeprecatedSelect', () => () => (
-  <div data-test="mock-deprecated-select" />
-));
-jest.mock('src/components/Select/Select', () => () => (
-  <div data-test="mock-deprecated-select-select" />
-));
-jest.mock('src/components/Select/AsyncSelect', () => () => (
-  <div data-test="mock-async-select" />
-));
+jest.mock(
+  'src/components/DeprecatedSelect',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/Select',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/AsyncSelect',
+  () =>
+    function () {
+      return <div data-test="mock-async-select" />;
+    },
+);
 jest.mock('src/components/AsyncAceEditor', () => ({
   ConfigEditor: ({ value }: { value: string }) => (
     <div data-test="mock-async-ace-editor">{value}</div>

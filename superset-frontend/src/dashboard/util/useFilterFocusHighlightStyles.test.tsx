@@ -29,11 +29,11 @@ import { dashboardWithFilter } from 'spec/fixtures/mockDashboardLayout';
 import { buildActiveFilters } from './activeDashboardFilters';
 import useFilterFocusHighlightStyles from './useFilterFocusHighlightStyles';
 
-const TestComponent = ({ chartId }: { chartId: number }) => {
+function TestComponent({ chartId }: { chartId: number }) {
   const styles = useFilterFocusHighlightStyles(chartId);
 
   return <div data-test="test-component" style={styles} />;
-};
+}
 
 describe('useFilterFocusHighlightStyles', () => {
   const createMockStore = (customState: any = {}) =>

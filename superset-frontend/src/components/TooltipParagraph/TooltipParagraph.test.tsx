@@ -34,7 +34,7 @@ test('not render on hover when not truncated', async () => {
       </TooltipParagraph>
     </div>,
   );
-  userEvent.hover(screen.getByTestId('test-text'));
+  await userEvent.hover(screen.getByTestId('test-text'));
   await waitFor(() =>
     expect(container.firstChild?.firstChild).not.toHaveClass(
       'ant-tooltip-open',
@@ -50,7 +50,7 @@ test('render on hover when truncated', async () => {
       </TooltipParagraph>
     </div>,
   );
-  userEvent.hover(screen.getByTestId('test-text'));
+  await userEvent.hover(screen.getByTestId('test-text'));
   await waitFor(() =>
     expect(container.firstChild?.firstChild).toHaveClass('ant-tooltip-open'),
   );

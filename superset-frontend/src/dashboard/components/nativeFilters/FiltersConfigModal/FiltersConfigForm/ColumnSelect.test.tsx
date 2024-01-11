@@ -68,7 +68,7 @@ test('Should render', async () => {
     useRedux: true,
   });
   expect(container.children).toHaveLength(1);
-  userEvent.type(screen.getByRole('combobox'), 'column_name');
+  await userEvent.type(screen.getByRole('combobox'), 'column_name');
   await waitFor(() => {
     expect(screen.getByTitle('column_name_01')).toBeInTheDocument();
   });
@@ -85,12 +85,12 @@ test('Should call "setFields" when "datasetId" changes', () => {
   const { rerender } = render(<ColumnSelect {...(props as any)} />, {
     useRedux: true,
   });
-  expect(props.form.setFields).not.toBeCalled();
+  expect(props.form.setFields).not.toHaveBeenCalled();
 
   props.datasetId = 456;
   rerender(<ColumnSelect {...(props as any)} />);
 
-  expect(props.form.setFields).toBeCalled();
+  expect(props.form.setFields).toHaveBeenCalled();
 });
 
 test('Should call "getClientErrorObject" when api returns an error', async () => {
@@ -99,12 +99,12 @@ test('Should call "getClientErrorObject" when api returns an error', async () =>
   props.datasetId = 789;
   const spy = jest.spyOn(utils, 'getClientErrorObject');
 
-  expect(spy).not.toBeCalled();
+  expect(spy).not.toHaveBeenCalled();
   render(<ColumnSelect {...(props as any)} />, {
     useRedux: true,
   });
   await waitFor(() => {
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });
 
@@ -116,7 +116,7 @@ test('Should filter results', async () => {
     useRedux: true,
   });
   expect(container.children).toHaveLength(1);
-  userEvent.type(screen.getByRole('combobox'), 'column_name');
+  await userEvent.type(screen.getByRole('combobox'), 'column_name');
   await waitFor(() => {
     expect(screen.getByTitle('column_name_01')).toBeInTheDocument();
   });

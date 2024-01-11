@@ -43,11 +43,11 @@ test('should render the expand button', () => {
   expect(screen.getByRole('button', { name: 'expand' })).toBeInTheDocument();
 });
 
-test('should toggle', () => {
+test('should toggle', async () => {
   const mockedProps = createProps();
   render(<Header {...mockedProps} />, { useRedux: true });
   const expandBtn = screen.getByRole('button', { name: 'expand' });
   expect(mockedProps.toggleFiltersBar).not.toHaveBeenCalled();
-  userEvent.click(expandBtn);
+  await userEvent.click(expandBtn);
   expect(mockedProps.toggleFiltersBar).toHaveBeenCalled();
 });

@@ -63,14 +63,14 @@ describe('DatasourceEditor', () => {
   });
 
   it('can sync columns from source', () =>
-    new Promise(done => {
+    new Promise(async done => {
       const columnsTab = screen.getByTestId('collection-tab-Columns');
 
-      userEvent.click(columnsTab);
+      await userEvent.click(columnsTab);
       const syncButton = screen.getByText(/sync columns from source/i);
       expect(syncButton).toBeInTheDocument();
 
-      userEvent.click(syncButton);
+      await userEvent.click(syncButton);
 
       setTimeout(() => {
         expect(fetchMock.calls(DATASOURCE_ENDPOINT)).toHaveLength(1);
@@ -85,12 +85,12 @@ describe('DatasourceEditor', () => {
   // to add, remove and modify columns accordingly
   it('can modify columns', async () => {
     const columnsTab = screen.getByTestId('collection-tab-Columns');
-    userEvent.click(columnsTab);
+    await userEvent.click(columnsTab);
 
     const getToggles = screen.getAllByRole('button', {
       name: /toggle expand/i,
     });
-    userEvent.click(getToggles[0]);
+    await userEvent.click(getToggles[0]);
     const getTextboxes = screen.getAllByRole('textbox');
     expect(getTextboxes.length).toEqual(5);
 
@@ -102,49 +102,49 @@ describe('DatasourceEditor', () => {
       'Certification details',
     );
 
-    userEvent.type(await inputLabel, 'test_label');
-    userEvent.type(await inputDescription, 'test');
-    userEvent.type(await inputDtmFormat, 'test');
-    userEvent.type(await inputCertifiedBy, 'test');
-    userEvent.type(await inputCertDetails, 'test');
+    await userEvent.type(await inputLabel, 'test_label');
+    await userEvent.type(await inputDescription, 'test');
+    await userEvent.type(await inputDtmFormat, 'test');
+    await userEvent.type(await inputCertifiedBy, 'test');
+    await userEvent.type(await inputCertDetails, 'test');
   });
 
   it('can delete columns', async () => {
     const columnsTab = screen.getByTestId('collection-tab-Columns');
-    userEvent.click(columnsTab);
+    await userEvent.click(columnsTab);
 
     const getToggles = screen.getAllByRole('button', {
       name: /toggle expand/i,
     });
 
-    userEvent.click(getToggles[0]);
+    await userEvent.click(getToggles[0]);
     const deleteButtons = screen.getAllByRole('button', {
       name: /delete item/i,
     });
     expect(deleteButtons.length).toEqual(7);
-    userEvent.click(deleteButtons[0]);
+    await userEvent.click(deleteButtons[0]);
     const countRows = screen.getAllByRole('button', { name: /delete item/i });
     expect(countRows.length).toEqual(6);
   });
 
   it('can add new columns', async () => {
     const calcColsTab = screen.getByTestId('collection-tab-Calculated columns');
-    userEvent.click(calcColsTab);
+    await userEvent.click(calcColsTab);
     const addBtn = screen.getByRole('button', {
       name: /add item/i,
     });
     expect(addBtn).toBeInTheDocument();
-    userEvent.click(addBtn);
+    await userEvent.click(addBtn);
     // newColumn (Column name) is the first textbox in the tab
     const newColumn = screen.getAllByRole('textbox', { name: '' })[0];
     expect(newColumn).toHaveValue('<new column>');
   });
 
-  it('renders isSqla fields', () => {
+  it('renders isSqla fields', async () => {
     const columnsTab = screen.getByRole('tab', {
       name: /settings/i,
     });
-    userEvent.click(columnsTab);
+    await userEvent.click(columnsTab);
     const extraField = screen.getAllByText(/extra/i);
     expect(extraField.length).toEqual(2);
     expect(
@@ -164,9 +164,9 @@ describe('DatasourceEditor', () => {
       isFeatureEnabledMock.mockRestore();
     });
 
-    it('Source Tab: edit mode', () => {
+    it('Source Tab: edit mode', async () => {
       const getLockBtn = screen.getByRole('img', { name: /lock-locked/i });
-      userEvent.click(getLockBtn);
+      await userEvent.click(getLockBtn);
       const physicalRadioBtn = screen.getByRole('radio', {
         name: /physical \(table or view\)/i,
       });
@@ -212,9 +212,9 @@ describe('DatasourceEditor RTL', () => {
   it('properly renders the metric information', async () => {
     await asyncRender(props);
     const metricButton = screen.getByTestId('collection-tab-Metrics');
-    userEvent.click(metricButton);
+    await userEvent.click(metricButton);
     const expandToggle = await screen.findAllByLabelText(/toggle expand/i);
-    userEvent.click(expandToggle[0]);
+    await userEvent.click(expandToggle[0]);
     const certificationDetails = await screen.findByPlaceholderText(
       /certification details/i,
     );
@@ -238,9 +238,9 @@ describe('DatasourceEditor RTL', () => {
     };
     await asyncRender(propsWithCurrency);
     const metricButton = screen.getByTestId('collection-tab-Metrics');
-    userEvent.click(metricButton);
+    await userEvent.click(metricButton);
     const expandToggle = await screen.findAllByLabelText(/toggle expand/i);
-    userEvent.click(expandToggle[0]);
+    await userEvent.click(expandToggle[0]);
 
     expect(await screen.findByText('Metric currency')).toBeVisible();
     expect(
@@ -308,22 +308,22 @@ describe('DatasourceEditor RTL', () => {
   it('properly updates the metric information', async () => {
     await asyncRender(props);
     const metricButton = screen.getByTestId('collection-tab-Metrics');
-    userEvent.click(metricButton);
+    await userEvent.click(metricButton);
     const expandToggle = await screen.findAllByLabelText(/toggle expand/i);
-    userEvent.click(expandToggle[1]);
+    await userEvent.click(expandToggle[1]);
     const certifiedBy = await screen.findByPlaceholderText(/certified by/i);
-    userEvent.type(certifiedBy, 'I am typing a new name');
+    await userEvent.type(certifiedBy, 'I am typing a new name');
     const certificationDetails = await screen.findByPlaceholderText(
       /certification details/i,
     );
     expect(certifiedBy.value).toEqual('I am typing a new name');
-    userEvent.type(certificationDetails, 'I am typing something new');
+    await userEvent.type(certificationDetails, 'I am typing something new');
     expect(certificationDetails.value).toEqual('I am typing something new');
   });
   it('shows the default datetime column', async () => {
     await asyncRender(props);
     const metricButton = screen.getByTestId('collection-tab-Columns');
-    userEvent.click(metricButton);
+    await userEvent.click(metricButton);
     const dsDefaultDatetimeRadio = screen.getByTestId('radio-default-dttm-ds');
     expect(dsDefaultDatetimeRadio).toBeChecked();
     const genderDefaultDatetimeRadio = screen.getByTestId(
@@ -334,7 +334,7 @@ describe('DatasourceEditor RTL', () => {
   it('allows choosing only temporal columns as the default datetime', async () => {
     await asyncRender(props);
     const metricButton = screen.getByTestId('collection-tab-Columns');
-    userEvent.click(metricButton);
+    await userEvent.click(metricButton);
     const dsDefaultDatetimeRadio = screen.getByTestId('radio-default-dttm-ds');
     expect(dsDefaultDatetimeRadio).toBeEnabled();
     const genderDefaultDatetimeRadio = screen.getByTestId(

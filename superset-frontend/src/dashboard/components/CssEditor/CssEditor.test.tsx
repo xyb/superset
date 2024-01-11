@@ -45,17 +45,17 @@ test('renders with default props', () => {
   expect(screen.getByRole('button', { name: 'Click' })).toBeInTheDocument();
 });
 
-test('renders with initial CSS', () => {
+test('renders with initial CSS', async () => {
   const initialCss = 'margin: 10px;';
   render(<CssEditor triggerNode={<>Click</>} initialCss={initialCss} />);
-  userEvent.click(screen.getByRole('button', { name: 'Click' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Click' }));
   expect(screen.getByText(initialCss)).toBeInTheDocument();
 });
 
 test('renders with templates', async () => {
   render(<CssEditor triggerNode={<>Click</>} templates={templates} />);
-  userEvent.click(screen.getByRole('button', { name: 'Click' }));
-  userEvent.hover(screen.getByText('Load a CSS template'));
+  await userEvent.click(screen.getByRole('button', { name: 'Click' }));
+  await userEvent.hover(screen.getByText('Load a CSS template'));
   await waitFor(() => {
     templates.forEach(template =>
       expect(screen.getByText(template.label)).toBeInTheDocument(),
@@ -63,7 +63,7 @@ test('renders with templates', async () => {
   });
 });
 
-test('triggers onChange when using the editor', () => {
+test('triggers onChange when using the editor', async () => {
   const onChange = jest.fn();
   const initialCss = 'margin: 10px;';
   const additionalCss = 'color: red;';
@@ -74,9 +74,9 @@ test('triggers onChange when using the editor', () => {
       onChange={onChange}
     />,
   );
-  userEvent.click(screen.getByRole('button', { name: 'Click' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Click' }));
   expect(onChange).not.toHaveBeenCalled();
-  userEvent.type(screen.getByText(initialCss), additionalCss);
+  await userEvent.type(screen.getByText(initialCss), additionalCss);
   expect(onChange).toHaveBeenLastCalledWith(initialCss.concat(additionalCss));
 });
 
@@ -89,9 +89,9 @@ test('triggers onChange when selecting a template', async () => {
       onChange={onChange}
     />,
   );
-  userEvent.click(screen.getByRole('button', { name: 'Click' }));
-  userEvent.click(screen.getByText('Load a CSS template'));
+  await userEvent.click(screen.getByRole('button', { name: 'Click' }));
+  await userEvent.click(screen.getByText('Load a CSS template'));
   expect(onChange).not.toHaveBeenCalled();
-  userEvent.click(await screen.findByText('Template A'));
+  await userEvent.click(await screen.findByText('Template A'));
   expect(onChange).toHaveBeenCalledTimes(1);
 });

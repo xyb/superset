@@ -45,25 +45,25 @@ describe('Chart editable title', () => {
     expect(screen.getByText('Add the name of the chart')).toBeVisible();
   });
 
-  it('click, edit and save title', () => {
+  it('click, edit and save title', async () => {
     const props = createProps();
     render(<DynamicEditableTitle {...props} />);
     const textboxElement = screen.getByRole('textbox');
-    userEvent.click(textboxElement);
-    userEvent.type(textboxElement, ' edited');
+    await userEvent.click(textboxElement);
+    await userEvent.type(textboxElement, ' edited');
     expect(screen.getByText('Chart title edited')).toBeVisible();
-    userEvent.type(textboxElement, '{enter}');
+    await userEvent.type(textboxElement, '{enter}');
     expect(props.onSave).toHaveBeenCalled();
   });
 
-  it('renders in non-editable mode', () => {
+  it('renders in non-editable mode', async () => {
     const props = createProps({ canEdit: false });
     render(<DynamicEditableTitle {...props} />);
     const titleElement = screen.getByLabelText('Chart title');
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(titleElement).toBeVisible();
-    userEvent.click(titleElement);
-    userEvent.type(titleElement, ' edited{enter}');
+    await userEvent.click(titleElement);
+    await userEvent.type(titleElement, ' edited{enter}');
     expect(props.onSave).not.toHaveBeenCalled();
   });
 });

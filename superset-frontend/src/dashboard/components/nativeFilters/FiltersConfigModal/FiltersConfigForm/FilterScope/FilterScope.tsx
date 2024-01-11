@@ -73,9 +73,8 @@ const FilterScope: FC<FilterScopeProps> = ({
       ? ScopingType.all
       : ScopingType.specific,
   );
-  const [hasScopeBeenModified, setHasScopeBeenModified] = useState(
-    !!filterScope,
-  );
+  const [hasScopeBeenModified, setHasScopeBeenModified] =
+    useState(!!filterScope);
 
   const onUpdateFormValues = useCallback(
     (formValues: any) => {

@@ -48,28 +48,28 @@ function setup(
   );
 }
 
-test('DateFilter with default props', () => {
+test('DateFilter with default props', async () => {
   render(setup());
   // label
   expect(screen.getByText(NO_TIME_RANGE)).toBeInTheDocument();
 
   // should be popover by default
-  userEvent.click(screen.getByText(NO_TIME_RANGE));
+  await userEvent.click(screen.getByText(NO_TIME_RANGE));
   expect(
     screen.getByTestId(DATE_FILTER_TEST_KEY.popoverOverlay),
   ).toBeInTheDocument();
 });
 
-test('DateFilter should be applied the overlayStyle props', () => {
+test('DateFilter should be applied the overlayStyle props', async () => {
   render(setup({ onChange: () => {}, overlayStyle: 'Modal' }));
   // should be Modal as overlay
-  userEvent.click(screen.getByText(NO_TIME_RANGE));
+  await userEvent.click(screen.getByText(NO_TIME_RANGE));
   expect(
     screen.getByTestId(DATE_FILTER_TEST_KEY.modalOverlay),
   ).toBeInTheDocument();
 });
 
-test('DateFilter should be applied the global config time_filter from the store', () => {
+test('DateFilter should be applied the global config time_filter from the store', async () => {
   render(
     setup(
       defaultProps,
@@ -81,28 +81,28 @@ test('DateFilter should be applied the global config time_filter from the store'
   // the label should be 'Last week'
   expect(screen.getByText('Last week')).toBeInTheDocument();
 
-  userEvent.click(screen.getByText('Last week'));
+  await userEvent.click(screen.getByText('Last week'));
   expect(
     screen.getByTestId(DATE_FILTER_TEST_KEY.commonFrame),
   ).toBeInTheDocument();
 });
 
-test('Open and close popover', () => {
+test('Open and close popover', async () => {
   render(setup());
 
   // click "Cancel"
-  userEvent.click(screen.getByText(NO_TIME_RANGE));
+  await userEvent.click(screen.getByText(NO_TIME_RANGE));
   expect(defaultProps.onOpenPopover).toHaveBeenCalled();
   expect(screen.getByText('Edit time range')).toBeInTheDocument();
-  userEvent.click(screen.getByText('CANCEL'));
+  await userEvent.click(screen.getByText('CANCEL'));
   expect(defaultProps.onClosePopover).toHaveBeenCalled();
   expect(screen.queryByText('Edit time range')).not.toBeInTheDocument();
 
   // click "Apply"
-  userEvent.click(screen.getByText(NO_TIME_RANGE));
+  await userEvent.click(screen.getByText(NO_TIME_RANGE));
   expect(defaultProps.onOpenPopover).toHaveBeenCalled();
   expect(screen.getByText('Edit time range')).toBeInTheDocument();
-  userEvent.click(screen.getByText('APPLY'));
+  await userEvent.click(screen.getByText('APPLY'));
   expect(defaultProps.onClosePopover).toHaveBeenCalled();
   expect(screen.queryByText('Edit time range')).not.toBeInTheDocument();
 });

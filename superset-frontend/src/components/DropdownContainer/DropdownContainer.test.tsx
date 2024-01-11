@@ -97,17 +97,17 @@ test('does not render a dropdown button when not overflowing', () => {
 });
 
 test('renders a dropdown when overflowing', async () => {
-  await mockOverflowingIndex(3, () => {
+  await mockOverflowingIndex(3, async () => {
     render(<DropdownContainer items={ITEMS} />);
-    userEvent.click(screen.getByText('More'));
+    await userEvent.click(screen.getByText('More'));
     expect(screen.getByTestId('dropdown-content')).toBeInTheDocument();
   });
 });
 
 test('renders children with custom vertical spacing', async () => {
-  await mockOverflowingIndex(3, () => {
+  await mockOverflowingIndex(3, async () => {
     render(<DropdownContainer items={ITEMS} dropdownStyle={{ gap: 20 }} />);
-    userEvent.click(screen.getByText('More'));
+    await userEvent.click(screen.getByText('More'));
     expect(screen.getByTestId('dropdown-content')).toHaveStyle('gap: 20px');
   });
 });
@@ -129,7 +129,7 @@ test('fires event when overflowing state changes', async () => {
 });
 
 test('renders a dropdown with custom content', async () => {
-  await mockOverflowingIndex(3, () => {
+  await mockOverflowingIndex(3, async () => {
     const customDropdownContent = <div>Custom content</div>;
     render(
       <DropdownContainer
@@ -137,7 +137,7 @@ test('renders a dropdown with custom content', async () => {
         dropdownContent={() => customDropdownContent}
       />,
     );
-    userEvent.click(screen.getByText('More'));
+    await userEvent.click(screen.getByText('More'));
     expect(screen.getByText('Custom content')).toBeInTheDocument();
   });
 });
@@ -150,7 +150,7 @@ test('Shows tooltip on dropdown trigger hover', async () => {
         dropdownTriggerTooltip="Test tooltip"
       />,
     );
-    userEvent.hover(screen.getByText('More'));
+    await userEvent.hover(screen.getByText('More'));
     expect(await screen.findByText('Test tooltip')).toBeInTheDocument();
   });
 });

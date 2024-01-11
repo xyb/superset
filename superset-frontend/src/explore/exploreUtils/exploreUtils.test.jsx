@@ -195,7 +195,8 @@ describe('exploreUtils', () => {
       const v1RequestPayload = buildV1ChartDataPayload({
         formData: { ...formData, viz_type: 'my_custom_viz' },
       });
-      expect(v1RequestPayload).hasOwnProperty('queries');
+
+      expect(v1RequestPayload).toHaveProperty('queries');
     });
   });
 
@@ -289,7 +290,7 @@ describe('exploreUtils', () => {
       exploreChart({
         formData: { ...formData, viz_type: 'my_custom_viz' },
       });
-      expect(postFormSpy).toBeCalledTimes(1);
+      expect(postFormSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

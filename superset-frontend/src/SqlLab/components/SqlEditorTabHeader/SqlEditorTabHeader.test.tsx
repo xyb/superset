@@ -42,15 +42,27 @@ import {
 } from 'src/SqlLab/actions/sqlLab';
 import SqlEditorTabHeader from 'src/SqlLab/components/SqlEditorTabHeader';
 
-jest.mock('src/components/DeprecatedSelect', () => () => (
-  <div data-test="mock-deprecated-select" />
-));
-jest.mock('src/components/Select/Select', () => () => (
-  <div data-test="mock-deprecated-select-select" />
-));
-jest.mock('src/components/Select/AsyncSelect', () => () => (
-  <div data-test="mock-async-select" />
-));
+jest.mock(
+  'src/components/DeprecatedSelect',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/Select',
+  () =>
+    function () {
+      return <div data-test="mock-deprecated-select-select" />;
+    },
+);
+jest.mock(
+  'src/components/Select/AsyncSelect',
+  () =>
+    function () {
+      return <div data-test="mock-async-select" />;
+    },
+);
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -63,9 +75,9 @@ const setup = (queryEditor: QueryEditor, store?: Store) =>
 describe('SqlEditorTabHeader', () => {
   it('renders name', () => {
     const { queryByText } = setup(defaultQueryEditor, mockStore(initialState));
-    expect(queryByText(defaultQueryEditor.name)).toBeTruthy();
-    expect(queryByText(extraQueryEditor1.name)).toBeFalsy();
-    expect(queryByText(extraQueryEditor2.name)).toBeFalsy();
+    expect(queryByText(defaultQueryEditor.name)).toBeInTheDocument();
+    expect(queryByText(extraQueryEditor1.name)).not.toBeInTheDocument();
+    expect(queryByText(extraQueryEditor2.name)).not.toBeInTheDocument();
   });
 
   it('renders name from unsaved changes', () => {
@@ -83,10 +95,10 @@ describe('SqlEditorTabHeader', () => {
         },
       }),
     );
-    expect(queryByText(expectedTitle)).toBeTruthy();
-    expect(queryByText(defaultQueryEditor.name)).toBeFalsy();
-    expect(queryByText(extraQueryEditor1.name)).toBeFalsy();
-    expect(queryByText(extraQueryEditor2.name)).toBeFalsy();
+    expect(queryByText(expectedTitle)).toBeInTheDocument();
+    expect(queryByText(defaultQueryEditor.name)).not.toBeInTheDocument();
+    expect(queryByText(extraQueryEditor1.name)).not.toBeInTheDocument();
+    expect(queryByText(extraQueryEditor2.name)).not.toBeInTheDocument();
   });
 
   it('renders current name for unrelated unsaved changes', () => {
@@ -104,10 +116,10 @@ describe('SqlEditorTabHeader', () => {
         },
       }),
     );
-    expect(queryByText(defaultQueryEditor.name)).toBeTruthy();
-    expect(queryByText(unrelatedTitle)).toBeFalsy();
-    expect(queryByText(extraQueryEditor1.name)).toBeFalsy();
-    expect(queryByText(extraQueryEditor2.name)).toBeFalsy();
+    expect(queryByText(defaultQueryEditor.name)).toBeInTheDocument();
+    expect(queryByText(unrelatedTitle)).not.toBeInTheDocument();
+    expect(queryByText(extraQueryEditor1.name)).not.toBeInTheDocument();
+    expect(queryByText(extraQueryEditor2.name)).not.toBeInTheDocument();
   });
 
   describe('with dropdown menus', () => {
@@ -117,13 +129,11 @@ describe('SqlEditorTabHeader', () => {
       const { getByTestId } = setup(defaultQueryEditor, store);
       const dropdown = getByTestId('dropdown-trigger');
 
-      userEvent.click(dropdown);
+      await userEvent.click(dropdown);
     });
 
     it('should dispatch removeQueryEditor action', async () => {
-      await waitFor(() =>
-        expect(screen.getByTestId('close-tab-menu-option')).toBeInTheDocument(),
-      );
+      await screen.findByTestId('close-tab-menu-option');
 
       fireEvent.click(screen.getByTestId('close-tab-menu-option'));
 
@@ -137,9 +147,7 @@ describe('SqlEditorTabHeader', () => {
     });
 
     it('should dispatch queryEditorSetTitle action', async () => {
-      await waitFor(() =>
-        expect(screen.getByTestId('close-tab-menu-option')).toBeInTheDocument(),
-      );
+      await screen.findByTestId('close-tab-menu-option');
       const expectedTitle = 'typed text';
       const mockPrompt = jest
         .spyOn(window, 'prompt')
@@ -160,9 +168,7 @@ describe('SqlEditorTabHeader', () => {
     });
 
     it('should dispatch toggleLeftBar action', async () => {
-      await waitFor(() =>
-        expect(screen.getByTestId('close-tab-menu-option')).toBeInTheDocument(),
-      );
+      await screen.findByTestId('close-tab-menu-option');
       fireEvent.click(screen.getByTestId('toggle-menu-option'));
 
       const actions = store.getActions();
@@ -178,9 +184,7 @@ describe('SqlEditorTabHeader', () => {
     });
 
     it('should dispatch removeAllOtherQueryEditors action', async () => {
-      await waitFor(() =>
-        expect(screen.getByTestId('close-tab-menu-option')).toBeInTheDocument(),
-      );
+      await screen.findByTestId('close-tab-menu-option');
       fireEvent.click(screen.getByTestId('close-all-other-menu-option'));
 
       const actions = store.getActions();
@@ -199,9 +203,7 @@ describe('SqlEditorTabHeader', () => {
     });
 
     it('should dispatch cloneQueryToNewTab action', async () => {
-      await waitFor(() =>
-        expect(screen.getByTestId('close-tab-menu-option')).toBeInTheDocument(),
-      );
+      await screen.findByTestId('close-tab-menu-option');
       fireEvent.click(screen.getByTestId('clone-tab-menu-option'));
 
       const actions = store.getActions();

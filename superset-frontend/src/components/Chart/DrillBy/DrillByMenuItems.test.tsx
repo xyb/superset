@@ -83,7 +83,7 @@ const expectDrillByDisabled = async (tooltipContent: string) => {
   expect(drillByMenuItem).toBeVisible();
   expect(drillByMenuItem).toHaveAttribute('aria-disabled', 'true');
   const tooltipTrigger = within(drillByMenuItem).getByTestId('tooltip-trigger');
-  userEvent.hover(tooltipTrigger as HTMLElement);
+  await userEvent.hover(tooltipTrigger as HTMLElement);
   const tooltip = await screen.findByRole('tooltip', { name: tooltipContent });
 
   expect(tooltip).toBeInTheDocument();
@@ -101,7 +101,7 @@ const expectDrillByEnabled = async () => {
     within(drillByMenuItem).queryByTestId('tooltip-trigger');
   expect(tooltipTrigger).not.toBeInTheDocument();
 
-  userEvent.hover(
+  await userEvent.hover(
     within(drillByMenuItem).getByRole('button', { name: 'Drill by' }),
   );
   expect(await screen.findByTestId('drill-by-submenu')).toBeInTheDocument();
@@ -172,7 +172,7 @@ test('render menu item with submenu and searchbox', async () => {
   const searchbox = screen.getByRole('textbox');
   expect(searchbox).toBeInTheDocument();
 
-  userEvent.type(searchbox, 'col1');
+  await userEvent.type(searchbox, 'col1');
 
   await screen.findByText('col1');
 
@@ -231,7 +231,7 @@ test('When menu item is clicked, call onSelection with clicked column and drill 
   await waitFor(() => fetchMock.called(DATASET_ENDPOINT));
   await expectDrillByEnabled();
 
-  userEvent.click(screen.getByText('col1'));
+  await userEvent.click(screen.getByText('col1'));
   expect(onSelectionMock).toHaveBeenCalledWith(
     {
       column_name: 'col1',

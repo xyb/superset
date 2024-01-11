@@ -57,25 +57,25 @@ test('renders with one item expanded by default', () => {
   expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
 });
 
-test('expands on click', () => {
+test('expands on click', async () => {
   renderCollapse();
 
   expect(screen.queryByText('Content 1')).not.toBeInTheDocument();
   expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
 
-  userEvent.click(screen.getAllByRole('button')[0]);
+  await userEvent.click(screen.getAllByRole('button')[0]);
 
   expect(screen.getByText('Content 1')).toBeInTheDocument();
   expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
 });
 
-test('collapses on click', () => {
+test('collapses on click', async () => {
   renderCollapse({ defaultActiveKey: ['1'] });
 
   expect(screen.getByText('Content 1')).toBeInTheDocument();
   expect(screen.queryByText('Content 2')).not.toBeInTheDocument();
 
-  userEvent.click(screen.getAllByRole('button')[0]);
+  await userEvent.click(screen.getAllByRole('button')[0]);
 
   expect(screen.getByText('Content 1').parentNode).toHaveClass(
     'ant-collapse-content-hidden',

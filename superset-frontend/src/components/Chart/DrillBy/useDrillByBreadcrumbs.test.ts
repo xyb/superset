@@ -51,22 +51,24 @@ test('Render breadcrumbs', () => {
   expect(screen.getByText('col4')).toBeInTheDocument();
 });
 
-test('Call click handler with correct arguments when breadcrumb is clicked', () => {
+test('Call click handler with correct arguments when breadcrumb is clicked', async () => {
   const onClick = jest.fn();
   const { result } = renderHook(() =>
     useDrillByBreadcrumbs(BREADCRUMBS_DATA, onClick),
   );
   render(result.current);
 
-  userEvent.click(screen.getByText('col1, col2 (col1 filter, col2 filter)'));
+  await userEvent.click(
+    screen.getByText('col1, col2 (col1 filter, col2 filter)'),
+  );
   expect(onClick).toHaveBeenCalledWith(BREADCRUMBS_DATA[0], 0);
   onClick.mockClear();
 
-  userEvent.click(screen.getByText('Column 3 (col3 filter)'));
+  await userEvent.click(screen.getByText('Column 3 (col3 filter)'));
   expect(onClick).toHaveBeenCalledWith(BREADCRUMBS_DATA[1], 1);
   onClick.mockClear();
 
-  userEvent.click(screen.getByText('col4'));
+  await userEvent.click(screen.getByText('col4'));
   expect(onClick).not.toHaveBeenCalled();
   onClick.mockClear();
 });

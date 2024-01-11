@@ -252,7 +252,7 @@ describe('RTL', () => {
 
   it('renders an "Import Dashboard" tooltip under import button', async () => {
     const importButton = await screen.findByTestId('import-button');
-    userEvent.hover(importButton);
+    await userEvent.hover(importButton);
 
     await screen.findByRole('tooltip');
     const importTooltip = screen.getByRole('tooltip', {

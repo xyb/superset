@@ -17,7 +17,7 @@
  * under the License.
  */
 import React from 'react';
-import { render, screen, waitFor } from 'spec/helpers/testing-library';
+import { render, screen } from 'spec/helpers/testing-library';
 import userEvent from '@testing-library/user-event';
 import { supersetTheme } from '@superset-ui/core';
 import ModalTrigger from '.';
@@ -63,8 +63,8 @@ test('should render a tooltip on hover', async () => {
   };
   render(<ModalTrigger {...tooltipProps} />);
 
-  userEvent.hover(screen.getByRole('button'));
-  await waitFor(() => expect(screen.getByRole('tooltip')).toBeInTheDocument());
+  await userEvent.hover(screen.getByRole('button'));
+  await screen.findByRole('tooltip');
 });
 
 test('should not render a modal before click', () => {
@@ -72,9 +72,9 @@ test('should not render a modal before click', () => {
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 });
 
-test('should render a modal after click', () => {
+test('should render a modal after click', async () => {
   render(<ModalTrigger {...mockedProps} />);
-  userEvent.click(screen.getByRole('button'));
+  await userEvent.click(screen.getByRole('button'));
   expect(screen.getByRole('dialog')).toBeInTheDocument();
 });
 

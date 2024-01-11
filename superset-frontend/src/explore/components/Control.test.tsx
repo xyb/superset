@@ -88,7 +88,7 @@ describe('Control', () => {
       default: false,
     });
     promiseTimeout(() => {
-      expect(defaultProps.actions.setControlValue).toBeCalled();
+      expect(defaultProps.actions.setControlValue).toHaveBeenCalled();
     }, 100);
   });
 });

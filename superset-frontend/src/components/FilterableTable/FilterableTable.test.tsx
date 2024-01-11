@@ -52,8 +52,8 @@ describe('FilterableTable', () => {
     };
     const { getByText, queryByText } = render(<FilterableTable {...props} />);
     expect(getByText(props.filterText)).toBeInTheDocument();
-    expect(queryByText('b2')).toBeFalsy();
-    expect(queryByText('b3')).toBeFalsy();
+    expect(queryByText('b2')).not.toBeInTheDocument();
+    expect(queryByText('b3')).not.toBeInTheDocument();
   });
   it('filters on a number', () => {
     const props = {
@@ -62,13 +62,13 @@ describe('FilterableTable', () => {
     };
     const { getByText, queryByText } = render(<FilterableTable {...props} />);
     expect(getByText('b2')).toBeInTheDocument();
-    expect(queryByText('b1')).toBeFalsy();
-    expect(queryByText('b3')).toBeFalsy();
+    expect(queryByText('b1')).not.toBeInTheDocument();
+    expect(queryByText('b3')).not.toBeInTheDocument();
   });
 });
 
 describe('FilterableTable sorting - RTL', () => {
-  it('sorts strings correctly', () => {
+  it('sorts strings correctly', async () => {
     const stringProps = {
       orderedColumnKeys: ['columnA'],
       data: [
@@ -93,7 +93,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     if (stringColumn) {
       // First click to sort ascending
-      userEvent.click(stringColumn);
+      await userEvent.click(stringColumn);
     }
 
     expect(gridCells?.textContent).toEqual(
@@ -102,7 +102,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     if (stringColumn) {
       // Second click to sort descending
-      userEvent.click(stringColumn);
+      await userEvent.click(stringColumn);
     }
 
     expect(gridCells?.textContent).toEqual(
@@ -111,14 +111,14 @@ describe('FilterableTable sorting - RTL', () => {
 
     if (stringColumn) {
       // Third click to clear sorting
-      userEvent.click(stringColumn);
+      await userEvent.click(stringColumn);
     }
     expect(gridCells?.textContent).toEqual(
       ['Bravo', 'Alpha', 'Charlie'].join(''),
     );
   });
 
-  it('sorts integers correctly', () => {
+  it('sorts integers correctly', async () => {
     const integerProps = {
       orderedColumnKeys: ['columnB'],
       data: [{ columnB: 21 }, { columnB: 0 }, { columnB: 623 }],
@@ -136,24 +136,24 @@ describe('FilterableTable sorting - RTL', () => {
 
     // First click to sort ascending
     if (integerColumn) {
-      userEvent.click(integerColumn);
+      await userEvent.click(integerColumn);
     }
     expect(gridCells?.textContent).toEqual(['0', '21', '623'].join(''));
 
     // Second click to sort descending
     if (integerColumn) {
-      userEvent.click(integerColumn);
+      await userEvent.click(integerColumn);
     }
     expect(gridCells?.textContent).toEqual(['623', '21', '0'].join(''));
 
     // Third click to clear sorting
     if (integerColumn) {
-      userEvent.click(integerColumn);
+      await userEvent.click(integerColumn);
     }
     expect(gridCells?.textContent).toEqual(['21', '0', '623'].join(''));
   });
 
-  it('sorts floating numbers correctly', () => {
+  it('sorts floating numbers correctly', async () => {
     const floatProps = {
       orderedColumnKeys: ['columnC'],
       data: [{ columnC: 45.67 }, { columnC: 1.23 }, { columnC: 89.0000001 }],
@@ -173,7 +173,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // First click to sort ascending
     if (floatColumn) {
-      userEvent.click(floatColumn);
+      await userEvent.click(floatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       ['1.23', '45.67', '89.0000001'].join(''),
@@ -181,7 +181,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Second click to sort descending
     if (floatColumn) {
-      userEvent.click(floatColumn);
+      await userEvent.click(floatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       ['89.0000001', '45.67', '1.23'].join(''),
@@ -189,14 +189,14 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Third click to clear sorting
     if (floatColumn) {
-      userEvent.click(floatColumn);
+      await userEvent.click(floatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       ['45.67', '1.23', '89.0000001'].join(''),
     );
   });
 
-  it('sorts rows properly when floating numbers have mixed types', () => {
+  it('sorts rows properly when floating numbers have mixed types', async () => {
     const mixedFloatProps = {
       orderedColumnKeys: ['columnD'],
       data: [
@@ -239,7 +239,7 @@ describe('FilterableTable sorting - RTL', () => {
     );
     // First click to sort ascending
     if (mixedFloatColumn) {
-      userEvent.click(mixedFloatColumn);
+      await userEvent.click(mixedFloatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [
@@ -259,7 +259,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Second click to sort descending
     if (mixedFloatColumn) {
-      userEvent.click(mixedFloatColumn);
+      await userEvent.click(mixedFloatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [
@@ -279,7 +279,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Third click to clear sorting
     if (mixedFloatColumn) {
-      userEvent.click(mixedFloatColumn);
+      await userEvent.click(mixedFloatColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [
@@ -298,7 +298,7 @@ describe('FilterableTable sorting - RTL', () => {
     );
   });
 
-  it('sorts YYYY-MM-DD properly', () => {
+  it('sorts YYYY-MM-DD properly', async () => {
     const dsProps = {
       orderedColumnKeys: ['columnDS'],
       data: [
@@ -334,7 +334,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // First click to sort ascending
     if (dsColumn) {
-      userEvent.click(dsColumn);
+      await userEvent.click(dsColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [
@@ -350,7 +350,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Second click to sort descending
     if (dsColumn) {
-      userEvent.click(dsColumn);
+      await userEvent.click(dsColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [
@@ -366,7 +366,7 @@ describe('FilterableTable sorting - RTL', () => {
 
     // Third click to clear sorting
     if (dsColumn) {
-      userEvent.click(dsColumn);
+      await userEvent.click(dsColumn);
     }
     expect(gridCells?.textContent).toEqual(
       [

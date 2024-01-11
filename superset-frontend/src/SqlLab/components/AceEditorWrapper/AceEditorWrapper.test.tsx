@@ -63,8 +63,11 @@ const setup = (queryEditor: QueryEditor, store?: Store) =>
 
 describe('AceEditorWrapper', () => {
   it('renders ace editor including sql value', async () => {
-    const { getByTestId } = setup(defaultQueryEditor, mockStore(initialState));
-    await waitFor(() => expect(getByTestId('react-ace')).toBeInTheDocument());
+    const { getByTestId, findByTestId } = setup(
+      defaultQueryEditor,
+      mockStore(initialState),
+    );
+    await findByTestId('react-ace');
 
     expect(getByTestId('react-ace')).toHaveTextContent(
       JSON.stringify({ value: defaultQueryEditor.sql }).slice(1, -1),

@@ -33,8 +33,15 @@ import DrillDetailMenuItems, {
 jest.mock(
   './DrillDetailPane',
   () =>
-    ({ initialFilters }: { initialFilters: BinaryQueryObjectFilterClause[] }) =>
-      <pre data-test="modal-filters">{JSON.stringify(initialFilters)}</pre>,
+    function ({
+      initialFilters,
+    }: {
+      initialFilters: BinaryQueryObjectFilterClause[];
+    }) {
+      return (
+        <pre data-test="modal-filters">{JSON.stringify(initialFilters)}</pre>
+      );
+    },
 );
 
 const { id: defaultChartId, form_data: defaultFormData } =
@@ -94,7 +101,7 @@ const expectDrillToDetailModal = async (
   filters: BinaryQueryObjectFilterClause[] = [],
 ) => {
   const button = screen.getByRole('menuitem', { name: buttonName });
-  userEvent.click(button);
+  await userEvent.click(button);
   const modal = await screen.findByRole('dialog', {
     name: `Drill to detail: ${chartName}`,
   });
@@ -126,7 +133,7 @@ const expectMenuItemDisabled = async (
   expect(menuItem).toHaveAttribute('aria-disabled', 'true');
   const tooltipTrigger = within(menuItem).queryByTestId('tooltip-trigger');
   if (tooltipContent) {
-    userEvent.hover(tooltipTrigger as HTMLElement);
+    await userEvent.hover(tooltipTrigger as HTMLElement);
     const tooltip = await screen.findByRole('tooltip', {
       name: tooltipContent,
     });
@@ -180,7 +187,7 @@ const expectDrillToDetailByEnabled = async () => {
   });
 
   await expectMenuItemEnabled(drillToDetailBy);
-  userEvent.hover(
+  await userEvent.hover(
     within(drillToDetailBy).getByRole('button', { name: 'Drill to detail by' }),
   );
 
@@ -206,7 +213,9 @@ const expectDrillToDetailByDisabled = async (tooltipContent?: string) => {
 const expectDrillToDetailByDimension = async (
   filter: BinaryQueryObjectFilterClause,
 ) => {
-  userEvent.hover(screen.getByRole('button', { name: 'Drill to detail by' }));
+  await userEvent.hover(
+    screen.getByRole('button', { name: 'Drill to detail by' }),
+  );
   const drillToDetailBySubMenu = await screen.findByTestId(
     'drill-to-detail-by-submenu',
   );
@@ -227,7 +236,9 @@ const expectDrillToDetailByDimension = async (
 const expectDrillToDetailByAll = async (
   filters: BinaryQueryObjectFilterClause[],
 ) => {
-  userEvent.hover(screen.getByRole('button', { name: 'Drill to detail by' }));
+  await userEvent.hover(
+    screen.getByRole('button', { name: 'Drill to detail by' }),
+  );
   const drillToDetailBySubMenu = await screen.findByTestId(
     'drill-to-detail-by-submenu',
   );

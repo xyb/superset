@@ -150,13 +150,13 @@ describe('Header Report Dropdown', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('renders the dropdown correctly', () => {
+  it('renders the dropdown correctly', async () => {
     const mockedProps = createProps();
     act(() => {
       setup(mockedProps, stateWithUserAndReport);
     });
     const emailReportModalButton = screen.getByRole('button');
-    userEvent.click(emailReportModalButton);
+    await userEvent.click(emailReportModalButton);
     expect(screen.getByText('Email reports active')).toBeInTheDocument();
     expect(screen.getByText('Edit email report')).toBeInTheDocument();
     expect(screen.getByText('Delete email report')).toBeInTheDocument();
@@ -168,32 +168,32 @@ describe('Header Report Dropdown', () => {
       setup(mockedProps, stateWithUserAndReport);
     });
     const emailReportModalButton = screen.getByRole('button');
-    userEvent.click(emailReportModalButton);
+    await userEvent.click(emailReportModalButton);
     const editModal = screen.getByText('Edit email report');
-    userEvent.click(editModal);
+    await userEvent.click(editModal);
     const textBoxes = await screen.findAllByText('Edit email report');
     expect(textBoxes).toHaveLength(2);
   });
 
-  it('opens a delete modal', () => {
+  it('opens a delete modal', async () => {
     const mockedProps = createProps();
     act(() => {
       setup(mockedProps, stateWithUserAndReport);
     });
     const emailReportModalButton = screen.getByRole('button');
-    userEvent.click(emailReportModalButton);
+    await userEvent.click(emailReportModalButton);
     const deleteModal = screen.getByText('Delete email report');
-    userEvent.click(deleteModal);
+    await userEvent.click(deleteModal);
     expect(screen.getByText('Delete Report?')).toBeInTheDocument();
   });
 
-  it('renders a new report modal if there is no report', () => {
+  it('renders a new report modal if there is no report', async () => {
     const mockedProps = createProps();
     act(() => {
       setup(mockedProps, stateWithOnlyUser);
     });
     const emailReportModalButton = screen.getByRole('button');
-    userEvent.click(emailReportModalButton);
+    await userEvent.click(emailReportModalButton);
     expect(screen.getByText('Schedule a new email report')).toBeInTheDocument();
   });
 

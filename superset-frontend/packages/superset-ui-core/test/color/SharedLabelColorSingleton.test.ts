@@ -161,7 +161,7 @@ describe('SharedLabelColor', () => {
       sharedLabelColor.updateColorMap('', 'testColors');
       const colorMap = sharedLabelColor.getColorMap();
       expect(Object.fromEntries(colorMap)).not.toEqual({});
-      expect(getAnalogousColors).not.toBeCalled();
+      expect(getAnalogousColors).not.toHaveBeenCalled();
     });
 
     it('should use analagous colors', () => {
@@ -176,7 +176,7 @@ describe('SharedLabelColor', () => {
       sharedLabelColor.updateColorMap('', 'testColors');
       const colorMap = sharedLabelColor.getColorMap();
       expect(Object.fromEntries(colorMap)).not.toEqual({});
-      expect(getAnalogousColors).toBeCalled();
+      expect(getAnalogousColors).toHaveBeenCalled();
     });
   });
 

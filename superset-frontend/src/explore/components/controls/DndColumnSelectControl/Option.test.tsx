@@ -68,6 +68,6 @@ test('triggers onClose', async () => {
       Option
     </Option>,
   );
-  userEvent.click(await screen.findByRole('img', { name: 'x-small' }));
+  await userEvent.click(await screen.findByRole('img', { name: 'x-small' }));
   expect(clickClose).toHaveBeenCalled();
 });

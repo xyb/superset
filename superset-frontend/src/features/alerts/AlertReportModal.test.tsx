@@ -31,13 +31,13 @@ const onHide = jest.fn();
 test('allows change to None in log retention', async () => {
   render(<AlertReportModal show onHide={onHide} />, { useRedux: true });
   // open the log retention select
-  userEvent.click(screen.getByText('90 days'));
+  await userEvent.click(screen.getByText('90 days'));
   // change it to 30 days
-  userEvent.click(await screen.findByText('30 days'));
+  await userEvent.click(await screen.findByText('30 days'));
   // open again
-  userEvent.click(screen.getAllByText('30 days')[0]);
+  await userEvent.click(screen.getAllByText('30 days')[0]);
   // change it to None
-  userEvent.click(await screen.findByText('None'));
+  await userEvent.click(await screen.findByText('None'));
   // get the selected item
   const selectedItem = await waitFor(() =>
     screen
@@ -67,7 +67,7 @@ test('renders the appropriate dropdown in Message Content section', async () => 
   ).not.toBeInTheDocument();
 
   // Click the chart radio option
-  userEvent.click(chartRadio);
+  await userEvent.click(chartRadio);
 
   await waitFor(() => expect(chartRadio).toBeChecked());
 

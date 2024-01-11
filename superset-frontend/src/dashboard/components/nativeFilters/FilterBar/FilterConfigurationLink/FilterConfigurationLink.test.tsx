@@ -38,12 +38,12 @@ test('should render the config link text', () => {
   expect(screen.getByText('Config link')).toBeInTheDocument();
 });
 
-test('should render the modal on click', () => {
+test('should render the modal on click', async () => {
   render(<FilterConfigurationLink>Config link</FilterConfigurationLink>, {
     useRedux: true,
   });
   const configLink = screen.getByText('Config link');
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-  userEvent.click(configLink);
+  await userEvent.click(configLink);
   expect(screen.getByRole('dialog')).toBeInTheDocument();
 });

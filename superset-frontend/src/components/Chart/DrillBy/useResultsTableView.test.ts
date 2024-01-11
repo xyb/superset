@@ -95,7 +95,7 @@ test('Displays results for 2 queries', async () => {
     within(getActiveTabElement()).getAllByTestId('table-row'),
   ).toHaveLength(4);
 
-  userEvent.click(screen.getByText('Results 2'));
+  await userEvent.click(screen.getByText('Results 2'));
 
   await waitFor(() => {
     expect(

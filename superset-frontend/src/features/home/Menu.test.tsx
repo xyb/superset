@@ -330,7 +330,7 @@ test('should render the top navbar child menu items', async () => {
     useRouter: true,
   });
   const sources = screen.getByText('Sources');
-  userEvent.hover(sources);
+  await userEvent.hover(sources);
   const datasets = await screen.findByText('Datasets');
   const databases = await screen.findByText('Databases');
   const dataset = menu[1].childs![0] as { url: string };
@@ -348,7 +348,7 @@ test('should render the dropdown items', async () => {
     useRouter: true,
   });
   const dropdown = screen.getByTestId('new-dropdown-icon');
-  userEvent.hover(dropdown);
+  await userEvent.hover(dropdown);
   // todo (philip): test data submenu
   expect(await screen.findByText(dropdownItems[1].label)).toHaveAttribute(
     'href',
@@ -388,7 +388,7 @@ test('should render the Settings menu item', async () => {
     useQueryParams: true,
     useRouter: true,
   });
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const label = await screen.findByText('Security');
   expect(label).toBeInTheDocument();
 });
@@ -403,7 +403,7 @@ test('should render the Settings dropdown child menu items', async () => {
     useQueryParams: true,
     useRouter: true,
   });
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const listUsers = await screen.findByText('List Users');
   expect(listUsers).toHaveAttribute('href', settings[0].childs[0].url);
 });
@@ -442,7 +442,7 @@ test('should render the user actions when user is not anonymous', async () => {
     useQueryParams: true,
     useRouter: true,
   });
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const user = await screen.findByText('User');
   expect(user).toBeInTheDocument();
 
@@ -478,7 +478,7 @@ test('should render the Profile link when available', async () => {
     useRouter: true,
   });
 
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const profile = await screen.findByText('Profile');
   expect(profile).toHaveAttribute('href', user_profile_url);
 });
@@ -496,7 +496,7 @@ test('should render the About section and version_string, sha or build_number wh
     useQueryParams: true,
     useRouter: true,
   });
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const about = await screen.findByText('About');
   const version = await screen.findByText(`Version: ${version_string}`);
   const sha = await screen.findByText(`SHA: ${version_sha}`);
@@ -519,7 +519,7 @@ test('should render the Documentation link when available', async () => {
     useQueryParams: true,
     useRouter: true,
   });
-  userEvent.hover(screen.getByText('Settings'));
+  await userEvent.hover(screen.getByText('Settings'));
   const doc = await screen.findByTitle('Documentation');
   expect(doc).toHaveAttribute('href', documentation_url);
 });
