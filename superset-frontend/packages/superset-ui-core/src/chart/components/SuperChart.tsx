@@ -22,7 +22,7 @@ import ErrorBoundary, {
   ErrorBoundaryProps,
   FallbackProps,
 } from 'react-error-boundary';
-import { ParentSize } from '@vx/responsive';
+import { ParentSize } from '@visx/responsive';
 import { createSelector } from 'reselect';
 import { withTheme } from '@emotion/react';
 import { parseLength, Dimension } from '../../dimension';

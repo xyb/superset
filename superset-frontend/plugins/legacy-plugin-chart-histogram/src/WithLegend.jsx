@@ -19,7 +19,7 @@
 /* eslint-disable react/sort-prop-types, react/jsx-sort-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ParentSize } from '@vx/responsive';
+import { ParentSize } from '@visx/responsive';
 
 const propTypes = {
   className: PropTypes.string,
@@ -135,7 +135,7 @@ class WithLegend extends React.Component {
         <div className="main-container" style={chartStyle}>
           <ParentSize>
             {parent =>
-              parent.width > 0 && parent.height > 0
+              parent?.width > 0 && parent?.height > 0
                 ? // Only render when necessary
                   renderChart(parent)
                 : null
