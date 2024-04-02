@@ -1328,6 +1328,8 @@ EMAIL_REPORTS_CTA = "Explore in Superset"
 # Slack API token for the superset reports, either string or callable
 SLACK_API_TOKEN: Callable[[], str] | str | None = None
 SLACK_PROXY = None
+# Whether Superset should use Slack avatars for users
+SLACK_ENABLE_AVATARS = True
 
 # The webdriver to use for generating reports. Use one of the following
 # firefox
@@ -1453,6 +1455,7 @@ TALISMAN_CONFIG = {
             "data:",
             "https://apachesuperset.gateway.scarf.sh",
             "https://static.scarf.sh/",
+            "https://avatars.slack-edge.com",
         ],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
@@ -1482,6 +1485,7 @@ TALISMAN_DEV_CONFIG = {
             "data:",
             "https://apachesuperset.gateway.scarf.sh",
             "https://static.scarf.sh/",
+            "https://avatars.slack-edge.com",
         ],
         "worker-src": ["'self'", "blob:"],
         "connect-src": [
