@@ -116,6 +116,13 @@ class UserRestApi(BaseSupersetApi):
           description: >-
             Gets the avatar URL for the user with the given ID, or returns a 401 error
             if the user is unauthenticated.
+          parameters:
+            - in: path
+              name: user_id
+              required: true
+              description: The ID of the user
+              schema:
+                type: string
           responses:
             301:
               description: A redirect to the user's avatar URL
