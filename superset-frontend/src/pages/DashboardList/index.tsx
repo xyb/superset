@@ -357,7 +357,9 @@ function DashboardList(props: DashboardListProps) {
         Header: t('Owners'),
         accessor: 'owners',
         disableSortBy: true,
-        tdStyle: { padding: '0px' },
+        cellProps: {
+          style: { padding: '0px' },
+        },
         size: 'xl',
       },
       {

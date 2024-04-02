@@ -157,8 +157,8 @@ class UserRestApi(BaseSupersetApi):
 
             if avatar_url:
                 return redirect(avatar_url, code=301)
-            else:
-                return self.response_404()
+
+            return self.response_404()
 
         except NoAuthorizationError:
             return self.response_401()

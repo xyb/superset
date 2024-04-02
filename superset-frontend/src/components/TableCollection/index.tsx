@@ -307,7 +307,6 @@ export default React.memo(
                           [cell.column.size || '']: cell.column.size,
                         },
                       )}
-                      style={cell.column.tdStyle}
                       {...cell.getCellProps()}
                       {...columnCellProps}
                     >
