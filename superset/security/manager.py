@@ -200,7 +200,6 @@ def query_context_modified(query_context: "QueryContext") -> bool:
 class SupersetSecurityManager(  # pylint: disable=too-many-public-methods
     SecurityManager
 ):
-    user_model = User
     userstatschartview = None
     READ_ONLY_MODEL_VIEWS = {"Database", "DynamicPlugin"}
 

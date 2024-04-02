@@ -154,9 +154,7 @@ class UserRestApi(BaseSupersetApi):
                     )
 
                     # Saving the avatar url to the database
-                    user_attrs = UserAttribute()
-                    user_attrs.user_id = user_id
-                    user_attrs.avatar_url = avatar_url
+                    user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
                     db.session.add(user_attrs)
                     db.session.commit()
             elif user_attrs:

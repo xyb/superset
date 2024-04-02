@@ -76,7 +76,6 @@ export default function FacePile({ users, maxCount = 4 }: FacePileProps) {
             </StyledAvatar>
           </Tooltip>
         );
-        return <img src={avatarUrl} />;
       })}
     </StyledGroup>
   );
