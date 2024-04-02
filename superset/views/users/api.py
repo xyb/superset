@@ -109,25 +109,20 @@ class UserRestApi(BaseSupersetApi):
     @expose("/<user_id>/avatar.png", methods=("GET",))
     @safe
     def avatar(self, user_id: str) -> Response:
-        """Get the user roles corresponding to the agent making the request.
+        """Get a redirect to the avatar's URL for the user with the given ID.
         ---
         get:
-          summary: Get the user roles
+          summary: Get the user avatar
           description: >-
-            Gets the user roles corresponding to the agent making the request,
-            or returns a 401 error if the user is unauthenticated.
+            Gets the avatar URL for the user with the given ID, or returns a 401 error
+            if the user is unauthenticated.
           responses:
-            200:
-              description: The current user
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      result:
-                        $ref: '#/components/schemas/UserResponseSchema'
+            301:
+              description: A redirect to the user's avatar URL
             401:
               $ref: '#/components/responses/401'
+            404:
+              $ref: '#/components/responses/404'
         """
         try:
             avatar_url = None
@@ -167,6 +162,3 @@ class UserRestApi(BaseSupersetApi):
 
         except NoAuthorizationError:
             return self.response_401()
-        return self.response(
-            200, result=response.data.get("user").get("profile").get("image_192")
-        )
