@@ -35,7 +35,6 @@ from slack_sdk.errors import (
     SlackTokenRotationError,
 )
 
-from superset import app
 from superset.reports.models import ReportRecipientType
 from superset.reports.notifications.base import BaseNotification
 from superset.reports.notifications.exceptions import (
