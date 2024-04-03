@@ -39,7 +39,7 @@ const customAvatarStyler = (theme: SupersetTheme) => {
   width: ${size}px;
   height: ${size}px;
   line-height: ${size}px;
-  font-size: ${theme.typography.sizes.m}px;`;
+  font-size: ${theme.typography.sizes.s}px;`;
 };
 
 const StyledAvatar = styled(Avatar)`
