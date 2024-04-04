@@ -129,7 +129,16 @@ DashboardRoles = Table(
 )
 
 
-class Dashboard(AuditMixinNullable, ImportExportMixin, Model):
+class OwnershipMixin:
+    pass
+    """
+    @property
+    def owners_extended(self):
+        return self.owners
+    """
+
+
+class Dashboard(AuditMixinNullable, ImportExportMixin, Model, OwnershipMixin):
     """The dashboard object!"""
 
     __tablename__ = "dashboards"
