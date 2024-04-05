@@ -130,12 +130,9 @@ DashboardRoles = Table(
 
 
 class OwnershipMixin:
-    pass
-    """
     @property
-    def owners_extended(self):
-        return self.owners
-    """
+    def owners_extended(self) -> list[User]:
+        return self.owners  # type: ignore
 
 
 class Dashboard(AuditMixinNullable, ImportExportMixin, Model, OwnershipMixin):
