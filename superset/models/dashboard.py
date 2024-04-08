@@ -134,6 +134,20 @@ class OwnershipMixin:
     def owners_extended(self) -> list[User]:
         return self.owners  # type: ignore
 
+    @property
+    def user_attr(self) -> list[dict[str, Any]]:
+        return [
+            {
+                "first_name": owner.first_name,
+                "last_name": owner.last_name,
+                "extra_attributes": [
+                    {"welcome_dashboard_id": extra_attribute.welcome_dashboard_id}
+                    for extra_attribute in owner.extra_attributes
+                ],
+            }
+            for owner in self.owners
+        ]
+
 
 class Dashboard(AuditMixinNullable, ImportExportMixin, Model, OwnershipMixin):
     """The dashboard object!"""
