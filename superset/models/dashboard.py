@@ -48,7 +48,7 @@ from superset.connectors.sqla.models import BaseDatasource, SqlaTable
 from superset.daos.datasource import DatasourceDAO
 from superset.models.helpers import AuditMixinNullable, ImportExportMixin
 from superset.models.slice import Slice
-from superset.models.user_attributes import UserAttribute
+from superset.models.user_attributes import OwnershipMixin, UserAttribute
 from superset.tasks.thumbnails import cache_dashboard_thumbnail
 from superset.tasks.utils import get_current_user
 from superset.thumbnails.digest import get_dashboard_digest
@@ -127,26 +127,6 @@ DashboardRoles = Table(
         nullable=False,
     ),
 )
-
-
-class OwnershipMixin:
-    @property
-    def owners_extended(self) -> list[User]:
-        return self.owners  # type: ignore
-
-    @property
-    def user_attr(self) -> list[dict[str, Any]]:
-        return [
-            {
-                "first_name": owner.first_name,
-                "last_name": owner.last_name,
-                "extra_attributes": [
-                    {"welcome_dashboard_id": extra_attribute.welcome_dashboard_id}
-                    for extra_attribute in owner.extra_attributes
-                ],
-            }
-            for owner in self.owners
-        ]
 
 
 class Dashboard(AuditMixinNullable, ImportExportMixin, Model, OwnershipMixin):

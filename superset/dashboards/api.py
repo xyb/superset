@@ -179,17 +179,14 @@ class DashboardRestApi(BaseSupersetModelRestApi):
         "owners.id",
         "owners.first_name",
         "owners.last_name",
-        # "owners_extended.id",
-        "user_attr.first_name",
-        # "owners_extended.last_name",
         "roles.id",
         "roles.name",
         "is_managed_externally",
         "tags.id",
         "tags.name",
         "tags.type",
+        "owners_with_attributes",
     ]
-
     list_select_columns = list_columns + ["changed_on", "created_on", "changed_by_fk"]
     order_columns = [
         "changed_by.first_name",
