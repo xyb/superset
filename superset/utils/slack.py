@@ -24,3 +24,10 @@ def get_slack_client() -> WebClient:
     if callable(token):
         token = token()
     return WebClient(token=token, proxy=current_app.config["SLACK_PROXY"])
+
+
+def get_user_avatar(email: str, client: WebClient = None) -> str:
+    client = client or get_slack_client()
+    response = client.users_lookupByEmail(email=email)
+    avatar_url = response.data.get("user").get("profile").get("image_192")
+    return avatar_url

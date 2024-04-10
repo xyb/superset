@@ -21,7 +21,7 @@ from flask_jwt_extended.exceptions import NoAuthorizationError
 from superset import app, security_manager
 from superset.extensions import db
 from superset.models.user_attributes import UserAttribute
-from superset.utils.slack import get_slack_client
+from superset.utils.slack import get_user_avatar
 from superset.views.base_api import BaseSupersetApi
 from superset.views.users.schemas import UserResponseSchema
 from superset.views.utils import bootstrap_user_data
@@ -148,12 +148,7 @@ class UserRestApi(BaseSupersetApi):
                         .filter_by(id=user_id)
                         .first()
                     )
-                    # Fetching the user's avatar from slack
-                    client = get_slack_client()
-                    response = client.users_lookupByEmail(email=user.email)
-                    avatar_url = (
-                        response.data.get("user").get("profile").get("image_192")
-                    )
+                    avatar_url = get_user_avatar(user.email)
 
                     # Saving the avatar url to the database
                     user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
