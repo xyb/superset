@@ -67,6 +67,7 @@ RUN_INIT=1
 RUN_RESET_DB=1
 RUN_TESTS=1
 TEST_MODULE="tests"
+TEST_MODULE="tests/integration_tests/users/api_tests.py"
 
 PARAMS=""
 while (( "$#" )); do

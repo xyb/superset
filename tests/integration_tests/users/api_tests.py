@@ -20,6 +20,7 @@ import json
 from unittest.mock import patch
 
 from superset import security_manager
+from superset.utils import slack
 from tests.integration_tests.base_tests import SupersetTestCase
 from tests.integration_tests.constants import ADMIN_USERNAME
 
@@ -62,3 +63,23 @@ class TestCurrentUserApi(SupersetTestCase):
         mock_g.user = security_manager.get_anonymous_user
         rv = self.client.get(meUri)
         self.assertEqual(401, rv.status_code)
+
+
+class TestUserApi(SupersetTestCase):
+    AVATAR_URL = "https://example.com/avatar.png"
+
+    def test_avatar_with_invalid_user(self):
+        self.login(ADMIN_USERNAME)
+        response = self.client.get("/api/v1/user/NOT_A_USER/avatar.png")
+        assert response.status_code == 404  # Assuming no user found leads to 404
+        response = self.client.get("/api/v1/user/999/avatar.png")
+        assert response.status_code == 404  # Assuming no user found leads to 404
+
+    @patch("superset.views.users.api.get_user_avatar", return_value=AVATAR_URL)
+    def test_avatar_with_valid_user(self, mock):
+        self.login(ADMIN_USERNAME)
+
+        response = self.client.get("/api/v1/user/1/avatar.png")
+        mock.assert_called_once_with(ADMIN_USERNAME)
+        assert response.status_code == 301
+        assert response.headers["Location"] == self.AVATAR_URL

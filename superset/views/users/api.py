@@ -133,29 +133,29 @@ class UserRestApi(BaseSupersetApi):
         """
         try:
             avatar_url = None
-            if not user_id:
-                return self.response_401()
 
-            # Fetching the user's avatar from the database
-            user_attrs = (
-                db.session.query(UserAttribute).filter_by(user_id=user_id).first()
+            if not user_id.isdigit():
+                return self.response_404()
+
+            user = (
+                db.session.query(security_manager.user_model)
+                .filter_by(id=user_id)
+                .first()
             )
+            if not user:
+                return self.response_404()
 
-            if not user_attrs or not user_attrs.avatar_url:
-                if app.config.get("SLACK_ENABLE_AVATARS"):
-                    user = (
-                        db.session.query(security_manager.user_model)
-                        .filter_by(id=user_id)
-                        .first()
-                    )
-                    avatar_url = get_user_avatar(user.email)
+            # fetch from the one-to-one relationship
+            if len(user.extra_attributes) > 0:
+                avatar_url = user.extra_attributes[0].avatar_url
 
-                    # Saving the avatar url to the database
-                    user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
-                    db.session.add(user_attrs)
-                    db.session.commit()
-            elif user_attrs:
-                avatar_url = user_attrs.avatar_url
+            if not avatar_url and app.config.get("SLACK_ENABLE_AVATARS"):
+                avatar_url = get_user_avatar(user.email)
+
+                # Saving the avatar url to the database
+                user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
+                db.session.add(user_attrs)
+                db.session.commit()
 
             if avatar_url:
                 return redirect(avatar_url, code=301)

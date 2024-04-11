@@ -14,10 +14,8 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-from typing import Any
-
 from flask_appbuilder import Model
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 
 from superset import security_manager
@@ -41,23 +39,6 @@ class UserAttribute(Model, AuditMixinNullable):
     user = relationship(
         security_manager.user_model, backref="extra_attributes", foreign_keys=[user_id]
     )
+
     welcome_dashboard_id = Column(Integer, ForeignKey("dashboards.id"))
     welcome_dashboard = relationship("Dashboard")
-    avatar_url = Column(String(100))
-
-
-class OwnershipMixin:
-    @property
-    def owners_with_attributes(self) -> list[dict[str, Any]]:
-        owners = []
-        for owner in self.owners:  # type: ignore
-            extra_attribute_dict: dict[str, Any] = {}
-            extra_attribute = owner.extra_attributes[0]
-            owner_dict = {
-                "first_name": owner.first_name,
-                "last_name": owner.last_name,
-                "welcome_dashboard_id": extra_attribute.welcome_dashboard_id,
-                "avatar_url": extra_attribute.avatar_url,
-            }
-            owners.append(owner_dict)
-        return owners
