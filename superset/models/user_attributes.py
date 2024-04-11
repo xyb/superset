@@ -46,12 +46,11 @@ class UserAttribute(Model, AuditMixinNullable):
     avatar_url = Column(String(100))
 
 
-class OwnershipMixin:
+class OwnershipMixin:  # pylint: disable=too-few-public-methods
     @property
     def owners_with_attributes(self) -> list[dict[str, Any]]:
         owners = []
         for owner in self.owners:  # type: ignore
-            extra_attribute_dict: dict[str, Any] = {}
             extra_attribute = owner.extra_attributes[0]
             owner_dict = {
                 "first_name": owner.first_name,
