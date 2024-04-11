@@ -80,6 +80,6 @@ class TestUserApi(SupersetTestCase):
         self.login(ADMIN_USERNAME)
 
         response = self.client.get("/api/v1/user/1/avatar.png")
-        mock.assert_called_once_with(ADMIN_USERNAME)
+        mock.assert_called_once_with("admin@fab.org")
         assert response.status_code == 301
         assert response.headers["Location"] == self.AVATAR_URL
