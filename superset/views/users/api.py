@@ -149,8 +149,12 @@ class UserRestApi(BaseSupersetApi):
             if len(user.extra_attributes) > 0:
                 avatar_url = user.extra_attributes[0].avatar_url
 
-            if not avatar_url and app.config.get("SLACK_ENABLE_AVATARS"):
+            should_fetch_slack_avatar = app.config.get(
+                "SLACK_ENABLE_AVATARS"
+            ) and app.config.get("SLACK_API_TOKEN")
+            if not avatar_url and should_fetch_slack_avatar:
                 avatar_url = get_user_avatar(user.email)
+                print("avatar_url", avatar_url)
 
                 # Saving the avatar url to the database
                 user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
@@ -160,7 +164,7 @@ class UserRestApi(BaseSupersetApi):
             if avatar_url:
                 return redirect(avatar_url, code=301)
 
-            return self.Response(status=204)
+            return Response(status=204)
 
         except NoAuthorizationError:
             return self.response_401()
