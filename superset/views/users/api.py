@@ -137,9 +137,11 @@ class UserRestApi(BaseSupersetApi):
             if not user_id.isdigit():
                 return self.response_404()
 
+            user_id_as_int: int = int(user_id)
+
             user = (
                 db.session.query(security_manager.user_model)
-                .filter_by(id=user_id)
+                .filter_by(id=user_id_as_int)
                 .first()
             )
             if not user:
@@ -153,11 +155,20 @@ class UserRestApi(BaseSupersetApi):
                 "SLACK_ENABLE_AVATARS"
             ) and app.config.get("SLACK_API_TOKEN")
             if not avatar_url and should_fetch_slack_avatar:
+                # Fetching the avatar url from slack
                 avatar_url = get_user_avatar(user.email)
-                print("avatar_url", avatar_url)
 
                 # Saving the avatar url to the database
-                user_attrs = UserAttribute(user_id=user_id, avatar_url=avatar_url)
+                user_attrs = (
+                    # already exists
+                    db.session.query(UserAttribute)
+                    .filter_by(user_id=user_id_as_int)
+                    .first()
+                    or
+                    # create new
+                    UserAttribute(user_id=user_id_as_int)
+                )
+                user_attrs.avatar_url = avatar_url
                 db.session.add(user_attrs)
                 db.session.commit()
 
